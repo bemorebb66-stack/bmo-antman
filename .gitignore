@@ -1,0 +1,9 @@
+# 포터블 Node — 시스템에 설치된 게 아니라 저장소 크기만 키움
+tools/
+
+# npm/pnpm 의존성
+site/node_modules/
+
+# OS/에디터
+.DS_Store
+Thumbs.db

@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 52 31% 5%;
+    --foreground: 42 32% 90%;
+    --card: 45 18% 9%;
+    --card-foreground: 42 32% 90%;
+    --popover: 45 18% 9%;
+    --popover-foreground: 42 32% 90%;
+    --primary: 42 32% 90%;
+    --primary-foreground: 52 31% 5%;
+    --secondary: 42 14% 14%;
+    --secondary-foreground: 42 32% 90%;
+    --muted: 42 14% 13%;
+    --muted-foreground: 42 12% 58%;
+    --accent: 42 14% 15%;
+    --accent-foreground: 42 32% 90%;
+    --destructive: 11 66% 59%;
+    --destructive-foreground: 52 31% 5%;
+    --border: 42 14% 15%;
+    --input: 42 14% 15%;
+    --ring: 11 66% 59%;
+    --radius: 0.25rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    font-family: "Inter", "Noto Sans KR", "Pretendard", "Apple SD Gothic Neo",
+      "Malgun Gothic", system-ui, sans-serif;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "tnum";
+  }
+  .font-display {
+    font-family: "Playfair Display", "Noto Serif KR", serif;
+    font-style: italic;
+  }
+  .font-mono2 {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+  }
+}
