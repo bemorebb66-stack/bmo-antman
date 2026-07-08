@@ -23,7 +23,7 @@ import {
 type Tab = "insider" | "lockup";
 type Theme = "light" | "dark";
 type TxFilter = "전체" | "매수" | "매도";
-type MonthFilter = "전체" | "01" | "02" | "03" | "04" | "05" | "06" | "07";
+type PeriodFilter = "7D" | "30D" | "90D" | "전체";
 
 const fmtUSD = (n: number, digits = 0) =>
   "$" + n.toLocaleString("en-US", { maximumFractionDigits: digits });
@@ -281,10 +281,12 @@ const inferSector = (ticker: string, company: string, fallback?: string) => {
 };
 const normalizeTx = (txType: string): TxFilter | string =>
   txType.includes("매수") ? "매수" : txType.includes("매도") ? "매도" : txType;
-const tradeMonth = (trade: Pick<InsiderTrade, "filedDate">) => trade.filedDate.slice(5, 7) as MonthFilter;
-const signalScore = (trade: Pick<NormalizedTrade, "value" | "role" | "clusterCount" | "ownChangePct" | "txType">) => {
+const daysBetween = (to: string, from: string) =>
+  Math.floor((new Date(to).getTime() - new Date(from).getTime()) / 86_400_000);
+
+const eventImportanceScore = (trade: Pick<NormalizedTrade, "value" | "role" | "clusterCount" | "ownChangePct" | "txType">) => {
   const tx = normalizeTx(trade.txType);
-  let score = tx === "매수" ? 45 : 25;
+  let score = tx === "매수" ? 45 : 32;
   if (/CEO|CFO|COO/i.test(trade.role)) score += 12;
   if (trade.clusterCount >= 2) score += 15;
   if (trade.value >= 10_000_000) score += 18;
@@ -379,12 +381,16 @@ function formatUpdateTime(meta: InsiderMeta | null, lockupMeta: LockupMeta | nul
 
 function marketSnapshot(trades: InsiderTrade[], lockups: LockupEvent[]) {
   const normalized = trades.map((trade) => ({ ...trade, txType: normalizeTx(trade.txType) }));
-  const today = normalized[0]?.filedDate ?? "";
-  const todayRows = today ? normalized.filter((trade) => trade.filedDate === today) : normalized.slice(0, 0);
-  const buyRows = normalized.filter((trade) => trade.txType === "매수");
-  const sellRows = normalized.filter((trade) => trade.txType === "매도");
+  const latestFiling = [...normalized].sort((a, b) => b.filedDate.localeCompare(a.filedDate))[0]?.filedDate ?? "";
+  const rows7d = latestFiling
+    ? normalized.filter((trade) => daysBetween(latestFiling, trade.filedDate) <= 7)
+    : normalized;
+  const rows30d = latestFiling
+    ? normalized.filter((trade) => daysBetween(latestFiling, trade.filedDate) <= 30)
+    : normalized;
+  const rareInsider = rows30d.filter((trade) => trade.txType === "매수" || trade.clusterCount >= 2);
   const sectorCount = new Map<string, number>();
-  for (const trade of normalized) {
+  for (const trade of rows30d) {
     const sector = inferSector(trade.ticker, trade.company, trade.sector);
     sectorCount.set(sector, (sectorCount.get(sector) ?? 0) + 1);
   }
@@ -398,10 +404,10 @@ function marketSnapshot(trades: InsiderTrade[], lockups: LockupEvent[]) {
     .slice(0, 4);
 
   return {
-    today,
-    todayCount: todayRows.length,
-    buyCount: buyRows.length,
-    sellCount: sellRows.length,
+    latestFiling,
+    rows7d,
+    rows30d,
+    rareInsider,
     lockupSoon: lockups.filter((event) => dDay(event.lockupDate) <= 30 && dDay(event.lockupDate) >= 0).length,
     topSector: topSector ? `${topSector[0]} ${topSector[1]}건` : "-",
     watchlist,
@@ -420,13 +426,14 @@ function SummaryBar({
   lockupMeta: LockupMeta | null;
 }) {
   const snapshot = useMemo(() => marketSnapshot(trades, lockups), [trades, lockups]);
-  const items = [
-    { label: "최근 공시", value: `${snapshot.todayCount || trades.length}건`, sub: snapshot.today || "SEC EDGAR" },
-    { label: "Insider Buy", value: `${snapshot.buyCount}건`, sub: "Form 4 공개시장 매수", tone: "up" as const },
-    { label: "Insider Sell", value: `${snapshot.sellCount}건`, sub: "Form 4 공개시장 매도", tone: "down" as const },
-    { label: "30일 락업", value: `${snapshot.lockupSoon}건`, sub: "IPO 공급 이벤트", tone: "warn" as const },
-    { label: "Top Sector", value: snapshot.topSector, sub: "공시 발생 집중도" },
-    { label: "Last Update", value: formatUpdateTime(meta, lockupMeta), sub: "장마감 후 자동 갱신" },
+  const trackedCompanies = new Set(trades.map((trade) => trade.ticker)).size;
+  const items: Array<{ label: string; value: string; sub: string; tone?: "up" | "down" | "warn" }> = [
+    { label: "Tracked Companies", value: `${trackedCompanies}종목`, sub: "S&P500 · NASDAQ100 중심" },
+    { label: "Latest Filing", value: snapshot.latestFiling ? snapshot.latestFiling.slice(5) : "-", sub: "최근 감지된 Form 4" },
+    { label: "7D Event Count", value: `${snapshot.rows7d.length}건`, sub: "최근 7일 기준" },
+    { label: "Rare Insider Activity", value: `${snapshot.rareInsider.length}건`, sub: "30일 내부자 매수·클러스터", tone: "warn" as const },
+    { label: "Event Density", value: snapshot.topSector, sub: "30일 섹터 공시 밀도" },
+    { label: "Coverage", value: "Mega/Large", sub: `업데이트 ${formatUpdateTime(meta, lockupMeta)}` },
   ];
 
   return (
@@ -451,13 +458,13 @@ function SummaryBar({
 function SignalGuide() {
   const signals = [
     {
-      label: "Insider Buy",
-      desc: "임원·이사·10% 주주의 공개시장 매수입니다. 금액, 직책, 반복 여부가 중요합니다.",
+      label: "Rare Insider",
+      desc: "대형주 내부자 거래는 상대적으로 드뭅니다. 매수, 임원 참여, 반복 신고를 희소 이벤트로 봅니다.",
       live: true,
     },
     {
       label: "Form 4",
-      desc: "미국 내부자 거래 신고서입니다. 매수(P), 매도(S)를 분리해서 봅니다.",
+      desc: "현재 실데이터의 핵심 공시입니다. 공개시장 매수(P), 매도(S)를 분리해서 추적합니다.",
       live: true,
     },
     {
@@ -467,7 +474,7 @@ function SignalGuide() {
     },
     {
       label: "8-K / S-1 / 13F",
-      desc: "주요 이벤트·증권신고·기관 보유 변화 신호입니다. 다음 데이터 확장 후보입니다.",
+      desc: "주요 이벤트·증권신고·기관 보유 변화 신호입니다. 대형주 이벤트 레이더의 다음 확장 후보입니다.",
       live: false,
     },
   ];
@@ -504,7 +511,7 @@ function SignalTimeline({ trades }: { trades: InsiderTrade[] }) {
   return (
     <section className="border border-border bg-card p-4">
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-[14px] font-extrabold">Latest SEC Feed</h3>
+        <h3 className="text-[14px] font-extrabold">Latest Filing Signals</h3>
         <span className="num text-[11px] text-muted-foreground">Form 4</span>
       </div>
       <div className="grid gap-2">
@@ -532,7 +539,7 @@ function SignalTimeline({ trades }: { trades: InsiderTrade[] }) {
 }
 
 function UsageStrip() {
-  const steps = ["최근 공시 확인", "반복 등장 종목 체크", "거래대금·지분변동 확인", "투자 아이디어 후보화"];
+  const steps = ["최근 감지 신호 확인", "희소 내부자 이벤트 체크", "섹터 공시 밀도 비교", "투자 아이디어 후보화"];
   return (
     <section className="grid gap-2 border border-border bg-card p-3 md:grid-cols-4">
       {steps.map((step, index) => (
@@ -604,15 +611,15 @@ function SectorSummary({ rows }: { rows: NormalizedTrade[] }) {
       <section className="border border-border bg-card p-4">
         <div className="mb-3 flex items-end justify-between gap-3">
           <div>
-            <h3 className="text-[14px] font-extrabold">섹터별 내부자 매매 압력</h3>
-            <p className="mt-1 text-[11px] text-muted-foreground">현재 검색·월·매수/매도 필터 기준</p>
+            <h3 className="text-[14px] font-extrabold">Sector Filing Activity</h3>
+            <p className="mt-1 text-[11px] text-muted-foreground">현재 필터 기준 공시 이벤트 밀도</p>
           </div>
           <div className="flex items-center gap-3 text-[11px] font-semibold text-muted-foreground">
             <span className="inline-flex items-center gap-1.5">
-              <i className="h-2.5 w-2.5 bg-positive" /> 매수
+              <i className="h-2.5 w-2.5 bg-positive" /> Insider Buy
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <i className="h-2.5 w-2.5 bg-negative" /> 매도
+              <i className="h-2.5 w-2.5 bg-negative" /> Insider Sell
             </span>
           </div>
         </div>
@@ -622,7 +629,7 @@ function SectorSummary({ rows }: { rows: NormalizedTrade[] }) {
               <div className="flex items-center justify-between gap-3 text-[12px]">
                 <span className="font-bold">{row.sector}</span>
                 <span className="num text-[11px] text-muted-foreground">
-                  {row.companies}종목 · 순액 {fmtUSD(row.net / 1e6, 1)}M
+                  {row.companies}종목 · 이벤트 {row.count}건
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-1.5">
@@ -650,7 +657,7 @@ function SectorSummary({ rows }: { rows: NormalizedTrade[] }) {
       </section>
 
       <section className="border border-border bg-card p-4">
-        <h3 className="text-[14px] font-extrabold">종목별 거래대금 TOP</h3>
+        <h3 className="text-[14px] font-extrabold">Top Event Importance</h3>
         <div className="mt-3 grid gap-2">
           {topCompanies.map((row, index) => (
             <div
@@ -688,26 +695,37 @@ export interface InsiderMeta {
 
 function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMeta | null }) {
   const [filter, setFilter] = useState<TxFilter>("전체");
-  const [month, setMonth] = useState<MonthFilter>("전체");
+  const [period, setPeriod] = useState<PeriodFilter>("30D");
   const [query, setQuery] = useState("");
   const normalized = useMemo(
     () => trades.map((trade) => ({ ...trade, txType: normalizeTx(trade.txType) })),
     [trades]
   );
-  const monthCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
+  const latestFiling = useMemo(
+    () => [...normalized].sort((a, b) => b.filedDate.localeCompare(a.filedDate))[0]?.filedDate ?? "",
+    [normalized]
+  );
+  const periodCounts = useMemo(() => {
+    const counts: Record<PeriodFilter, number> = { "7D": 0, "30D": 0, "90D": 0, "전체": normalized.length };
+    if (!latestFiling) return counts;
     for (const trade of normalized) {
-      const key = tradeMonth(trade);
-      counts[key] = (counts[key] ?? 0) + 1;
+      const age = daysBetween(latestFiling, trade.filedDate);
+      if (age <= 7) counts["7D"] += 1;
+      if (age <= 30) counts["30D"] += 1;
+      if (age <= 90) counts["90D"] += 1;
     }
     return counts;
-  }, [normalized]);
+  }, [latestFiling, normalized]);
   const rows = useMemo(
     () => {
       const q = query.trim().toLowerCase();
       return normalized
         .filter((trade) => filter === "전체" || trade.txType === filter)
-        .filter((trade) => month === "전체" || tradeMonth(trade) === month)
+        .filter((trade) => {
+          if (period === "전체" || !latestFiling) return true;
+          const maxDays = period === "7D" ? 7 : period === "30D" ? 30 : 90;
+          return daysBetween(latestFiling, trade.filedDate) <= maxDays;
+        })
         .filter((trade) => {
           if (!q) return true;
           const koName = companyName(trade.ticker, trade.company);
@@ -719,7 +737,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
         })
         .sort((a, b) => b.value - a.value);
     },
-    [filter, month, normalized, query]
+    [filter, latestFiling, normalized, period, query]
   );
   const buyValue = rows
     .filter((trade) => trade.txType === "매수")
@@ -731,7 +749,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
     rows.filter((trade) => trade.clusterCount >= 2).map((trade) => trade.ticker)
   ).size;
   const rangeLabel = meta?.dateRange ? `${meta.dateRange.from} ~ ${meta.dateRange.to}` : "2026년 누적";
-  const subLabel = month === "전체" ? rangeLabel : `2026년 ${Number(month)}월`;
+  const subLabel = period === "전체" ? rangeLabel : `최근 ${period}`;
 
   return (
     <div>
@@ -743,13 +761,14 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
       </div>
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Stat label="매수 총액" value={fmtUSD(buyValue / 1e6, 1) + "M"} sub={subLabel} tone="up" />
-        <Stat label="매도 총액" value={fmtUSD(sellValue / 1e6, 1) + "M"} sub={subLabel} tone="down" />
-        <Stat label="클러스터 종목" value={`${clusterCompanies}종목`} sub="동일 방향 2인 이상 신고" tone="warn" />
+        <Stat label="Rare Insider Event" value={`${rows.filter((trade) => trade.txType === "매수" || trade.clusterCount >= 2).length}건`} sub={subLabel} tone="warn" />
+        <Stat label="Insider Buy Value" value={fmtUSD(buyValue / 1e6, 1) + "M"} sub="희소 매수 이벤트 금액" tone="up" />
+        <Stat label="Insider Sell Value" value={fmtUSD(sellValue / 1e6, 1) + "M"} sub="대형주 매도 신고 금액" tone="down" />
+        <Stat label="Cluster Companies" value={`${clusterCompanies}종목`} sub="동일 방향 2인 이상 신고" />
         <Stat
-          label="수집 건수"
+          label="Latest Filing Signals"
           value={`${rows.length}건`}
-          sub={meta?.filingsScanned ? `filing ${meta.filingsScanned}건 스캔` : "최근 2주 누적"}
+          sub={meta?.filingsScanned ? `filing ${meta.filingsScanned}건 스캔` : "S&P500 · NASDAQ100 중심"}
         />
       </div>
 
@@ -773,20 +792,18 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
       </div>
 
       <div className="mt-3 flex flex-wrap gap-1 border border-border bg-card p-0.5">
-        {(["전체", "01", "02", "03", "04", "05", "06", "07"] as const).map((option) => (
+        {(["7D", "30D", "90D", "전체"] as const).map((option) => (
           <button
             key={option}
-            onClick={() => setMonth(option)}
+            onClick={() => setPeriod(option)}
             className={`h-9 px-3 text-[12px] font-bold transition-colors ${
-              month === option
+              period === option
                 ? "bg-foreground text-background"
                 : "text-muted-foreground hover:bg-secondary hover:text-foreground"
             }`}
           >
-            {option === "전체" ? "2026 전체" : `${Number(option)}월`}
-            {option !== "전체" && (
-              <span className="num ml-1 text-[10px] opacity-70">{monthCounts[option] ?? 0}</span>
-            )}
+            {option === "전체" ? "전체 기록" : option}
+            <span className="num ml-1 text-[10px] opacity-70">{periodCounts[option] ?? 0}</span>
           </button>
         ))}
       </div>
@@ -795,7 +812,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
 
       <div className="mt-3 grid gap-2 md:hidden">
         {rows.slice(0, 40).map((trade) => {
-          const score = signalScore(trade);
+          const score = eventImportanceScore(trade);
           return (
             <article key={trade.id} className="border border-border bg-card p-3">
               <div className="flex items-start justify-between gap-3">
@@ -816,7 +833,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                 </div>
                 <div className="text-right">
                   <p className="num text-[16px] font-extrabold">{score}</p>
-                  <p className="text-[10px] font-bold text-muted-foreground">Score</p>
+                  <p className="text-[10px] font-bold text-muted-foreground">Importance</p>
                 </div>
               </div>
               <div className="mt-3 grid grid-cols-2 gap-2 text-[11px]">
@@ -842,7 +859,9 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
       </div>
       {rows.length === 0 && (
         <div className="mt-3 border border-border bg-card px-4 py-10 text-center text-[13px] font-semibold text-muted-foreground">
-          선택한 조건에 맞는 내부자 매매 기록이 없습니다.
+          추적 중인 S&P500·NASDAQ100 대형주에서 최근 조건에 맞는 희소 내부자 이벤트가 감지되지 않았습니다.
+          <br />
+          내부자 거래는 원래 자주 발생하지 않으므로 30D 또는 90D 범위로 넓혀 확인하세요.
         </div>
       )}
 
@@ -858,7 +877,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
               <th className="px-3 py-2 text-right font-semibold">단가</th>
               <th className="px-3 py-2 text-right font-semibold">거래대금</th>
               <th className="px-3 py-2 text-right font-semibold">지분변동</th>
-              <th className="px-3 py-2 text-right font-semibold">Score</th>
+              <th className="px-3 py-2 text-right font-semibold">Event Importance</th>
               <th className="px-3 py-2 font-semibold">신호</th>
             </tr>
           </thead>
@@ -894,7 +913,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                   {trade.ownChangePct >= 0 ? "+" : ""}
                   {trade.ownChangePct.toFixed(1)}%
                 </td>
-                <td className="num px-3 py-2.5 text-right font-extrabold">{signalScore(trade)}</td>
+                <td className="num px-3 py-2.5 text-right font-extrabold">{eventImportanceScore(trade)}</td>
                 <td className="whitespace-nowrap px-3 py-2.5">
                   {trade.clusterCount >= 2 ? (
                     <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-warning">
@@ -1040,7 +1059,7 @@ export default function App() {
                 </p>
                 <h1 className="text-[26px] font-extrabold leading-none tracking-tight">BMO Signal Flow</h1>
                 <p className="mt-1 flex items-center gap-1 text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
-                  <Building2 size={11} /> Overseas Equity Disclosure Signals
+                  <Building2 size={11} /> S&P500 · NASDAQ100 SEC Event Radar
                 </p>
               </div>
             </div>
@@ -1056,7 +1075,7 @@ export default function App() {
           </div>
           <div className="mx-auto flex max-w-[1180px] gap-1 overflow-x-auto px-5 pb-3">
             <Pill active={tab === "insider"} onClick={() => setTab("insider")}>
-              내부자 매매
+              희소 내부자 이벤트
             </Pill>
             <Pill active={tab === "lockup"} onClick={() => setTab("lockup")}>
               IPO 락업
@@ -1067,13 +1086,13 @@ export default function App() {
         <main className="mx-auto max-w-[1180px] px-5 py-5">
           <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Signal Dashboard</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">SEC Event Radar</p>
               <h2 className="mt-1 max-w-[760px] text-2xl font-extrabold tracking-tight md:text-[32px]">
-                미국 주식 공시에서 투자 신호를 빠르게 찾는 대시보드
+                S&P500·NASDAQ100 대형주 공시 이벤트 레이더
               </h2>
               <p className="mt-2 max-w-[760px] text-[13px] leading-6 text-muted-foreground">
-                뉴스보다 먼저 움직이는 공시 신호를 확인하세요. BMO Signal Flow는 해외주식 투자자가 놓치기 쉬운
-                SEC 공시와 주요 이벤트를 한눈에 볼 수 있도록 만든 정보 흐름 터미널입니다.
+                BMO Signal Flow는 S&P500·NASDAQ100 기업을 중심으로 주요 SEC 공시와 내부자 거래 신호를 추적합니다.
+                내부자 매매처럼 매일 발생하지 않는 희소 이벤트를 과장하지 않고, 대형주에서 감지된 중요한 정보 흐름을 빠르게 확인하도록 설계했습니다.
               </p>
             </div>
             <div className="inline-flex items-center gap-2 text-[12px] text-muted-foreground">
@@ -1108,20 +1127,23 @@ export default function App() {
               <h2 className="mb-4 text-[22px] font-extrabold tracking-tight text-foreground">읽는 법</h2>
               <div className="mb-5 flex flex-wrap gap-x-6 gap-y-2 text-[12px] font-bold text-foreground">
                 <span className="inline-flex items-center gap-2">
-                  <i className="h-3 w-3 bg-positive" /> 빨강 = 내부자 매수·관심 집중
+                  <i className="h-3 w-3 bg-positive" /> 빨강 = 희소 내부자 매수 이벤트
                 </span>
                 <span className="inline-flex items-center gap-2">
-                  <i className="h-3 w-3 bg-negative" /> 파랑 = 내부자 매도·관심 이탈
+                  <i className="h-3 w-3 bg-negative" /> 파랑 = 내부자 매도 공시
                 </span>
               </div>
               <p>
-                내부자 매매는 임원, 이사, 10% 이상 주주가 SEC Form 4로 신고한 공개시장 매수·매도 내역입니다.
-                단일 거래보다 <b className="font-extrabold text-foreground">거래대금, 지분 변동률, 같은 기업의 반복 신고</b>를
-                함께 보는 편이 더 유용합니다.
+                이 화면은 매일 많은 신호가 쏟아지는 대시보드가 아니라, S&P500·NASDAQ100 대형주에서 드물게 발생하는
+                SEC Form 4 내부자 거래 이벤트를 빠르게 포착하기 위한 레이더입니다.
               </p>
               <p className="mt-3">
-                섹터별 압력은 현재 선택한 월과 검색 조건 안에서 매수·매도 금액을 묶어 보여줍니다. 특정 섹터가 강하게
-                보이더라도 그것만으로 매수·매도 판단을 하기보다는, 아래 표에서 개별 기업의 신고인과 거래일을 확인하세요.
+                Event Importance는 공시 유형, 거래대금, 임원 참여 여부, 반복 신고, 지분 변동률을 함께 본 참고 점수입니다.
+                주가 반응 데이터가 붙기 전까지는 투자 판단보다 이벤트 선별용으로 보는 편이 적합합니다.
+              </p>
+              <p className="mt-3">
+                Sector Filing Activity는 자금 흐름이 아니라 공시 이벤트가 어느 섹터에 밀집되어 있는지 보여줍니다.
+                특정 섹터가 강하게 보이더라도 아래 표에서 개별 기업의 신고인, 거래일, 공시 맥락을 확인하세요.
               </p>
               <p className="mt-3">
                 IPO 락업은 상장 직후 제한되었던 주식의 매도 가능 시점을 추적합니다. 락업 해제는 잠재적 공급 증가 신호일 수
