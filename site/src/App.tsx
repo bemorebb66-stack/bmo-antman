@@ -24,6 +24,7 @@ type Tab = "insider" | "lockup";
 type Theme = "light" | "dark";
 type TxFilter = "전체" | "매수" | "매도";
 type PeriodFilter = "7D" | "30D" | "90D" | "전체";
+type FilingSort = "default" | "latest" | "oldest";
 
 const fmtUSD = (n: number, digits = 0) =>
   "$" + n.toLocaleString("en-US", { maximumFractionDigits: digits });
@@ -42,20 +43,31 @@ const companyKo: Record<string, string> = {
   ANET: "아리스타 네트웍스",
   AKAM: "아카마이 테크놀로지스",
   ALAB: "아스테라 랩스",
+  ALH: "얼라이언스 런드리 홀딩스",
+  ALMR: "알라마 바이오사이언시스",
   AIP: "아테리스",
   AMAT: "어플라이드 머티어리얼즈",
   AMD: "어드밴스드 마이크로 디바이시스",
   AMGN: "암젠",
   AON: "에이온",
+  AADX: "어플라이드 에어로스페이스 앤 디펜스",
+  ARXS: "아르시스",
+  AVEX: "에이벡스",
   AVGO: "브로드컴",
   AZO: "오토존",
   BANC: "뱅크 오브 캘리포니아",
   BALL: "볼 코퍼레이션",
   BMBL: "범블",
+  BGIN: "BGIN 블록체인",
+  BIXI: "비트코인 인프라스트럭처 애퀴지션",
   BRKF: "브룩퍼드 머티리얼즈",
+  BSP: "벤딩 스푼스",
+  BTGO: "비트고 홀딩스",
   BTSG: "브라이트스프링 헬스 서비스",
   BX: "블랙스톤",
+  BXDC: "블랙스톤 디지털 인프라스트럭처 트러스트",
   BXP: "BXP",
+  CBRS: "세레브라스 시스템즈",
   CASY: "케이시스 제너럴 스토어스",
   CCL: "카니발",
   CHRW: "C.H. 로빈슨 월드와이드",
@@ -63,6 +75,7 @@ const companyKo: Record<string, string> = {
   CMS: "CMS 에너지",
   COHR: "코히런트",
   COF: "캐피털 원 파이낸셜",
+  COAG: "헤맙 테라퓨틱스",
   COGT: "코전트 바이오사이언시스",
   CORT: "코셉트 테라퓨틱스",
   COST: "코스트코",
@@ -82,6 +95,7 @@ const companyKo: Record<string, string> = {
   ED: "콘솔리데이티드 에디슨",
   EIX: "에디슨 인터내셔널",
   EIKN: "아이콘 테라퓨틱스",
+  EQPT: "이큅먼트셰어",
   EOG: "EOG 리소시스",
   EVRG: "에버지",
   EW: "에드워즈 라이프사이언시스",
@@ -89,8 +103,10 @@ const companyKo: Record<string, string> = {
   FOA: "파이낸스 오브 아메리카",
   FIX: "컴포트 시스템즈 USA",
   FSLR: "퍼스트 솔라",
+  FRBT: "포브라이트",
   FYNL: "핀리프 테크놀로지스",
   GEHC: "GE 헬스케어",
+  GIX: "긱캐피탈9",
   GILD: "길리어드 사이언스",
   GL: "글로브 라이프",
   GLW: "코닝",
@@ -98,6 +114,7 @@ const companyKo: Record<string, string> = {
   GOOG: "알파벳",
   GOOGL: "알파벳",
   HAL: "할리버튼",
+  HAWK: "호크아이 360",
   HAS: "해즈브로",
   HOOD: "로빈후드 마켓츠",
   HRZN: "호라이즌 바이오사이언스",
@@ -107,6 +124,7 @@ const companyKo: Record<string, string> = {
   IDXX: "아이덱스 래버러토리스",
   INTU: "인튜이트",
   IP: "인터내셔널 페이퍼",
+  JAGU: "재규어 우라늄",
   JBHT: "J.B. 헌트 트랜스포트 서비스",
   JBL: "자빌",
   JPM: "JP모건 체이스",
@@ -114,24 +132,34 @@ const companyKo: Record<string, string> = {
   KEYS: "키사이트 테크놀로지스",
   KMB: "킴벌리클라크",
   L: "로우스",
+  LCLN: "링컨 인터내셔널",
+  LIFE: "에토스 테크놀로지스",
+  LIME: "라임",
+  LMRI: "루멕사 이미징 홀딩스",
   LITE: "루멘텀 홀딩스",
   LULU: "룰루레몬 애슬레티카",
   LGN: "레전스",
   MCD: "맥도날드",
+  MAIR: "매디슨 에어 솔루션스",
   MDLN: "메드라인",
+  MOBI: "모비아 메디컬",
   MPWR: "모놀리식 파워 시스템즈",
   MSFT: "마이크로소프트",
   MRAM: "에버스핀 테크놀로지스",
   MRVL: "마벨 테크놀로지",
   NAD: "누빈 퀄리티 뮤니시펄 인컴 펀드",
+  NAVN: "나반",
   NEBX: "네뷸라 로보틱스",
   NET: "클라우드플레어",
   NOW: "서비스나우",
   NVDA: "엔비디아",
   NUVL: "누발렌트",
   O: "리얼티 인컴",
+  ODTX: "오디세이 테라퓨틱스",
+  OFRM: "원스 어폰 어 팜",
   OKLO: "오클로",
   ORBX: "오르빅스 에어로스페이스",
+  OTH: "오프 더 훅 YS",
   PANW: "팔로알토 네트웍스",
   PCAR: "팩카",
   PBF: "PBF 에너지",
@@ -150,12 +178,17 @@ const companyKo: Record<string, string> = {
   RVI: "로빈후드 벤처스 펀드 I",
   SARO: "스탠더드에어로",
   SBLK: "스타 벌크 캐리어스",
+  SGP: "스파이글래스 파마",
+  SIND: "신다",
   SCHW: "찰스 슈왑",
   SHCO: "소호 하우스",
   SHC: "소테라 헬스",
   SMR: "뉴스케일 파워",
   SLFY: "솔리파이 에너지",
   SLB: "SLB",
+  SSMR: "선샤인 실버 마이닝 앤 리파이닝",
+  SPTX: "시포트 테라퓨틱스",
+  SPCX: "스페이스X",
   SPG: "사이먼 프로퍼티 그룹",
   SPGI: "S&P 글로벌",
   SRE: "셈프라",
@@ -170,12 +203,15 @@ const companyKo: Record<string, string> = {
   TXT: "텍스트론",
   URI: "유나이티드 렌털스",
   UTHR: "유나이티드 테라퓨틱스",
+  VIDA: "비다 글로벌",
   VKI: "인베스코 어드밴티지 뮤니시펄 인컴 트러스트 II",
   VLTR: "볼테라 시스템즈",
   VRSK: "베리스크 애널리틱스",
   WDAY: "워크데이",
   WM: "웨이스트 매니지먼트",
+  WLTH: "웰스프론트",
   WRB: "W.R. 버클리",
+  XE: "엑스에너지",
   YUM: "얌! 브랜즈",
 };
 
@@ -290,8 +326,30 @@ const eventImportanceScore = (trade: Pick<NormalizedTrade, "value" | "role" | "c
   if (/CEO|CFO|COO/i.test(trade.role)) score += 12;
   if (trade.clusterCount >= 2) score += 15;
   if (trade.value >= 10_000_000) score += 18;
-  if (Math.abs(trade.ownChangePct) >= 10) score += 10;
+  if (Math.abs(trade.ownChangePct) >= 10 && Math.abs(trade.ownChangePct) <= 1000) score += 10;
   return Math.min(99, score);
+};
+const nextFilingSort = (sort: FilingSort): FilingSort =>
+  sort === "default" ? "latest" : sort === "latest" ? "oldest" : "default";
+const filingSortLabel = (sort: FilingSort) =>
+  sort === "latest" ? "신고일 ↓" : sort === "oldest" ? "신고일 ↑" : "신고일";
+const filingDelayLabel = (trade: Pick<NormalizedTrade, "filedDate" | "txDate">) => {
+  const delay = daysBetween(trade.filedDate, trade.txDate);
+  if (delay < 0) return "일자 확인";
+  if (delay === 0) return "당일 신고";
+  return `거래 후 ${delay}일 신고`;
+};
+const transactionLabel = (trade: Pick<NormalizedTrade, "txType">) =>
+  normalizeTx(trade.txType) === "매수" ? "공시 매수" : "공시 매도";
+const ownChangeLabel = (trade: Pick<NormalizedTrade, "ownChangePct">) => {
+  if (!Number.isFinite(trade.ownChangePct)) return "-";
+  if (Math.abs(trade.ownChangePct) > 1000) return "확인 필요";
+  const prefix = trade.ownChangePct >= 0 ? "+" : "";
+  return `${prefix}${trade.ownChangePct.toFixed(1)}%`;
+};
+const ownChangeClass = (trade: Pick<NormalizedTrade, "ownChangePct">) => {
+  if (!Number.isFinite(trade.ownChangePct) || Math.abs(trade.ownChangePct) > 1000) return "text-warning";
+  return trade.ownChangePct >= 0 ? "text-positive" : "text-negative";
 };
 
 function ThemeButton({ theme, setTheme }: { theme: Theme; setTheme: (theme: Theme) => void }) {
@@ -482,7 +540,7 @@ function SignalGuide() {
   return (
     <section className="grid gap-2 md:grid-cols-4">
       {signals.map((signal) => (
-        <div key={signal.label} className="group relative border border-border bg-card px-3 py-3">
+        <div key={signal.label} className="border border-border bg-card px-3 py-3">
           <div className="flex items-center justify-between gap-2">
             <p className="text-[12px] font-extrabold">{signal.label}</p>
             <Info size={13} className="text-muted-foreground" />
@@ -490,9 +548,9 @@ function SignalGuide() {
           <p className="mt-1 text-[10.5px] font-semibold text-muted-foreground">
             {signal.live ? "실데이터 반영" : "확장 예정"}
           </p>
-          <div className="pointer-events-none absolute left-3 right-3 top-[calc(100%-4px)] z-20 hidden border border-border bg-background p-3 text-[11px] leading-relaxed text-foreground shadow-lg group-hover:block">
+          <p className="mt-3 text-[11px] leading-5 text-muted-foreground">
             {signal.desc}
-          </div>
+          </p>
         </div>
       ))}
     </section>
@@ -541,13 +599,19 @@ function SignalTimeline({ trades }: { trades: InsiderTrade[] }) {
 function UsageStrip() {
   const steps = ["최근 감지 신호 확인", "희소 내부자 이벤트 체크", "섹터 공시 밀도 비교", "투자 아이디어 후보화"];
   return (
-    <section className="grid gap-2 border border-border bg-card p-3 md:grid-cols-4">
-      {steps.map((step, index) => (
-        <div key={step} className="flex items-center gap-2 border border-border/70 bg-background px-3 py-2">
-          <span className="num text-[11px] font-extrabold text-accent-strong">0{index + 1}</span>
-          <span className="text-[12px] font-bold">{step}</span>
-        </div>
-      ))}
+    <section className="border border-border bg-card p-3">
+      <div className="mb-2 flex items-center justify-between">
+        <h3 className="text-[13px] font-extrabold">사용 순서</h3>
+        <span className="text-[10.5px] font-semibold text-muted-foreground">Radar Workflow</span>
+      </div>
+      <div className="grid gap-2 md:grid-cols-4">
+        {steps.map((step, index) => (
+          <div key={step} className="flex items-center gap-2 border border-border/70 bg-background px-3 py-2">
+            <span className="num text-[11px] font-extrabold text-accent-strong">0{index + 1}</span>
+            <span className="text-[12px] font-bold">{step}</span>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
@@ -697,6 +761,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
   const [filter, setFilter] = useState<TxFilter>("전체");
   const [period, setPeriod] = useState<PeriodFilter>("30D");
   const [query, setQuery] = useState("");
+  const [filingSort, setFilingSort] = useState<FilingSort>("default");
   const normalized = useMemo(
     () => trades.map((trade) => ({ ...trade, txType: normalizeTx(trade.txType) })),
     [trades]
@@ -735,9 +800,13 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
             .toLowerCase()
             .includes(q);
         })
-        .sort((a, b) => b.value - a.value);
+        .sort((a, b) => {
+          if (filingSort === "latest") return b.filedDate.localeCompare(a.filedDate) || b.value - a.value;
+          if (filingSort === "oldest") return a.filedDate.localeCompare(b.filedDate) || b.value - a.value;
+          return b.value - a.value;
+        });
     },
-    [filter, latestFiling, normalized, period, query]
+    [filingSort, filter, latestFiling, normalized, period, query]
   );
   const buyValue = rows
     .filter((trade) => trade.txType === "매수")
@@ -824,7 +893,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                         trade.txType === "매수" ? "bg-positive/10 text-positive" : "bg-negative/10 text-negative"
                       }`}
                     >
-                      {trade.txType}
+                      {transactionLabel(trade)}
                     </span>
                   </div>
                   <p className="mt-1 truncate text-[12px] font-semibold text-muted-foreground">
@@ -842,17 +911,17 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                   <p className="num mt-1 font-extrabold">{fmtUSD(trade.value / 1e6, 2)}M</p>
                 </div>
                 <div className="border border-border/70 bg-background p-2">
-                  <p className="text-muted-foreground">지분변동</p>
-                  <p className={`num mt-1 font-extrabold ${trade.ownChangePct >= 0 ? "text-positive" : "text-negative"}`}>
-                    {trade.ownChangePct >= 0 ? "+" : ""}
-                    {trade.ownChangePct.toFixed(1)}%
+                  <p className="text-muted-foreground">직접보유 변동</p>
+                  <p className={`num mt-1 font-extrabold ${ownChangeClass(trade)}`}>
+                    {ownChangeLabel(trade)}
                   </p>
                 </div>
               </div>
               <div className="mt-3 flex items-center justify-between gap-3 text-[11px] text-muted-foreground">
                 <span className="truncate">{trade.filer} · {trade.role}</span>
-                <span className="num shrink-0">{trade.filedDate}</span>
+                <span className="num shrink-0">{trade.txDate} → {trade.filedDate}</span>
               </div>
+              <div className="mt-2 text-[10.5px] font-semibold text-muted-foreground">{filingDelayLabel(trade)}</div>
             </article>
           );
         })}
@@ -866,17 +935,28 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
       )}
 
       <div className="mt-3 hidden overflow-x-auto border border-border bg-card md:block">
-        <table className="w-full min-w-[980px] text-[12.5px]">
+        <table className="w-full min-w-[1120px] text-[12.5px]">
           <thead>
             <tr className="border-b border-border bg-secondary text-left text-[11px] uppercase tracking-wide text-muted-foreground">
-              <th className="px-3 py-2 font-semibold">신고일</th>
+              <th className="px-3 py-2 font-semibold">
+                <button
+                  type="button"
+                  onClick={() => setFilingSort((current) => nextFilingSort(current))}
+                  className="inline-flex items-center gap-1 font-semibold text-muted-foreground hover:text-foreground"
+                  title="클릭: 최신순 → 오래된순 → 기본순"
+                >
+                  {filingSortLabel(filingSort)}
+                </button>
+              </th>
+              <th className="px-3 py-2 font-semibold">거래일</th>
               <th className="px-3 py-2 font-semibold">종목</th>
               <th className="px-3 py-2 font-semibold">신고인</th>
               <th className="px-3 py-2 text-center font-semibold">구분</th>
+              <th className="px-3 py-2 font-semibold">신고상태</th>
               <th className="px-3 py-2 text-right font-semibold">수량</th>
               <th className="px-3 py-2 text-right font-semibold">단가</th>
               <th className="px-3 py-2 text-right font-semibold">거래대금</th>
-              <th className="px-3 py-2 text-right font-semibold">지분변동</th>
+              <th className="px-3 py-2 text-right font-semibold">직접보유 변동</th>
               <th className="px-3 py-2 text-right font-semibold">Event Importance</th>
               <th className="px-3 py-2 font-semibold">신호</th>
             </tr>
@@ -885,6 +965,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
             {rows.map((trade) => (
               <tr key={trade.id} className="border-b border-border/70 last:border-0 hover:bg-secondary/60">
                 <td className="num whitespace-nowrap px-3 py-2.5 text-muted-foreground">{trade.filedDate.slice(5)}</td>
+                <td className="num whitespace-nowrap px-3 py-2.5 text-muted-foreground">{trade.txDate.slice(5)}</td>
                 <td className="whitespace-nowrap px-3 py-2.5">
                   <div className="num text-[13px] font-extrabold">{trade.ticker}</div>
                   <div className="text-[11px] text-muted-foreground">{companyName(trade.ticker, trade.company)}</div>
@@ -899,19 +980,20 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                       trade.txType === "매수" ? "bg-positive/10 text-positive" : "bg-negative/10 text-negative"
                     }`}
                   >
-                    {trade.txType}
+                    {transactionLabel(trade)}
                   </span>
+                </td>
+                <td className="whitespace-nowrap px-3 py-2.5 text-[11px] font-semibold text-muted-foreground">
+                  {filingDelayLabel(trade)}
                 </td>
                 <td className="num px-3 py-2.5 text-right">{fmtNum(trade.shares)}</td>
                 <td className="num px-3 py-2.5 text-right">{fmtUSD(trade.price, 2)}</td>
                 <td className="num px-3 py-2.5 text-right font-semibold">{fmtUSD(trade.value / 1e6, 2)}M</td>
                 <td
-                  className={`num px-3 py-2.5 text-right font-semibold ${
-                    trade.ownChangePct >= 0 ? "text-positive" : "text-negative"
-                  }`}
+                  className={`num px-3 py-2.5 text-right font-semibold ${ownChangeClass(trade)}`}
+                  title="SEC Form 4의 거래 후 직접 보유주식 기준 변동률입니다."
                 >
-                  {trade.ownChangePct >= 0 ? "+" : ""}
-                  {trade.ownChangePct.toFixed(1)}%
+                  {ownChangeLabel(trade)}
                 </td>
                 <td className="num px-3 py-2.5 text-right font-extrabold">{eventImportanceScore(trade)}</td>
                 <td className="whitespace-nowrap px-3 py-2.5">
@@ -1108,7 +1190,7 @@ export default function App() {
               meta={insiderMeta}
               lockupMeta={lockupMeta}
             />
-            <div className="grid gap-3 lg:grid-cols-[1fr_330px]">
+            <div className="grid items-start gap-3 lg:grid-cols-[1fr_330px]">
               <div className="grid gap-3">
                 <SignalGuide />
                 <UsageStrip />

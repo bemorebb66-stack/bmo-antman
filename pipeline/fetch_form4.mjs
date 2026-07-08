@@ -238,6 +238,7 @@ function parseForm4(xml, filedDate) {
   const shares = dir === "매수" ? buyShares : sellShares;
   const value = dir === "매수" ? buyValue : sellValue;
   if (shares <= 0 || value < 10000) return null; // $10k 미만 노이즈 컷
+  if (txDate && txDate > filedDate) return null; // Form 4 신고일보다 뒤의 거래일은 파싱/인덱스 이상치로 제외
 
   const before = dir === "매수" ? buyBefore : sellBefore;
   const ownAfter = dir === "매수" ? buyAfter : sellAfter;
