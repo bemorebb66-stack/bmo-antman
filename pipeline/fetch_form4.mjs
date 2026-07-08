@@ -32,6 +32,11 @@ const MAX_ROWS = argVal("--max-rows", RANGE_MODE ? 1500 : 40);
 const MAX_FILINGS = argVal("--max-filings", 150);
 const MAX_FILINGS_PER_DAY = argVal("--max-filings-per-day", RANGE_MODE ? 120 : MAX_FILINGS);
 const MAX_ROWS_PER_MONTH = argVal("--max-rows-per-month", RANGE_MODE ? 120 : MAX_ROWS);
+const MAX_DAYS_PER_MONTH = argVal("--max-days-per-month", RANGE_MODE ? 8 : 999);
+const MAX_ROWS_PER_INDEX_DAY = argVal(
+  "--max-rows-per-index-day",
+  RANGE_MODE ? Math.max(1, Math.ceil(MAX_ROWS_PER_MONTH / MAX_DAYS_PER_MONTH)) : MAX_ROWS
+);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -125,6 +130,31 @@ function dateRange(from, to) {
     out.push(new Date(t).toISOString().slice(0, 10));
   }
   return out;
+}
+
+function spreadIndexDays(days) {
+  if (!RANGE_MODE || days.length <= MAX_DAYS_PER_MONTH) return days;
+  const byMonth = new Map();
+  for (const day of days) {
+    const key = day.date.slice(0, 7);
+    if (!byMonth.has(key)) byMonth.set(key, []);
+    byMonth.get(key).push(day);
+  }
+  const selected = [];
+  for (const monthDays of byMonth.values()) {
+    monthDays.sort((a, b) => a.date.localeCompare(b.date));
+    if (monthDays.length <= MAX_DAYS_PER_MONTH) {
+      selected.push(...monthDays);
+      continue;
+    }
+    const picked = new Set();
+    for (let i = 0; i < MAX_DAYS_PER_MONTH; i++) {
+      const idx = Math.round((i * (monthDays.length - 1)) / (MAX_DAYS_PER_MONTH - 1));
+      picked.add(idx);
+    }
+    selected.push(...[...picked].sort((a, b) => a - b).map((idx) => monthDays[idx]));
+  }
+  return selected.sort((a, b) => a.date.localeCompare(b.date));
 }
 
 function parseIdx(text) {
@@ -250,11 +280,17 @@ async function main() {
   }
   if (indexDays.length === 0) throw new Error("수집 가능한 daily form index를 찾지 못함");
 
+  const daysToProcess = spreadIndexDays(indexDays);
+  if (!QUIET && daysToProcess.length !== indexDays.length) {
+    console.log(`   월별 균등 샘플링: ${indexDays.length}일 → ${daysToProcess.length}일 처리`);
+  }
+
   const rows = [];
   const rowsByMonth = {};
+  const rowsByDay = {};
   let processed = 0;
   let latestDate = indexDays[indexDays.length - 1].date;
-  for (const { date, text } of indexDays) {
+  for (const { date, text } of daysToProcess) {
     if (rows.length >= MAX_ROWS) break;
     const monthKey = date.slice(0, 7);
     if ((rowsByMonth[monthKey] ?? 0) >= MAX_ROWS_PER_MONTH) continue;
@@ -274,6 +310,7 @@ async function main() {
     for (const f of targets) {
       if (rows.length >= MAX_ROWS) break;
       if ((rowsByMonth[monthKey] ?? 0) >= MAX_ROWS_PER_MONTH) break;
+      if ((rowsByDay[date] ?? 0) >= MAX_ROWS_PER_INDEX_DAY) break;
       processed++;
       try {
         const accession = f.fileName.split("/").pop().replace(".txt", "");
@@ -290,6 +327,7 @@ async function main() {
           row.id = `f4-${accession}`;
           rows.push(row);
           rowsByMonth[monthKey] = (rowsByMonth[monthKey] ?? 0) + 1;
+          rowsByDay[date] = (rowsByDay[date] ?? 0) + 1;
           if (!QUIET) process.stdout.write(`   [${rows.length}/${MAX_ROWS}] ${row.ticker} ${row.txType} $${(row.value / 1e6).toFixed(2)}M (${row.filer})\n`);
         }
       } catch (e) {
@@ -352,6 +390,8 @@ async function main() {
       generatedAt: new Date().toISOString(),
       filingsScanned: processed,
       monthlyRowCap: RANGE_MODE ? MAX_ROWS_PER_MONTH : null,
+      daysPerMonthCap: RANGE_MODE ? MAX_DAYS_PER_MONTH : null,
+      rowsPerIndexDayCap: RANGE_MODE ? MAX_ROWS_PER_INDEX_DAY : null,
       note: "공개시장 매수(P)/매도(S)만 집계, $10k 미만 제외",
     },
     trades: rows,
