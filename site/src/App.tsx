@@ -5,7 +5,6 @@ import {
   CalendarClock,
   CheckCircle2,
   ExternalLink,
-  Info,
   Moon,
   Search,
   ShieldAlert,
@@ -513,109 +512,6 @@ function SummaryBar({
   );
 }
 
-function SignalGuide() {
-  const signals = [
-    {
-      label: "Rare Insider",
-      desc: "대형주 내부자 거래는 상대적으로 드뭅니다. 매수, 임원 참여, 반복 신고를 희소 이벤트로 봅니다.",
-      live: true,
-    },
-    {
-      label: "Form 4",
-      desc: "현재 실데이터의 핵심 공시입니다. 공개시장 매수(P), 매도(S)를 분리해서 추적합니다.",
-      live: true,
-    },
-    {
-      label: "IPO Lockup",
-      desc: "상장 후 보호예수 해제 일정입니다. 실제 매도가 아니라 잠재 공급 이벤트입니다.",
-      live: true,
-    },
-    {
-      label: "8-K / S-1 / 13F",
-      desc: "주요 이벤트·증권신고·기관 보유 변화 신호입니다. 대형주 이벤트 레이더의 다음 확장 후보입니다.",
-      live: false,
-    },
-  ];
-
-  return (
-    <section className="grid gap-2 md:grid-cols-4">
-      {signals.map((signal) => (
-        <div key={signal.label} className="border border-border bg-card px-3 py-3">
-          <div className="flex items-center justify-between gap-2">
-            <p className="text-[12px] font-extrabold">{signal.label}</p>
-            <Info size={13} className="text-muted-foreground" />
-          </div>
-          <p className="mt-1 text-[10.5px] font-semibold text-muted-foreground">
-            {signal.live ? "실데이터 반영" : "확장 예정"}
-          </p>
-          <p className="mt-3 text-[11px] leading-5 text-muted-foreground">
-            {signal.desc}
-          </p>
-        </div>
-      ))}
-    </section>
-  );
-}
-
-function SignalTimeline({ trades }: { trades: InsiderTrade[] }) {
-  const rows = useMemo(
-    () =>
-      [...trades]
-        .sort((a, b) => b.filedDate.localeCompare(a.filedDate) || b.value - a.value)
-        .slice(0, 6),
-    [trades]
-  );
-
-  return (
-    <section className="border border-border bg-card p-4">
-      <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-[14px] font-extrabold">Latest Filing Signals</h3>
-        <span className="num text-[11px] text-muted-foreground">Form 4</span>
-      </div>
-      <div className="grid gap-2">
-        {rows.map((trade) => {
-          const tx = normalizeTx(trade.txType);
-          return (
-            <div key={trade.id} className="grid grid-cols-[3.4rem_1fr_auto] items-center gap-2 border-b border-border/70 pb-2 last:border-0 last:pb-0">
-              <span className="num text-[11px] font-bold text-muted-foreground">{trade.filedDate.slice(5)}</span>
-              <div className="min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="num text-[12px] font-extrabold">{trade.ticker}</span>
-                  <span className="truncate text-[11px] text-muted-foreground">{companyName(trade.ticker, trade.company)}</span>
-                </div>
-                <div className="truncate text-[10.5px] text-muted-foreground">{trade.filer}</div>
-              </div>
-              <span className={`px-2 py-1 text-[10px] font-extrabold ${tx === "매수" ? "bg-positive/10 text-positive" : "bg-negative/10 text-negative"}`}>
-                {tx}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-function UsageStrip() {
-  const steps = ["최근 감지 신호 확인", "희소 내부자 이벤트 체크", "섹터 공시 밀도 비교", "투자 아이디어 후보화"];
-  return (
-    <section className="border border-border bg-card p-3">
-      <div className="mb-2 flex items-center justify-between">
-        <h3 className="text-[13px] font-extrabold">사용 순서</h3>
-        <span className="text-[10.5px] font-semibold text-muted-foreground">Radar Workflow</span>
-      </div>
-      <div className="grid gap-2 md:grid-cols-4">
-        {steps.map((step, index) => (
-          <div key={step} className="flex items-center gap-2 border border-border/70 bg-background px-3 py-2">
-            <span className="num text-[11px] font-extrabold text-accent-strong">0{index + 1}</span>
-            <span className="text-[12px] font-bold">{step}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function SectorSummary({ rows }: { rows: NormalizedTrade[] }) {
   const sectorRows = useMemo(() => {
     const bucket = new Map<
@@ -935,10 +831,10 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
       )}
 
       <div className="mt-3 hidden overflow-x-auto border border-border bg-card md:block">
-        <table className="w-full min-w-[1120px] text-[12.5px]">
+        <table className="w-full min-w-[1360px] text-[12.5px]">
           <thead>
             <tr className="border-b border-border bg-secondary text-left text-[11px] uppercase tracking-wide text-muted-foreground">
-              <th className="px-3 py-2 font-semibold">
+              <th className="w-[76px] px-3 py-2 font-semibold">
                 <button
                   type="button"
                   onClick={() => setFilingSort((current) => nextFilingSort(current))}
@@ -948,17 +844,17 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                   {filingSortLabel(filingSort)}
                 </button>
               </th>
-              <th className="px-3 py-2 font-semibold">거래일</th>
-              <th className="px-3 py-2 font-semibold">종목</th>
-              <th className="px-3 py-2 font-semibold">신고인</th>
-              <th className="px-3 py-2 text-center font-semibold">구분</th>
-              <th className="px-3 py-2 font-semibold">신고상태</th>
-              <th className="px-3 py-2 text-right font-semibold">수량</th>
-              <th className="px-3 py-2 text-right font-semibold">단가</th>
-              <th className="px-3 py-2 text-right font-semibold">거래대금</th>
-              <th className="px-3 py-2 text-right font-semibold">직접보유 변동</th>
-              <th className="px-3 py-2 text-right font-semibold">Event Importance</th>
-              <th className="px-3 py-2 font-semibold">신호</th>
+              <th className="w-[76px] px-3 py-2 font-semibold">거래일</th>
+              <th className="w-[190px] px-3 py-2 font-semibold">종목</th>
+              <th className="w-[280px] px-3 py-2 font-semibold">신고인</th>
+              <th className="w-[92px] px-3 py-2 text-center font-semibold">구분</th>
+              <th className="w-[128px] px-3 py-2 font-semibold">신고상태</th>
+              <th className="w-[118px] px-3 py-2 text-right font-semibold">수량</th>
+              <th className="w-[96px] px-3 py-2 text-right font-semibold">단가</th>
+              <th className="w-[128px] px-3 py-2 text-right font-semibold">거래대금</th>
+              <th className="w-[124px] px-3 py-2 text-right font-semibold">직접보유 변동</th>
+              <th className="w-[128px] px-3 py-2 text-right font-semibold">Importance</th>
+              <th className="w-[110px] px-3 py-2 font-semibold">신호</th>
             </tr>
           </thead>
           <tbody>
@@ -976,7 +872,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                 </td>
                 <td className="px-3 py-2.5 text-center">
                   <span
-                    className={`inline-flex h-6 items-center px-2 text-[11px] font-bold ${
+                    className={`inline-flex h-6 min-w-[64px] items-center justify-center whitespace-nowrap px-2 text-[11px] font-bold ${
                       trade.txType === "매수" ? "bg-positive/10 text-positive" : "bg-negative/10 text-negative"
                     }`}
                   >
@@ -1130,7 +1026,7 @@ export default function App() {
     <div className={theme}>
       <div className="min-h-screen bg-background text-foreground">
         <header className="border-b border-border bg-shell">
-          <div className="mx-auto flex max-w-[1180px] flex-col gap-4 px-5 py-4 md:flex-row md:items-center md:justify-between">
+          <div className="mx-auto flex max-w-[1500px] flex-col gap-4 px-5 py-4 md:flex-row md:items-center md:justify-between xl:px-8">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-foreground text-background">
                 <BarChart3 size={22} strokeWidth={2.3} />
@@ -1155,7 +1051,7 @@ export default function App() {
               <ThemeButton theme={theme} setTheme={setTheme} />
             </div>
           </div>
-          <div className="mx-auto flex max-w-[1180px] gap-1 overflow-x-auto px-5 pb-3">
+          <div className="mx-auto flex max-w-[1500px] gap-1 overflow-x-auto px-5 pb-3 xl:px-8">
             <Pill active={tab === "insider"} onClick={() => setTab("insider")}>
               희소 내부자 이벤트
             </Pill>
@@ -1165,7 +1061,7 @@ export default function App() {
           </div>
         </header>
 
-        <main className="mx-auto max-w-[1180px] px-5 py-5">
+        <main className="mx-auto max-w-[1500px] px-5 py-5 xl:px-8">
           <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">SEC Event Radar</p>
@@ -1190,13 +1086,6 @@ export default function App() {
               meta={insiderMeta}
               lockupMeta={lockupMeta}
             />
-            <div className="grid items-start gap-3 lg:grid-cols-[1fr_330px]">
-              <div className="grid gap-3">
-                <SignalGuide />
-                <UsageStrip />
-              </div>
-              <SignalTimeline trades={insiderTrades} />
-            </div>
           </div>
 
           <div className="mt-4">
