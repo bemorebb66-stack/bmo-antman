@@ -29,11 +29,16 @@ const fmtUSD = (n: number, digits = 0) =>
 const fmtNum = (n: number) => n.toLocaleString("en-US");
 
 const companyKo: Record<string, string> = {
+  AAPL: "애플",
   ABNB: "에어비앤비",
+  ACT: "이낵트 홀딩스",
   ADBE: "어도비",
   ADI: "아날로그 디바이시스",
   AEP: "아메리칸 일렉트릭 파워",
   AFL: "애플랙",
+  AMKR: "앰코 테크놀로지",
+  AMZN: "아마존",
+  ANET: "아리스타 네트웍스",
   AKAM: "아카마이 테크놀로지스",
   ALAB: "아스테라 랩스",
   AIP: "아테리스",
@@ -43,8 +48,11 @@ const companyKo: Record<string, string> = {
   AON: "에이온",
   AVGO: "브로드컴",
   AZO: "오토존",
+  BANC: "뱅크 오브 캘리포니아",
   BALL: "볼 코퍼레이션",
+  BMBL: "범블",
   BRKF: "브룩퍼드 머티리얼즈",
+  BTSG: "브라이트스프링 헬스 서비스",
   BX: "블랙스톤",
   BXP: "BXP",
   CASY: "케이시스 제너럴 스토어스",
@@ -52,10 +60,13 @@ const companyKo: Record<string, string> = {
   CHRW: "C.H. 로빈슨 월드와이드",
   CME: "CME 그룹",
   CMS: "CMS 에너지",
+  COHR: "코히런트",
   COF: "캐피털 원 파이낸셜",
+  COGT: "코전트 바이오사이언시스",
   CORT: "코셉트 테라퓨틱스",
   COST: "코스트코",
   CPT: "캠든 프로퍼티 트러스트",
+  CRWV: "코어위브",
   CRL: "찰스 리버 래버러토리스",
   CRWD: "크라우드스트라이크",
   CSGP: "코스타 그룹",
@@ -63,13 +74,18 @@ const companyKo: Record<string, string> = {
   CVNA: "카바나",
   CVX: "셰브론",
   DASH: "도어대시",
+  DBD: "디볼드 닉스도프",
+  DELL: "델 테크놀로지스",
   DDOG: "데이터독",
   DVA: "다비타",
   ED: "콘솔리데이티드 에디슨",
   EIX: "에디슨 인터내셔널",
+  EIKN: "아이콘 테라퓨틱스",
   EOG: "EOG 리소시스",
   EVRG: "에버지",
   EW: "에드워즈 라이프사이언시스",
+  FANG: "다이아몬드백 에너지",
+  FOA: "파이낸스 오브 아메리카",
   FIX: "컴포트 시스템즈 USA",
   FSLR: "퍼스트 솔라",
   FYNL: "핀리프 테크놀로지스",
@@ -78,6 +94,7 @@ const companyKo: Record<string, string> = {
   GL: "글로브 라이프",
   GLW: "코닝",
   GM: "제너럴 모터스",
+  GOOG: "알파벳",
   GOOGL: "알파벳",
   HAL: "할리버튼",
   HAS: "해즈브로",
@@ -91,23 +108,28 @@ const companyKo: Record<string, string> = {
   IP: "인터내셔널 페이퍼",
   JBHT: "J.B. 헌트 트랜스포트 서비스",
   JBL: "자빌",
+  JPM: "JP모건 체이스",
   KEY: "키코프",
   KEYS: "키사이트 테크놀로지스",
   KMB: "킴벌리클라크",
   L: "로우스",
   LITE: "루멘텀 홀딩스",
   LULU: "룰루레몬 애슬레티카",
+  LGN: "레전스",
   MCD: "맥도날드",
   MDLN: "메드라인",
   MPWR: "모놀리식 파워 시스템즈",
+  MSFT: "마이크로소프트",
   MRAM: "에버스핀 테크놀로지스",
   MRVL: "마벨 테크놀로지",
   NAD: "누빈 퀄리티 뮤니시펄 인컴 펀드",
   NEBX: "네뷸라 로보틱스",
   NET: "클라우드플레어",
   NOW: "서비스나우",
+  NVDA: "엔비디아",
   NUVL: "누발렌트",
   O: "리얼티 인컴",
+  OKLO: "오클로",
   ORBX: "오르빅스 에어로스페이스",
   PANW: "팔로알토 네트웍스",
   PCAR: "팩카",
@@ -119,12 +141,18 @@ const companyKo: Record<string, string> = {
   PSX: "필립스 66",
   QCOM: "퀄컴",
   QNTM: "퀀티스 헬스",
+  RDW: "레드와이어",
+  REEMF: "레어 엘리먼트 리소시스",
   RMD: "레스메드",
+  ROIV: "로이반트 사이언시스",
   RSKD: "리스크파이드",
   RVI: "로빈후드 벤처스 펀드 I",
   SARO: "스탠더드에어로",
+  SBLK: "스타 벌크 캐리어스",
   SCHW: "찰스 슈왑",
   SHCO: "소호 하우스",
+  SHC: "소테라 헬스",
+  SMR: "뉴스케일 파워",
   SLFY: "솔리파이 에너지",
   SLB: "SLB",
   SPG: "사이먼 프로퍼티 그룹",
@@ -133,22 +161,123 @@ const companyKo: Record<string, string> = {
   STX: "씨게이트 테크놀로지",
   TGT: "타깃",
   TSLA: "테슬라",
+  TDG: "트랜스다임 그룹",
   TT: "트레인 테크놀로지스",
   TTD: "트레이드 데스크",
   TTWO: "테이크투 인터랙티브",
   TXN: "텍사스 인스트루먼츠",
   TXT: "텍스트론",
   URI: "유나이티드 렌털스",
+  UTHR: "유나이티드 테라퓨틱스",
   VKI: "인베스코 어드밴티지 뮤니시펄 인컴 트러스트 II",
   VLTR: "볼테라 시스템즈",
   VRSK: "베리스크 애널리틱스",
+  WDAY: "워크데이",
   WM: "웨이스트 매니지먼트",
   WRB: "W.R. 버클리",
   YUM: "얌! 브랜즈",
 };
 
+const sectorKo: Record<string, string> = {
+  AAPL: "정보기술",
+  ADBE: "정보기술",
+  AMAT: "정보기술",
+  AMD: "정보기술",
+  AMKR: "정보기술",
+  ANET: "정보기술",
+  AVGO: "정보기술",
+  COHR: "정보기술",
+  CRWD: "정보기술",
+  CRWV: "정보기술",
+  DELL: "정보기술",
+  DDOG: "정보기술",
+  GLW: "정보기술",
+  GOOGL: "커뮤니케이션",
+  GOOG: "커뮤니케이션",
+  INTU: "정보기술",
+  KEYS: "정보기술",
+  MPWR: "정보기술",
+  MSFT: "정보기술",
+  MRVL: "정보기술",
+  NET: "정보기술",
+  NVDA: "정보기술",
+  PANW: "정보기술",
+  QCOM: "정보기술",
+  STX: "정보기술",
+  TXN: "정보기술",
+  WDAY: "정보기술",
+  AMZN: "소비재",
+  AZO: "소비재",
+  COST: "소비재",
+  CVNA: "소비재",
+  DASH: "소비재",
+  LULU: "소비재",
+  MCD: "소비재",
+  TGT: "소비재",
+  TSLA: "소비재",
+  YUM: "소비재",
+  AEP: "유틸리티",
+  CMS: "유틸리티",
+  ED: "유틸리티",
+  EIX: "유틸리티",
+  EVRG: "유틸리티",
+  SRE: "유틸리티",
+  CCL: "경기소비재",
+  ABNB: "경기소비재",
+  AFL: "금융",
+  AON: "금융",
+  BX: "금융",
+  CME: "금융",
+  COF: "금융",
+  JPM: "금융",
+  SCHW: "금융",
+  WRB: "금융",
+  BXP: "부동산",
+  CPT: "부동산",
+  O: "부동산",
+  SPG: "부동산",
+  AMGN: "헬스케어",
+  CRL: "헬스케어",
+  DVA: "헬스케어",
+  GILD: "헬스케어",
+  IDXX: "헬스케어",
+  RMD: "헬스케어",
+  UTHR: "헬스케어",
+  CVX: "에너지",
+  EOG: "에너지",
+  FANG: "에너지",
+  HAL: "에너지",
+  PBF: "에너지",
+  PSX: "에너지",
+  SLB: "에너지",
+  BALL: "소재",
+  IP: "소재",
+  PPG: "소재",
+  CHRW: "산업재",
+  FIX: "산업재",
+  JBHT: "산업재",
+  PCAR: "산업재",
+  SARO: "산업재",
+  TDG: "산업재",
+  TT: "산업재",
+  TXT: "산업재",
+  URI: "산업재",
+};
+
 const companyName = (ticker: string, fallback: string) =>
   companyKo[ticker] ?? fallback.replace(/&amp;/g, "&").replace(/\s+(INC|CORP|CO|LTD|PLC)\.?$/i, "");
+const inferSector = (ticker: string, company: string, fallback?: string) => {
+  if (fallback) return fallback;
+  if (sectorKo[ticker]) return sectorKo[ticker];
+  const name = company.toLowerCase();
+  if (/bank|banc|financial|capital|insurance|asset|fund|trust|reit/.test(name)) return "금융/리츠";
+  if (/therapeutics|health|bio|medical|pharma|science|laborator/.test(name)) return "헬스케어";
+  if (/energy|oil|gas|power|natural|resources|mining|water/.test(name)) return "에너지/자원";
+  if (/tech|software|semiconductor|cloud|data|systems|micro|logic/.test(name)) return "정보기술";
+  if (/aero|aviation|carrier|maritime|industrial|transport|solutions/.test(name)) return "산업재";
+  if (/market|retail|restaurant|consumer|apparel|house|living/.test(name)) return "소비재";
+  return "기타";
+};
 const normalizeTx = (txType: string): TxFilter | string =>
   txType.includes("매수") ? "매수" : txType.includes("매도") ? "매도" : txType;
 const tradeMonth = (trade: Pick<InsiderTrade, "filedDate">) => trade.filedDate.slice(5, 7) as MonthFilter;
@@ -221,6 +350,139 @@ function Stat({
   );
 }
 
+type NormalizedTrade = Omit<InsiderTrade, "txType"> & { txType: string };
+
+function SectorSummary({ rows }: { rows: NormalizedTrade[] }) {
+  const sectorRows = useMemo(() => {
+    const bucket = new Map<
+      string,
+      { sector: string; buy: number; sell: number; count: number; tickers: Set<string> }
+    >();
+
+    for (const trade of rows) {
+      const sector = inferSector(trade.ticker, trade.company, trade.sector);
+      const current = bucket.get(sector) ?? {
+        sector,
+        buy: 0,
+        sell: 0,
+        count: 0,
+        tickers: new Set<string>(),
+      };
+      if (trade.txType === "매수") current.buy += trade.value;
+      if (trade.txType === "매도") current.sell += trade.value;
+      current.count += 1;
+      current.tickers.add(trade.ticker);
+      bucket.set(sector, current);
+    }
+
+    return [...bucket.values()]
+      .map((row) => ({
+        ...row,
+        companies: row.tickers.size,
+        net: row.buy - row.sell,
+        total: row.buy + row.sell,
+      }))
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 7);
+  }, [rows]);
+
+  const topCompanies = useMemo(() => {
+    const bucket = new Map<string, { ticker: string; company: string; buy: number; sell: number; total: number }>();
+    for (const trade of rows) {
+      const current = bucket.get(trade.ticker) ?? {
+        ticker: trade.ticker,
+        company: companyName(trade.ticker, trade.company),
+        buy: 0,
+        sell: 0,
+        total: 0,
+      };
+      if (trade.txType === "매수") current.buy += trade.value;
+      if (trade.txType === "매도") current.sell += trade.value;
+      current.total += trade.value;
+      bucket.set(trade.ticker, current);
+    }
+    return [...bucket.values()].sort((a, b) => b.total - a.total).slice(0, 5);
+  }, [rows]);
+
+  const maxBar = Math.max(1, ...sectorRows.flatMap((row) => [row.buy, row.sell]));
+
+  return (
+    <div className="mt-3 grid gap-3 lg:grid-cols-[1.15fr_0.85fr]">
+      <section className="border border-border bg-card p-4">
+        <div className="mb-3 flex items-end justify-between gap-3">
+          <div>
+            <h3 className="text-[14px] font-extrabold">섹터별 내부자 매매 압력</h3>
+            <p className="mt-1 text-[11px] text-muted-foreground">현재 검색·월·매수/매도 필터 기준</p>
+          </div>
+          <div className="flex items-center gap-3 text-[11px] font-semibold text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5">
+              <i className="h-2.5 w-2.5 bg-positive" /> 매수
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <i className="h-2.5 w-2.5 bg-negative" /> 매도
+            </span>
+          </div>
+        </div>
+        <div className="grid gap-3">
+          {sectorRows.map((row) => (
+            <div key={row.sector} className="grid gap-1.5">
+              <div className="flex items-center justify-between gap-3 text-[12px]">
+                <span className="font-bold">{row.sector}</span>
+                <span className="num text-[11px] text-muted-foreground">
+                  {row.companies}종목 · 순액 {fmtUSD(row.net / 1e6, 1)}M
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-1.5">
+                <div className="h-2 bg-secondary">
+                  <div
+                    className="h-full bg-positive"
+                    style={{ width: `${Math.max(2, (row.buy / maxBar) * 100)}%` }}
+                  />
+                </div>
+                <div className="h-2 bg-secondary">
+                  <div
+                    className="h-full bg-negative"
+                    style={{ width: `${Math.max(2, (row.sell / maxBar) * 100)}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+          {sectorRows.length === 0 && (
+            <div className="py-6 text-center text-[12px] font-semibold text-muted-foreground">
+              표시할 섹터 요약이 없습니다.
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="border border-border bg-card p-4">
+        <h3 className="text-[14px] font-extrabold">종목별 거래대금 TOP</h3>
+        <div className="mt-3 grid gap-2">
+          {topCompanies.map((row, index) => (
+            <div
+              key={row.ticker}
+              className="grid grid-cols-[1.4rem_1fr_auto] items-center gap-2 border-b border-border/70 pb-2 last:border-0 last:pb-0"
+            >
+              <span className="num text-[11px] font-bold text-muted-foreground">{index + 1}</span>
+              <div className="min-w-0">
+                <div className="num text-[12px] font-extrabold">{row.ticker}</div>
+                <div className="truncate text-[11px] text-muted-foreground">{row.company}</div>
+              </div>
+              <div className="text-right">
+                <div className="num text-[12px] font-bold">{fmtUSD(row.total / 1e6, 1)}M</div>
+                <div className="num text-[10px] text-muted-foreground">
+                  B {fmtUSD(row.buy / 1e6, 0)}M / S {fmtUSD(row.sell / 1e6, 0)}M
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
 export interface InsiderMeta {
   filedDate: string;
   generatedAt: string;
@@ -256,7 +518,8 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
         .filter((trade) => {
           if (!q) return true;
           const koName = companyName(trade.ticker, trade.company);
-          return [trade.ticker, trade.company, koName, trade.filer, trade.role, trade.txType]
+          const sector = inferSector(trade.ticker, trade.company, trade.sector);
+          return [trade.ticker, trade.company, koName, sector, trade.filer, trade.role, trade.txType]
             .join(" ")
             .toLowerCase()
             .includes(q);
@@ -334,6 +597,8 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
           </button>
         ))}
       </div>
+
+      <SectorSummary rows={rows} />
 
       <div className="mt-3 overflow-x-auto border border-border bg-card">
         <table className="w-full min-w-[920px] text-[12.5px]">
@@ -573,12 +838,61 @@ export default function App() {
           {tab === "insider" && <InsiderTab trades={insiderTrades} meta={insiderMeta} />}
           {tab === "lockup" && <LockupTab events={lockupEvents} meta={lockupMeta} />}
 
-          <footer className="mt-10 flex gap-2 border-t border-border pt-4 text-[11px] leading-relaxed text-muted-foreground">
-            <ShieldAlert size={14} className="mt-0.5 shrink-0" />
-            <span>
-              내부자 매매와 IPO 락업 데이터는 SEC EDGAR 공시를 기반으로 수집합니다. 본 화면은 투자 판단의
-              근거가 아니라 공시 신호를 빠르게 확인하기 위한 보조 도구입니다.
-            </span>
+          <footer className="mt-12 border-t border-border pt-6">
+            <section className="max-w-[760px] text-[13px] leading-7 text-muted-foreground">
+              <h2 className="mb-4 text-[22px] font-extrabold tracking-tight text-foreground">읽는 법</h2>
+              <div className="mb-5 flex flex-wrap gap-x-6 gap-y-2 text-[12px] font-bold text-foreground">
+                <span className="inline-flex items-center gap-2">
+                  <i className="h-3 w-3 bg-positive" /> 빨강 = 내부자 매수·관심 집중
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <i className="h-3 w-3 bg-negative" /> 파랑 = 내부자 매도·관심 이탈
+                </span>
+              </div>
+              <p>
+                내부자 매매는 임원, 이사, 10% 이상 주주가 SEC Form 4로 신고한 공개시장 매수·매도 내역입니다.
+                단일 거래보다 <b className="font-extrabold text-foreground">거래대금, 지분 변동률, 같은 기업의 반복 신고</b>를
+                함께 보는 편이 더 유용합니다.
+              </p>
+              <p className="mt-3">
+                섹터별 압력은 현재 선택한 월과 검색 조건 안에서 매수·매도 금액을 묶어 보여줍니다. 특정 섹터가 강하게
+                보이더라도 그것만으로 매수·매도 판단을 하기보다는, 아래 표에서 개별 기업의 신고인과 거래일을 확인하세요.
+              </p>
+              <p className="mt-3">
+                IPO 락업은 상장 직후 제한되었던 주식의 매도 가능 시점을 추적합니다. 락업 해제는 잠재적 공급 증가 신호일 수
+                있지만, 실제 매도 발생을 뜻하지는 않습니다.
+              </p>
+              <p className="mt-3">
+                유의: 과거 신고와 공시 원문을 보기 쉽게 재가공한 화면이며 투자 권유가 아닙니다. 데이터: SEC EDGAR 공개
+                공시 기반, 미국 장마감 후 자동 갱신.
+              </p>
+            </section>
+
+            <div className="mt-8 flex flex-col gap-3 bg-foreground px-5 py-4 text-[12px] font-semibold text-background md:flex-row md:items-center md:justify-between">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                <span>
+                  <b className="text-accent">BMO</b> Value Talks
+                </span>
+                <span>—</span>
+                <a href="https://blog.naver.com/bmovaluetalks" className="hover:underline">
+                  blog.naver.com/bmovaluetalks
+                </a>
+                <span>·</span>
+                <a href="https://www.bvtmoneyflow.xyz/" className="hover:underline">
+                  Money Flow
+                </a>
+                <span>·</span>
+                <a href="https://www.sec.gov/edgar" className="hover:underline">
+                  SEC EDGAR
+                </a>
+              </div>
+              <span className="num">@BMOValueTalk</span>
+            </div>
+
+            <div className="flex items-start justify-center gap-2 px-4 py-4 text-center text-[11px] leading-relaxed text-muted-foreground">
+              <ShieldAlert size={13} className="mt-0.5 shrink-0" />
+              <span>본 사이트의 모든 수치는 정보 제공 목적이며 투자 판단의 참고용으로만 사용하세요.</span>
+            </div>
           </footer>
         </main>
       </div>
