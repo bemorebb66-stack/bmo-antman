@@ -1,5 +1,7 @@
 // SEC EDGAR Form 4 (내부자 매매) 수집기
-// 사용법: node fetch_form4.mjs [--max-rows 40] [--max-filings 150]
+// 사용법:
+//   node fetch_form4.mjs [--max-rows 40] [--max-filings 150]
+//   node fetch_form4.mjs --from 2026-01-01 --to 2026-07-31 --max-rows 1500 --max-filings-per-day 120
 // 출력: pipeline/out/insider.json + site/public/data/insider.json
 //
 // SEC 요구사항: User-Agent에 연락처 명시, 초당 10요청 이하 (여기선 요청당 130ms 대기)
@@ -17,8 +19,16 @@ const argVal = (name, def) => {
   const i = args.indexOf(name);
   return i >= 0 ? Number(args[i + 1]) : def;
 };
-const MAX_ROWS = argVal("--max-rows", 40);
+const argStr = (name, def = "") => {
+  const i = args.indexOf(name);
+  return i >= 0 ? String(args[i + 1]) : def;
+};
+const FROM_DATE = argStr("--from");
+const TO_DATE = argStr("--to");
+const RANGE_MODE = Boolean(FROM_DATE || TO_DATE);
+const MAX_ROWS = argVal("--max-rows", RANGE_MODE ? 1500 : 40);
 const MAX_FILINGS = argVal("--max-filings", 150);
+const MAX_FILINGS_PER_DAY = argVal("--max-filings-per-day", RANGE_MODE ? 120 : MAX_FILINGS);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -52,6 +62,29 @@ async function findDailyIndex() {
     }
   }
   throw new Error("최근 8일 내 daily form index를 찾지 못함");
+}
+
+async function getDailyIndexForDate(dateStr) {
+  const day = new Date(`${dateStr}T00:00:00Z`);
+  const dow = day.getUTCDay();
+  if (dow === 0 || dow === 6) return null;
+  const url = `${SEC}/Archives/edgar/daily-index/${day.getUTCFullYear()}/QTR${qtr(day)}/form.${ymd(day)}.idx`;
+  try {
+    const text = await get(url);
+    return { date: day.toISOString().slice(0, 10), text };
+  } catch {
+    return null;
+  }
+}
+
+function dateRange(from, to) {
+  const out = [];
+  const start = new Date(`${from}T00:00:00Z`);
+  const end = new Date(`${to}T00:00:00Z`);
+  for (let t = start.getTime(); t <= end.getTime(); t += 86400000) {
+    out.push(new Date(t).toISOString().slice(0, 10));
+  }
+  return out;
 }
 
 function parseIdx(text) {
@@ -158,41 +191,61 @@ function parseForm4(xml, filedDate) {
 }
 
 async function main() {
-  console.log("1) 최근 daily form index 탐색...");
-  const { date, text } = await findDailyIndex();
-  const filings = parseIdx(text);
-  console.log(`   ${date} — Form 4 filing ${filings.length}건 발견`);
-
-  // 인덱스가 회사명 알파벳순이므로 전체 구간에서 균등 샘플링
-  let targets = filings;
-  if (filings.length > MAX_FILINGS) {
-    const step = filings.length / MAX_FILINGS;
-    targets = Array.from({ length: MAX_FILINGS }, (_, i) => filings[Math.floor(i * step)]);
+  const indexDays = [];
+  if (RANGE_MODE) {
+    const from = FROM_DATE || "2026-01-01";
+    const to = TO_DATE || new Date().toISOString().slice(0, 10);
+    console.log(`1) daily form index 기간 탐색... ${from} ~ ${to}`);
+    for (const dateStr of dateRange(from, to)) {
+      const found = await getDailyIndexForDate(dateStr);
+      if (found) {
+        indexDays.push(found);
+        console.log(`   ${found.date} index 확인`);
+      }
+    }
+  } else {
+    console.log("1) 최근 daily form index 탐색...");
+    indexDays.push(await findDailyIndex());
   }
+  if (indexDays.length === 0) throw new Error("수집 가능한 daily form index를 찾지 못함");
 
   const rows = [];
   let processed = 0;
-  for (const f of targets) {
-    if (rows.length >= MAX_ROWS || processed >= MAX_FILINGS) break;
-    processed++;
-    try {
-      const accession = f.fileName.split("/").pop().replace(".txt", "");
-      const accNoDash = accession.replace(/-/g, "");
-      const cikPath = f.fileName.split("/")[2];
-      const idx = await get(`${SEC}/Archives/edgar/data/${cikPath}/${accNoDash}/index.json`, false);
-      const xmlFile = (idx.directory?.item || []).find(
-        (it) => /\.xml$/i.test(it.name) && !/^xsl/i.test(it.name)
-      );
-      if (!xmlFile) continue;
-      const xml = await get(`${SEC}/Archives/edgar/data/${cikPath}/${accNoDash}/${xmlFile.name}`);
-      const row = parseForm4(xml, date);
-      if (row) {
-        row.id = `f4-${accession}`;
-        rows.push(row);
-        process.stdout.write(`   [${rows.length}/${MAX_ROWS}] ${row.ticker} ${row.txType} $${(row.value / 1e6).toFixed(2)}M (${row.filer})\n`);
+  let latestDate = indexDays[indexDays.length - 1].date;
+  for (const { date, text } of indexDays) {
+    if (rows.length >= MAX_ROWS) break;
+    const filings = parseIdx(text);
+    console.log(`   ${date} — Form 4 filing ${filings.length}건 발견`);
+
+    // 인덱스가 회사명 알파벳순이므로 전체 구간에서 균등 샘플링
+    let targets = filings;
+    if (filings.length > MAX_FILINGS_PER_DAY) {
+      const step = filings.length / MAX_FILINGS_PER_DAY;
+      targets = Array.from({ length: MAX_FILINGS_PER_DAY }, (_, i) => filings[Math.floor(i * step)]);
+    }
+
+    for (const f of targets) {
+      if (rows.length >= MAX_ROWS) break;
+      processed++;
+      try {
+        const accession = f.fileName.split("/").pop().replace(".txt", "");
+        const accNoDash = accession.replace(/-/g, "");
+        const cikPath = f.fileName.split("/")[2];
+        const idx = await get(`${SEC}/Archives/edgar/data/${cikPath}/${accNoDash}/index.json`, false);
+        const xmlFile = (idx.directory?.item || []).find(
+          (it) => /\.xml$/i.test(it.name) && !/^xsl/i.test(it.name)
+        );
+        if (!xmlFile) continue;
+        const xml = await get(`${SEC}/Archives/edgar/data/${cikPath}/${accNoDash}/${xmlFile.name}`);
+        const row = parseForm4(xml, date);
+        if (row) {
+          row.id = `f4-${accession}`;
+          rows.push(row);
+          process.stdout.write(`   [${rows.length}/${MAX_ROWS}] ${row.ticker} ${row.txType} $${(row.value / 1e6).toFixed(2)}M (${row.filer})\n`);
+        }
+      } catch (e) {
+        // 개별 filing 실패는 건너뜀
       }
-    } catch (e) {
-      // 개별 filing 실패는 건너뜀
     }
   }
 
@@ -243,7 +296,8 @@ async function main() {
   const out = {
     meta: {
       source: "SEC EDGAR daily form index + Form 4 XML",
-      filedDate: date,
+      filedDate: latestDate,
+      dateRange: RANGE_MODE ? { from: FROM_DATE || "2026-01-01", to: TO_DATE || new Date().toISOString().slice(0, 10) } : null,
       generatedAt: new Date().toISOString(),
       filingsScanned: processed,
       note: "공개시장 매수(P)/매도(S)만 집계, $10k 미만 제외",

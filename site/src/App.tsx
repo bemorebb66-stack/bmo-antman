@@ -22,6 +22,7 @@ import {
 type Tab = "insider" | "lockup";
 type Theme = "light" | "dark";
 type TxFilter = "전체" | "매수" | "매도";
+type MonthFilter = "전체" | "01" | "02" | "03" | "04" | "05" | "06" | "07";
 
 const fmtUSD = (n: number, digits = 0) =>
   "$" + n.toLocaleString("en-US", { maximumFractionDigits: digits });
@@ -54,6 +55,8 @@ const companyKo: Record<string, string> = {
 const companyName = (ticker: string, fallback: string) => companyKo[ticker] ?? fallback;
 const normalizeTx = (txType: string): TxFilter | string =>
   txType.includes("매수") ? "매수" : txType.includes("매도") ? "매도" : txType;
+const tradeMonth = (trade: Pick<InsiderTrade, "filedDate" | "txDate">) =>
+  (trade.txDate || trade.filedDate).slice(5, 7) as MonthFilter;
 
 function ThemeButton({ theme, setTheme }: { theme: Theme; setTheme: (theme: Theme) => void }) {
   return (
@@ -162,27 +165,48 @@ export interface InsiderMeta {
 
 function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMeta | null }) {
   const [filter, setFilter] = useState<TxFilter>("전체");
+  const [month, setMonth] = useState<MonthFilter>("전체");
+  const [query, setQuery] = useState("");
   const normalized = useMemo(
     () => trades.map((trade) => ({ ...trade, txType: normalizeTx(trade.txType) })),
     [trades]
   );
+  const monthCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const trade of normalized) {
+      const key = tradeMonth(trade);
+      counts[key] = (counts[key] ?? 0) + 1;
+    }
+    return counts;
+  }, [normalized]);
   const rows = useMemo(
-    () =>
-      normalized
+    () => {
+      const q = query.trim().toLowerCase();
+      return normalized
         .filter((trade) => filter === "전체" || trade.txType === filter)
-        .sort((a, b) => b.value - a.value),
-    [filter, normalized]
+        .filter((trade) => month === "전체" || tradeMonth(trade) === month)
+        .filter((trade) => {
+          if (!q) return true;
+          const koName = companyName(trade.ticker, trade.company);
+          return [trade.ticker, trade.company, koName, trade.filer, trade.role, trade.txType]
+            .join(" ")
+            .toLowerCase()
+            .includes(q);
+        })
+        .sort((a, b) => b.value - a.value);
+    },
+    [filter, month, normalized, query]
   );
-  const buyValue = normalized
+  const buyValue = rows
     .filter((trade) => trade.txType === "매수")
     .reduce((sum, trade) => sum + trade.value, 0);
-  const sellValue = normalized
+  const sellValue = rows
     .filter((trade) => trade.txType === "매도")
     .reduce((sum, trade) => sum + trade.value, 0);
   const clusterCompanies = new Set(
-    normalized.filter((trade) => trade.clusterCount >= 2).map((trade) => trade.ticker)
+    rows.filter((trade) => trade.clusterCount >= 2).map((trade) => trade.ticker)
   ).size;
-  const subLabel = meta ? `${meta.filedDate} 신고분` : "샘플 데이터";
+  const subLabel = month === "전체" ? "2026년 누적" : `2026년 ${Number(month)}월`;
 
   return (
     <div>
@@ -206,16 +230,46 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
         <Stat label="클러스터 종목" value={`${clusterCompanies}종목`} sub="동일 방향 2인 이상 신고" tone="warn" />
         <Stat
           label="수집 건수"
-          value={`${trades.length}건`}
+          value={`${rows.length}건`}
           sub={meta?.filingsScanned ? `filing ${meta.filingsScanned}건 스캔` : "최근 2주 누적"}
         />
       </div>
 
-      <div className="mt-4 flex border border-border bg-card p-0.5">
-        {(["전체", "매수", "매도"] as const).map((option) => (
-          <Pill key={option} active={filter === option} onClick={() => setFilter(option)}>
-            {option}
-          </Pill>
+      <div className="mt-4 grid gap-3 border border-border bg-card p-3 lg:grid-cols-[1fr_auto]">
+        <label className="flex h-10 items-center gap-2 border border-border bg-background px-3">
+          <Search size={15} className="text-muted-foreground" />
+          <input
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="티커, 기업명, 신고인 검색"
+            className="h-full min-w-0 flex-1 bg-transparent text-[13px] font-semibold outline-none placeholder:text-muted-foreground"
+          />
+        </label>
+        <div className="flex flex-wrap gap-1">
+          {(["전체", "매수", "매도"] as const).map((option) => (
+            <Pill key={option} active={filter === option} onClick={() => setFilter(option)}>
+              {option}
+            </Pill>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-1 border border-border bg-card p-0.5">
+        {(["전체", "01", "02", "03", "04", "05", "06", "07"] as const).map((option) => (
+          <button
+            key={option}
+            onClick={() => setMonth(option)}
+            className={`h-9 px-3 text-[12px] font-bold transition-colors ${
+              month === option
+                ? "bg-foreground text-background"
+                : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+            }`}
+          >
+            {option === "전체" ? "2026 전체" : `${Number(option)}월`}
+            {option !== "전체" && (
+              <span className="num ml-1 text-[10px] opacity-70">{monthCounts[option] ?? 0}</span>
+            )}
+          </button>
         ))}
       </div>
 
@@ -279,6 +333,11 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
             ))}
           </tbody>
         </table>
+        {rows.length === 0 && (
+          <div className="border-t border-border px-4 py-10 text-center text-[13px] font-semibold text-muted-foreground">
+            선택한 조건에 맞는 내부자 매매 기록이 없습니다.
+          </div>
+        )}
       </div>
     </div>
   );
