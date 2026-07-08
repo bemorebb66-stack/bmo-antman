@@ -1,7 +1,7 @@
 // SEC EDGAR Form 4 (내부자 매매) 수집기
 // 사용법:
 //   node fetch_form4.mjs [--max-rows 40] [--max-filings 150]
-//   node fetch_form4.mjs --from 2026-01-01 --to 2026-07-31 --max-rows 1500 --max-filings-per-day 120
+//   node fetch_form4.mjs --from 2026-01-01 --to 2026-07-31 --universe major --max-rows 1500 --max-filings-per-day 500
 // 출력: pipeline/out/insider.json + site/public/data/insider.json
 //
 // SEC 요구사항: User-Agent에 연락처 명시, 초당 10요청 이하 (여기선 요청당 130ms 대기)
@@ -25,10 +25,13 @@ const argStr = (name, def = "") => {
 };
 const FROM_DATE = argStr("--from");
 const TO_DATE = argStr("--to");
+const UNIVERSE = argStr("--universe", "all"); // all | major(S&P 500 + Nasdaq 100)
+const QUIET = args.includes("--quiet");
 const RANGE_MODE = Boolean(FROM_DATE || TO_DATE);
 const MAX_ROWS = argVal("--max-rows", RANGE_MODE ? 1500 : 40);
 const MAX_FILINGS = argVal("--max-filings", 150);
 const MAX_FILINGS_PER_DAY = argVal("--max-filings-per-day", RANGE_MODE ? 120 : MAX_FILINGS);
+const MAX_ROWS_PER_MONTH = argVal("--max-rows-per-month", RANGE_MODE ? 120 : MAX_ROWS);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -37,6 +40,43 @@ async function get(url, asText = true) {
   const res = await fetch(url, { headers: { "User-Agent": UA, "Accept-Encoding": "gzip" } });
   if (!res.ok) throw new Error(`${res.status} ${url}`);
   return asText ? res.text() : res.json();
+}
+
+const normTicker = (ticker) => ticker.toUpperCase().replace(/\./g, "-").trim();
+const normCik = (cik) => String(Number(cik));
+
+async function fetchWikiTickers(url) {
+  const html = await get(url);
+  const tickers = new Set();
+  for (const match of html.matchAll(/(?:www\.(?:nyse|nasdaq)\.com|markets\.cboe\.com)[^>]*>\s*([A-Z][A-Z0-9.]{0,7})\s*<\/a>/g)) {
+    const ticker = normTicker(match[1]);
+    if (/^[A-Z][A-Z0-9-]{0,7}$/.test(ticker)) tickers.add(ticker);
+  }
+  return tickers;
+}
+
+async function loadMajorUniverse() {
+  if (!QUIET) console.log("0) S&P 500 + Nasdaq 100 유니버스 로드...");
+  const [sp500, ndx, companyTickers] = await Promise.all([
+    fetchWikiTickers("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"),
+    fetchWikiTickers("https://en.wikipedia.org/wiki/Nasdaq-100"),
+    get("https://www.sec.gov/files/company_tickers.json", false),
+  ]);
+  const tickers = new Set([...sp500, ...ndx]);
+  const cikByTicker = new Map();
+  for (const item of Object.values(companyTickers)) {
+    cikByTicker.set(normTicker(item.ticker), normCik(item.cik_str));
+  }
+  const ciks = new Set();
+  for (const ticker of tickers) {
+    const cik = cikByTicker.get(ticker);
+    if (cik) ciks.add(cik);
+  }
+  if (tickers.size === 0 || ciks.size === 0) {
+    throw new Error("지수 구성 티커를 불러오지 못함");
+  }
+  if (!QUIET) console.log(`   티커 ${tickers.size}개, SEC CIK 매핑 ${ciks.size}개`);
+  return { name: "S&P 500 + Nasdaq 100", tickers, ciks };
 }
 
 function qtr(d) {
@@ -191,31 +231,38 @@ function parseForm4(xml, filedDate) {
 }
 
 async function main() {
+  const universe = UNIVERSE === "major" ? await loadMajorUniverse() : null;
   const indexDays = [];
   if (RANGE_MODE) {
     const from = FROM_DATE || "2026-01-01";
     const to = TO_DATE || new Date().toISOString().slice(0, 10);
-    console.log(`1) daily form index 기간 탐색... ${from} ~ ${to}`);
+    if (!QUIET) console.log(`1) daily form index 기간 탐색... ${from} ~ ${to}`);
     for (const dateStr of dateRange(from, to)) {
       const found = await getDailyIndexForDate(dateStr);
       if (found) {
         indexDays.push(found);
-        console.log(`   ${found.date} index 확인`);
+        if (!QUIET) console.log(`   ${found.date} index 확인`);
       }
     }
   } else {
-    console.log("1) 최근 daily form index 탐색...");
+    if (!QUIET) console.log("1) 최근 daily form index 탐색...");
     indexDays.push(await findDailyIndex());
   }
   if (indexDays.length === 0) throw new Error("수집 가능한 daily form index를 찾지 못함");
 
   const rows = [];
+  const rowsByMonth = {};
   let processed = 0;
   let latestDate = indexDays[indexDays.length - 1].date;
   for (const { date, text } of indexDays) {
     if (rows.length >= MAX_ROWS) break;
-    const filings = parseIdx(text);
-    console.log(`   ${date} — Form 4 filing ${filings.length}건 발견`);
+    const monthKey = date.slice(0, 7);
+    if ((rowsByMonth[monthKey] ?? 0) >= MAX_ROWS_PER_MONTH) continue;
+    let filings = parseIdx(text);
+    if (universe) {
+      filings = filings.filter((filing) => universe.ciks.has(normCik(filing.cik)));
+    }
+    if (!QUIET) console.log(`   ${date} — Form 4 filing ${filings.length}건 발견`);
 
     // 인덱스가 회사명 알파벳순이므로 전체 구간에서 균등 샘플링
     let targets = filings;
@@ -226,6 +273,7 @@ async function main() {
 
     for (const f of targets) {
       if (rows.length >= MAX_ROWS) break;
+      if ((rowsByMonth[monthKey] ?? 0) >= MAX_ROWS_PER_MONTH) break;
       processed++;
       try {
         const accession = f.fileName.split("/").pop().replace(".txt", "");
@@ -241,7 +289,8 @@ async function main() {
         if (row) {
           row.id = `f4-${accession}`;
           rows.push(row);
-          process.stdout.write(`   [${rows.length}/${MAX_ROWS}] ${row.ticker} ${row.txType} $${(row.value / 1e6).toFixed(2)}M (${row.filer})\n`);
+          rowsByMonth[monthKey] = (rowsByMonth[monthKey] ?? 0) + 1;
+          if (!QUIET) process.stdout.write(`   [${rows.length}/${MAX_ROWS}] ${row.ticker} ${row.txType} $${(row.value / 1e6).toFixed(2)}M (${row.filer})\n`);
         }
       } catch (e) {
         // 개별 filing 실패는 건너뜀
@@ -296,10 +345,13 @@ async function main() {
   const out = {
     meta: {
       source: "SEC EDGAR daily form index + Form 4 XML",
+      universe: universe?.name ?? "All SEC Form 4 issuers",
+      universeSize: universe?.tickers.size ?? null,
       filedDate: latestDate,
       dateRange: RANGE_MODE ? { from: FROM_DATE || "2026-01-01", to: TO_DATE || new Date().toISOString().slice(0, 10) } : null,
       generatedAt: new Date().toISOString(),
       filingsScanned: processed,
+      monthlyRowCap: RANGE_MODE ? MAX_ROWS_PER_MONTH : null,
       note: "공개시장 매수(P)/매도(S)만 집계, $10k 미만 제외",
     },
     trades: rows,

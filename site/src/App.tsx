@@ -55,8 +55,7 @@ const companyKo: Record<string, string> = {
 const companyName = (ticker: string, fallback: string) => companyKo[ticker] ?? fallback;
 const normalizeTx = (txType: string): TxFilter | string =>
   txType.includes("매수") ? "매수" : txType.includes("매도") ? "매도" : txType;
-const tradeMonth = (trade: Pick<InsiderTrade, "filedDate" | "txDate">) =>
-  (trade.txDate || trade.filedDate).slice(5, 7) as MonthFilter;
+const tradeMonth = (trade: Pick<InsiderTrade, "filedDate">) => trade.filedDate.slice(5, 7) as MonthFilter;
 
 function ThemeButton({ theme, setTheme }: { theme: Theme; setTheme: (theme: Theme) => void }) {
   return (
@@ -126,41 +125,14 @@ function Stat({
   );
 }
 
-function SignalSummary({
-  buyValue,
-  sellValue,
-  clusterCompanies,
-  filedDate,
-}: {
-  buyValue: number;
-  sellValue: number;
-  clusterCompanies: number;
-  filedDate: string;
-}) {
-  const sellHeavy = sellValue > buyValue;
-  return (
-    <section className="mb-4 border border-border bg-panel px-4 py-3.5">
-      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-        <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Today Signal</p>
-          <h2 className="mt-1 text-xl font-extrabold tracking-tight">
-            {sellHeavy ? "공시 매도 우위, 클러스터 신호 확인 필요" : "공시 매수 우위, 내부자 관심 종목 확인"}
-          </h2>
-        </div>
-        <div className="num text-sm text-muted-foreground">{filedDate}</div>
-      </div>
-      <p className="mt-2 max-w-4xl text-[13px] leading-relaxed text-muted-foreground">
-        내부자 거래는 방향보다 맥락이 중요합니다. 거래대금, 보유 지분 변화, 같은 회사 안의 복수 신고 여부를
-        함께 보면서 단독 매매와 집단 신호를 구분합니다. 현재 클러스터 신호는 {clusterCompanies}개 종목입니다.
-      </p>
-    </section>
-  );
-}
-
 export interface InsiderMeta {
   filedDate: string;
   generatedAt: string;
   filingsScanned?: number;
+  dateRange?: {
+    from: string;
+    to: string;
+  } | null;
 }
 
 function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMeta | null }) {
@@ -206,7 +178,8 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
   const clusterCompanies = new Set(
     rows.filter((trade) => trade.clusterCount >= 2).map((trade) => trade.ticker)
   ).size;
-  const subLabel = month === "전체" ? "2026년 누적" : `2026년 ${Number(month)}월`;
+  const rangeLabel = meta?.dateRange ? `${meta.dateRange.from} ~ ${meta.dateRange.to}` : "2026년 누적";
+  const subLabel = month === "전체" ? rangeLabel : `2026년 ${Number(month)}월`;
 
   return (
     <div>
@@ -216,13 +189,6 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
           ? `SEC EDGAR 실데이터 · ${meta.filedDate} 신고 ${trades.length}건 · 수집 ${meta.generatedAt.slice(0, 16).replace("T", " ")} UTC`
           : "샘플 데이터 · 파이프라인 연결 전"}
       </div>
-
-      <SignalSummary
-        buyValue={buyValue}
-        sellValue={sellValue}
-        clusterCompanies={clusterCompanies}
-        filedDate={subLabel}
-      />
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Stat label="매수 총액" value={fmtUSD(buyValue / 1e6, 1) + "M"} sub={subLabel} tone="up" />
