@@ -353,10 +353,10 @@ const ownChangeClass = (trade: Pick<NormalizedTrade, "ownChangePct">) => {
 
 function ThemeButton({ theme, setTheme }: { theme: Theme; setTheme: (theme: Theme) => void }) {
   return (
-    <div className="inline-flex h-9 items-center border border-border bg-card p-0.5">
+    <div className="inline-flex h-9 items-center rounded-full border border-border bg-card p-0.5 shadow-sm">
       <button
-        className={`inline-flex h-8 w-8 items-center justify-center ${
-          theme === "light" ? "bg-foreground text-background" : "text-muted-foreground"
+        className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+          theme === "light" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
         }`}
         onClick={() => setTheme("light")}
         title="라이트 모드"
@@ -364,8 +364,8 @@ function ThemeButton({ theme, setTheme }: { theme: Theme; setTheme: (theme: Them
         <Sun size={15} />
       </button>
       <button
-        className={`inline-flex h-8 w-8 items-center justify-center ${
-          theme === "dark" ? "bg-foreground text-background" : "text-muted-foreground"
+        className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+          theme === "dark" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
         }`}
         onClick={() => setTheme("dark")}
         title="다크 모드"
@@ -380,9 +380,9 @@ function Pill({ active, onClick, children }: { active: boolean; onClick: () => v
   return (
     <button
       onClick={onClick}
-      className={`h-9 px-3.5 text-[13px] font-semibold transition-colors ${
+      className={`h-9 rounded-lg px-3.5 text-[13px] font-semibold transition-colors ${
         active
-          ? "bg-foreground text-background"
+          ? "bg-primary text-primary-foreground shadow-sm"
           : "text-muted-foreground hover:bg-secondary hover:text-foreground"
       }`}
     >
@@ -411,7 +411,7 @@ function Stat({
           ? "text-warning"
           : "";
   return (
-    <div className="border border-border bg-card px-4 py-3.5">
+    <div className="rounded-xl border border-border bg-card px-4 py-3.5 shadow-sm">
       <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{label}</p>
       <p className={`num mt-2 text-[23px] font-bold leading-none ${color}`}>{value}</p>
       <p className="mt-2 text-[11px] text-muted-foreground">{sub}</p>
@@ -494,9 +494,9 @@ function SummaryBar({
   ];
 
   return (
-    <section className="grid gap-2 border border-border bg-card p-2 md:grid-cols-3 xl:grid-cols-6">
+    <section className="grid gap-3 rounded-xl border border-border bg-card/90 p-3 shadow-sm md:grid-cols-3 xl:grid-cols-6">
       {items.map((item) => (
-        <div key={item.label} className="border border-border/70 bg-background px-3 py-2.5">
+        <div key={item.label} className="rounded-lg border border-border/70 bg-background px-3 py-2.5">
           <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{item.label}</p>
           <p
             className={`num mt-1 text-[18px] font-extrabold ${
@@ -568,7 +568,7 @@ function SectorSummary({ rows }: { rows: NormalizedTrade[] }) {
 
   return (
     <div className="mt-3 grid gap-3 lg:grid-cols-[1.15fr_0.85fr]">
-      <section className="border border-border bg-card p-4">
+      <section className="rounded-xl border border-border bg-card p-4 shadow-sm">
         <div className="mb-3 flex items-end justify-between gap-3">
           <div>
             <h3 className="text-[14px] font-extrabold">Sector Filing Activity</h3>
@@ -593,13 +593,13 @@ function SectorSummary({ rows }: { rows: NormalizedTrade[] }) {
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-1.5">
-                <div className="h-2 bg-secondary">
+                <div className="h-2 overflow-hidden rounded-full bg-secondary">
                   <div
                     className="h-full bg-positive"
                     style={{ width: `${Math.max(2, (row.buy / maxBar) * 100)}%` }}
                   />
                 </div>
-                <div className="h-2 bg-secondary">
+                <div className="h-2 overflow-hidden rounded-full bg-secondary">
                   <div
                     className="h-full bg-negative"
                     style={{ width: `${Math.max(2, (row.sell / maxBar) * 100)}%` }}
@@ -616,7 +616,7 @@ function SectorSummary({ rows }: { rows: NormalizedTrade[] }) {
         </div>
       </section>
 
-      <section className="border border-border bg-card p-4">
+      <section className="rounded-xl border border-border bg-card p-4 shadow-sm">
         <h3 className="text-[14px] font-extrabold">Top Event Importance</h3>
         <div className="mt-3 grid gap-2">
           {topCompanies.map((row, index) => (
@@ -718,7 +718,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
 
   return (
     <div>
-      <div className="mb-3 inline-flex items-center gap-2 border border-border bg-card px-2.5 py-1 text-[11px] font-bold text-muted-foreground">
+      <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-[11px] font-bold text-muted-foreground shadow-sm">
         <CheckCircle2 size={13} className={meta ? "text-positive" : "text-warning"} />
         {meta
           ? `SEC EDGAR 실데이터 · ${meta.filedDate} 신고 ${trades.length}건 · 수집 ${meta.generatedAt.slice(0, 16).replace("T", " ")} UTC`
@@ -737,8 +737,8 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
         />
       </div>
 
-      <div className="mt-4 grid gap-3 border border-border bg-card p-3 lg:grid-cols-[1fr_auto]">
-        <label className="flex h-10 items-center gap-2 border border-border bg-background px-3">
+      <div className="mt-4 grid gap-3 rounded-xl border border-border bg-card p-3 shadow-sm lg:grid-cols-[1fr_auto]">
+        <label className="flex h-10 items-center gap-2 rounded-lg border border-border bg-background px-3">
           <Search size={15} className="text-muted-foreground" />
           <input
             value={query}
@@ -756,14 +756,14 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
         </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-1 border border-border bg-card p-0.5">
+      <div className="mt-3 flex flex-wrap gap-1 rounded-xl border border-border bg-card p-1 shadow-sm">
         {(["7D", "30D", "90D", "전체"] as const).map((option) => (
           <button
             key={option}
             onClick={() => setPeriod(option)}
             className={`h-9 px-3 text-[12px] font-bold transition-colors ${
               period === option
-                ? "bg-foreground text-background"
+                ? "rounded-lg bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:bg-secondary hover:text-foreground"
             }`}
           >
@@ -779,7 +779,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
         {rows.slice(0, 40).map((trade) => {
           const score = eventImportanceScore(trade);
           return (
-            <article key={trade.id} className="border border-border bg-card p-3">
+            <article key={trade.id} className="rounded-xl border border-border bg-card p-3 shadow-sm">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
@@ -802,11 +802,11 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                 </div>
               </div>
               <div className="mt-3 grid grid-cols-2 gap-2 text-[11px]">
-                <div className="border border-border/70 bg-background p-2">
+                <div className="rounded-lg border border-border/70 bg-background p-2">
                   <p className="text-muted-foreground">거래대금</p>
                   <p className="num mt-1 font-extrabold">{fmtUSD(trade.value / 1e6, 2)}M</p>
                 </div>
-                <div className="border border-border/70 bg-background p-2">
+                <div className="rounded-lg border border-border/70 bg-background p-2">
                   <p className="text-muted-foreground">직접보유 변동</p>
                   <p className={`num mt-1 font-extrabold ${ownChangeClass(trade)}`}>
                     {ownChangeLabel(trade)}
@@ -823,17 +823,17 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
         })}
       </div>
       {rows.length === 0 && (
-        <div className="mt-3 border border-border bg-card px-4 py-10 text-center text-[13px] font-semibold text-muted-foreground">
+        <div className="mt-3 rounded-xl border border-border bg-card px-4 py-10 text-center text-[13px] font-semibold text-muted-foreground shadow-sm">
           추적 중인 S&P500·NASDAQ100 대형주에서 최근 조건에 맞는 희소 내부자 이벤트가 감지되지 않았습니다.
           <br />
           내부자 거래는 원래 자주 발생하지 않으므로 30D 또는 90D 범위로 넓혀 확인하세요.
         </div>
       )}
 
-      <div className="mt-3 hidden overflow-x-auto border border-border bg-card md:block">
+      <div className="mt-3 hidden overflow-x-auto rounded-xl border border-border bg-card shadow-sm md:block">
         <table className="w-full min-w-[1360px] text-[12.5px]">
           <thead>
-            <tr className="border-b border-border bg-secondary text-left text-[11px] uppercase tracking-wide text-muted-foreground">
+            <tr className="border-b border-border bg-secondary/80 text-left text-[11px] uppercase tracking-wide text-muted-foreground">
               <th className="w-[76px] px-3 py-2 font-semibold">
                 <button
                   type="button"
@@ -927,7 +927,7 @@ function LockupTab({ events, meta }: { events: LockupEvent[]; meta: LockupMeta |
 
   return (
     <div>
-      <div className="mb-3 inline-flex items-center gap-2 border border-border bg-card px-2.5 py-1 text-[11px] font-bold text-muted-foreground">
+      <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-[11px] font-bold text-muted-foreground shadow-sm">
         <CalendarClock size={13} className={meta ? "text-positive" : "text-warning"} />
         {meta
           ? `SEC EDGAR 실데이터 · 424B4 증권신고서 ${events.length}건 · 수집 ${meta.generatedAt.slice(0, 16).replace("T", " ")} UTC`
@@ -948,13 +948,13 @@ function LockupTab({ events, meta }: { events: LockupEvent[]; meta: LockupMeta |
           return (
             <div
               key={event.id}
-              className={`grid grid-cols-1 gap-3 border px-4 py-3.5 md:grid-cols-[auto_1fr_auto_auto] md:items-center ${
+              className={`grid grid-cols-1 gap-3 rounded-xl border px-4 py-3.5 shadow-sm md:grid-cols-[auto_1fr_auto_auto] md:items-center ${
                 urgent ? "border-warning/60 bg-warning/10" : "border-border bg-card"
               }`}
             >
               <div className="flex items-center gap-3 md:w-44">
                 <div
-                  className={`flex h-11 w-11 shrink-0 items-center justify-center text-[13px] font-bold ${
+                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-[13px] font-bold ${
                     urgent ? "bg-warning text-warning-foreground" : "bg-secondary text-foreground"
                   }`}
                 >
@@ -1022,13 +1022,18 @@ export default function App() {
       .catch(() => {});
   }, []);
 
+  const dashboardSnapshot = useMemo(
+    () => marketSnapshot(insiderTrades, lockupEvents),
+    [insiderTrades, lockupEvents]
+  );
+
   return (
     <div className={theme}>
       <div className="min-h-screen bg-background text-foreground">
-        <header className="border-b border-border bg-shell">
+        <header className="sticky top-0 z-40 border-b border-border bg-shell/95 backdrop-blur">
           <div className="mx-auto flex max-w-[1500px] flex-col gap-4 px-5 py-4 md:flex-row md:items-center md:justify-between xl:px-8">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-foreground text-background">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-md shadow-primary/20">
                 <BarChart3 size={22} strokeWidth={2.3} />
               </div>
               <div>
@@ -1044,7 +1049,7 @@ export default function App() {
             <div className="flex items-center gap-2 md:justify-end">
               <a
                 href="https://www.bvtmoneyflow.xyz/"
-                className="inline-flex h-9 items-center gap-1.5 border border-border bg-card px-3 text-[12px] font-semibold text-muted-foreground hover:text-foreground"
+                className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-border bg-card px-3 text-[12px] font-semibold text-muted-foreground shadow-sm hover:text-foreground"
               >
                 Money Flow <ExternalLink size={13} />
               </a>
@@ -1061,8 +1066,8 @@ export default function App() {
           </div>
         </header>
 
-        <main className="mx-auto max-w-[1500px] px-5 py-5 xl:px-8">
-          <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <main className="mx-auto max-w-[1500px] px-5 py-6 xl:px-8">
+          <div className="mb-5 flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-sm md:flex-row md:items-end md:justify-between md:p-6">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">SEC Event Radar</p>
               <h2 className="mt-1 max-w-[760px] text-2xl font-extrabold tracking-tight md:text-[32px]">
@@ -1088,13 +1093,55 @@ export default function App() {
             />
           </div>
 
-          <div className="mt-4">
-            {tab === "insider" && <InsiderTab trades={insiderTrades} meta={insiderMeta} />}
-            {tab === "lockup" && <LockupTab events={lockupEvents} meta={lockupMeta} />}
+          <div className="mt-4 grid gap-4 lg:grid-cols-[240px_minmax(0,1fr)]">
+            <aside className="hidden rounded-xl border border-border bg-card p-4 shadow-sm lg:block lg:self-start lg:sticky lg:top-28">
+              <p className="px-2 text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Navigation</p>
+              <div className="mt-3 grid gap-1">
+                <button
+                  onClick={() => setTab("insider")}
+                  className={`flex h-10 items-center justify-between rounded-lg px-3 text-left text-[12px] font-bold transition-colors ${
+                    tab === "insider" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  }`}
+                >
+                  <span>Insider Events</span>
+                  <Users size={14} />
+                </button>
+                <button
+                  onClick={() => setTab("lockup")}
+                  className={`flex h-10 items-center justify-between rounded-lg px-3 text-left text-[12px] font-bold transition-colors ${
+                    tab === "lockup" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  }`}
+                >
+                  <span>IPO Lockup</span>
+                  <CalendarClock size={14} />
+                </button>
+              </div>
+              <div className="mt-5 rounded-lg border border-border bg-background p-3">
+                <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Radar Status</p>
+                <div className="mt-3 grid gap-2 text-[11px]">
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Latest</span>
+                    <span className="num font-bold">{dashboardSnapshot.latestFiling ? dashboardSnapshot.latestFiling.slice(5) : "-"}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">7D Events</span>
+                    <span className="num font-bold">{dashboardSnapshot.rows7d.length}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Lockup Soon</span>
+                    <span className="num font-bold">{dashboardSnapshot.lockupSoon}</span>
+                  </div>
+                </div>
+              </div>
+            </aside>
+            <div className="min-w-0">
+              {tab === "insider" && <InsiderTab trades={insiderTrades} meta={insiderMeta} />}
+              {tab === "lockup" && <LockupTab events={lockupEvents} meta={lockupMeta} />}
+            </div>
           </div>
 
           <footer className="mt-12 border-t border-border pt-6">
-            <section className="max-w-[760px] text-[13px] leading-7 text-muted-foreground">
+            <section className="rounded-2xl border border-border bg-card p-6 text-[13px] leading-7 text-muted-foreground shadow-sm">
               <h2 className="mb-4 text-[22px] font-extrabold tracking-tight text-foreground">읽는 법</h2>
               <div className="mb-5 flex flex-wrap gap-x-6 gap-y-2 text-[12px] font-bold text-foreground">
                 <span className="inline-flex items-center gap-2">
@@ -1126,7 +1173,7 @@ export default function App() {
               </p>
             </section>
 
-            <div className="mt-8 flex flex-col gap-3 bg-foreground px-5 py-4 text-[12px] font-semibold text-background md:flex-row md:items-center md:justify-between">
+            <div className="mt-8 flex flex-col gap-3 rounded-xl bg-foreground px-5 py-4 text-[12px] font-semibold text-background shadow-sm md:flex-row md:items-center md:justify-between">
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                 <span>
                   <b className="text-accent">BMO</b> Value Talks
