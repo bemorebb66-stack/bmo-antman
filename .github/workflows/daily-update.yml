@@ -1,0 +1,59 @@
+name: Daily data update
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 11:30 KST, Tue-Sat. Gives SEC EDGAR daily indexes time to settle after the US close.
+    - cron: "30 2 * * 2-6"
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - name: Install site dependencies
+        working-directory: site
+        run: pnpm install --frozen-lockfile
+
+      - name: Fetch SEC data
+        run: |
+          node pipeline/fetch_form4.mjs \
+            --from 2026-01-01 \
+            --to "$(date -u +%Y-%m-%d)" \
+            --universe major \
+            --max-rows 140 \
+            --max-filings-per-day 500 \
+            --max-rows-per-month 20 \
+            --max-days-per-month 8 \
+            --max-rows-per-index-day 3 \
+            --quiet
+          node pipeline/fetch_lockup.mjs --max-candidates 40 --months 9
+
+      - name: Build site
+        working-directory: site
+        run: pnpm run build
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs pipeline/out site/public/data
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "Daily SEC data update"
+            git push
+          fi
