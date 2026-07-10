@@ -632,6 +632,7 @@ function SummaryBar({
     () => trades.map((trade) => ({ ...trade, txType: normalizeTx(trade.txType) })).filter(isValidFilingDateOrder),
     [trades]
   );
+  const invalidDateCount = trades.length - validTrades.length;
   const trackedCompanies = new Set(validTrades.map((trade) => trade.ticker)).size;
   const screenDate = new Date().toLocaleDateString("ko-KR", {
     year: "numeric",
@@ -641,27 +642,32 @@ function SummaryBar({
   });
   const collectedAt = meta?.generatedAt ? meta.generatedAt.slice(0, 16).replace("T", " ") + " UTC" : "-";
   const items: Array<{ label: string; value: string; sub: string; tone?: "up" | "down" | "warn" }> = [
-    { label: "추적 대상", value: `${trackedCompanies}종목`, sub: "유효 날짜 데이터 기준" },
+    { label: "추적 기업", value: `${trackedCompanies}개`, sub: `유효 공시 ${validTrades.length}건 기준` },
     { label: "최근 7일 신규 공시", value: `${snapshot.rows7d.length}건`, sub: "데이터 기준일 대비" },
     { label: "30일 희소 이벤트", value: `${snapshot.rareInsider.length}건`, sub: "매수 또는 클러스터", tone: "warn" as const },
-    { label: "데이터 상태", value: snapshot.latestFiling ? snapshot.latestFiling.replace(/-/g, ".") : "-", sub: `수집 ${collectedAt} · 화면 ${screenDate}` },
+    { label: "최신 유효 공시", value: snapshot.latestFiling ? snapshot.latestFiling.replace(/-/g, ".") : "-", sub: `수집 ${collectedAt} · 화면 ${screenDate}` },
   ];
 
   return (
-    <section className="grid gap-3 rounded-xl border border-border bg-card/90 p-3 shadow-sm md:grid-cols-2 xl:grid-cols-4">
-      {items.map((item) => (
-        <div key={item.label} className="rounded-lg border border-border/70 bg-background px-3 py-2.5">
-          <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{item.label}</p>
-          <p
-            className={`num mt-1 text-[18px] font-extrabold ${
-              item.tone === "up" ? "text-positive" : item.tone === "down" ? "text-negative" : item.tone === "warn" ? "text-warning" : ""
-            }`}
-          >
-            {item.value}
-          </p>
-          <p className="mt-1 truncate text-[10.5px] text-muted-foreground">{item.sub}</p>
-        </div>
-      ))}
+    <section className="rounded-xl border border-border bg-card/90 p-3 shadow-sm">
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+        {items.map((item) => (
+          <div key={item.label} className="rounded-lg border border-border/70 bg-background px-3 py-2.5">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{item.label}</p>
+            <p
+              className={`num mt-1 text-[18px] font-extrabold ${
+                item.tone === "up" ? "text-positive" : item.tone === "down" ? "text-negative" : item.tone === "warn" ? "text-warning" : ""
+              }`}
+            >
+              {item.value}
+            </p>
+            <p className="mt-1 truncate text-[10.5px] text-muted-foreground">{item.sub}</p>
+          </div>
+        ))}
+      </div>
+      <p className="mt-3 rounded-lg bg-background px-3 py-2 text-[12px] font-semibold text-muted-foreground">
+        SEC 신고 {trades.length}건 수집 · 날짜 이상치 {invalidDateCount}건 제외 · 유효 공시 {validTrades.length}건
+      </p>
     </section>
   );
 }
@@ -881,10 +887,11 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
   const buyValue = rows
     .filter((trade) => trade.txType === "매수")
     .reduce((sum, trade) => sum + trade.value, 0);
+  const buyCount = rows.filter((trade) => trade.txType === "매수").length;
+  const sellCount = rows.filter((trade) => trade.txType === "매도").length;
   const clusterCompanies = new Set(
     rows.filter((trade) => trade.clusterCount >= 2).map((trade) => trade.ticker)
   ).size;
-  const rareEventCount = rows.filter((trade) => trade.txType === "매수" || trade.clusterCount >= 2).length;
   const rangeLabel = meta?.dateRange ? `${meta.dateRange.from} ~ ${meta.dateRange.to}` : "2026년 누적";
   const subLabel = `${coverageName(coverage)} · ${period === "전체" ? rangeLabel : `최근 ${period}`}`;
 
@@ -904,16 +911,18 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
           <p className="mt-1 text-[11px] text-muted-foreground">{subLabel}</p>
         </div>
         <div>
-          <p className="font-bold text-muted-foreground">희소 내부자 이벤트</p>
-          <p className="num mt-1 text-lg font-extrabold text-warning">{rareEventCount}건</p>
-          <p className="mt-1 text-[11px] text-muted-foreground">매수 또는 클러스터</p>
-        </div>
-        <div>
-          <p className="font-bold text-muted-foreground">내부자 매수 금액</p>
-          <p className={`mt-1 text-lg font-extrabold ${buyValue > 0 ? "num text-positive" : "text-muted-foreground"}`}>
+          <p className="font-bold text-muted-foreground">매수</p>
+          <p className={`num mt-1 text-lg font-extrabold ${buyCount > 0 ? "text-positive" : "text-muted-foreground"}`}>
+            {buyCount}건
+          </p>
+          <p className="mt-1 text-[11px] text-muted-foreground">
             {buyValue > 0 ? `${fmtUSD(buyValue / 1e6, 1)}M` : "희소 매수 없음"}
           </p>
-          <p className="mt-1 text-[11px] text-muted-foreground">현재 필터 기준</p>
+        </div>
+        <div>
+          <p className="font-bold text-muted-foreground">매도</p>
+          <p className="num mt-1 text-lg font-extrabold text-negative">{sellCount}건</p>
+          <p className="mt-1 text-[11px] text-muted-foreground">Form 4 공시 기준</p>
         </div>
         <div>
           <p className="font-bold text-muted-foreground">클러스터 발생 종목</p>
@@ -927,9 +936,9 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
       <div className="mt-4 rounded-xl border border-border bg-card p-3 shadow-sm">
         <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Coverage</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground">공시 범위</p>
             <p className="text-[12px] text-muted-foreground">
-              대형주는 기본 레이더, Russell 2000은 Small Cap Insider Radar로 분리해서 봅니다.
+              버튼의 숫자는 기업 수가 아니라 유효 공시 기록 수입니다. 대형주와 Russell 2000을 분리해서 봅니다.
             </p>
           </div>
           <span className="text-[11px] font-semibold text-muted-foreground">
@@ -952,7 +961,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
               }`}
             >
               {label}
-              <span className="num ml-1 text-[10px] opacity-70">{coverageCounts[option]}</span>
+              <span className="num ml-1 text-[10px] opacity-70">{coverageCounts[option]}건</span>
             </button>
           ))}
         </div>
