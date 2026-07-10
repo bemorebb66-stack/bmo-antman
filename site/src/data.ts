@@ -21,6 +21,7 @@ export interface InsiderTrade {
   ownAfter: number; // 거래 후 보유주식수
   ownChangePct: number; // 보유지분 변동률
   clusterCount: number; // 같은 회사, 최근 7일 내 동일 방향 매매 인원 수
+  secUrl?: string; // SEC 원문 URL
 }
 
 export const INSIDER_TRADES: InsiderTrade[] = [

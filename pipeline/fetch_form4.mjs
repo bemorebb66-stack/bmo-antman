@@ -322,10 +322,12 @@ async function main() {
           (it) => /\.xml$/i.test(it.name) && !/^xsl/i.test(it.name)
         );
         if (!xmlFile) continue;
-        const xml = await get(`${SEC}/Archives/edgar/data/${cikPath}/${accNoDash}/${xmlFile.name}`);
+        const secUrl = `${SEC}/Archives/edgar/data/${cikPath}/${accNoDash}/${xmlFile.name}`;
+        const xml = await get(secUrl);
         const row = parseForm4(xml, date);
         if (row) {
           row.id = `f4-${accession}`;
+          row.secUrl = secUrl;
           rows.push(row);
           rowsByMonth[monthKey] = (rowsByMonth[monthKey] ?? 0) + 1;
           rowsByDay[date] = (rowsByDay[date] ?? 0) + 1;

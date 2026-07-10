@@ -453,6 +453,13 @@ const normalizeTx = (txType: string): TxFilter | string =>
   txType.includes("매수") ? "매수" : txType.includes("매도") ? "매도" : txType;
 const daysBetween = (to: string, from: string) =>
   Math.floor((new Date(to).getTime() - new Date(from).getTime()) / 86_400_000);
+const isValidFilingDateOrder = (trade: Pick<NormalizedTrade, "filedDate" | "txDate">) =>
+  !trade.txDate || !trade.filedDate || daysBetween(trade.filedDate, trade.txDate) >= 0;
+const secFilingUrl = (trade: Pick<NormalizedTrade, "id" | "secUrl">) => {
+  if (trade.secUrl) return trade.secUrl;
+  const accession = trade.id.replace(/^f4-/, "");
+  return `https://www.sec.gov/edgar/search/#/q=${encodeURIComponent(accession)}`;
+};
 
 const eventImportanceScore = (trade: Pick<NormalizedTrade, "value" | "role" | "clusterCount" | "ownChangePct" | "txType">) => {
   const tx = normalizeTx(trade.txType);
@@ -463,6 +470,15 @@ const eventImportanceScore = (trade: Pick<NormalizedTrade, "value" | "role" | "c
   if (Math.abs(trade.ownChangePct) >= 10 && Math.abs(trade.ownChangePct) <= 1000) score += 10;
   return Math.min(99, score);
 };
+const eventImportanceParts = (trade: Pick<NormalizedTrade, "value" | "role" | "clusterCount" | "ownChangePct" | "txType">) => {
+  const parts = [normalizeTx(trade.txType) === "매수" ? "매수 기본 +45" : "매도 기본 +32"];
+  if (/CEO|CFO|COO/i.test(trade.role)) parts.push("주요 임원 +12");
+  if (trade.clusterCount >= 2) parts.push("클러스터 +15");
+  if (trade.value >= 10_000_000) parts.push("거래대금 +18");
+  if (Math.abs(trade.ownChangePct) >= 10 && Math.abs(trade.ownChangePct) <= 1000) parts.push("보유량 변화 +10");
+  return parts.join(" · ");
+};
+const eventImportanceGrade = (score: number) => (score >= 75 ? "높음" : score >= 60 ? "주목" : "보통");
 const nextFilingSort = (sort: FilingSort): FilingSort =>
   sort === "default" ? "latest" : sort === "latest" ? "oldest" : "default";
 const filingSortLabel = (sort: FilingSort) =>
@@ -566,7 +582,9 @@ function formatUpdateTime(_meta: InsiderMeta | null, _lockupMeta: LockupMeta | n
 }
 
 function marketSnapshot(trades: InsiderTrade[], lockups: LockupEvent[]) {
-  const normalized = trades.map((trade) => ({ ...trade, txType: normalizeTx(trade.txType) }));
+  const normalized = trades
+    .map((trade) => ({ ...trade, txType: normalizeTx(trade.txType) }))
+    .filter(isValidFilingDateOrder);
   const latestFiling = [...normalized].sort((a, b) => b.filedDate.localeCompare(a.filedDate))[0]?.filedDate ?? "";
   const rows7d = latestFiling
     ? normalized.filter((trade) => daysBetween(latestFiling, trade.filedDate) <= 7)
@@ -604,26 +622,33 @@ function SummaryBar({
   trades,
   lockups,
   meta,
-  lockupMeta,
 }: {
   trades: InsiderTrade[];
   lockups: LockupEvent[];
   meta: InsiderMeta | null;
-  lockupMeta: LockupMeta | null;
 }) {
   const snapshot = useMemo(() => marketSnapshot(trades, lockups), [trades, lockups]);
-  const trackedCompanies = new Set(trades.map((trade) => trade.ticker)).size;
+  const validTrades = useMemo(
+    () => trades.map((trade) => ({ ...trade, txType: normalizeTx(trade.txType) })).filter(isValidFilingDateOrder),
+    [trades]
+  );
+  const trackedCompanies = new Set(validTrades.map((trade) => trade.ticker)).size;
+  const screenDate = new Date().toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: "Asia/Seoul",
+  });
+  const collectedAt = meta?.generatedAt ? meta.generatedAt.slice(0, 16).replace("T", " ") + " UTC" : "-";
   const items: Array<{ label: string; value: string; sub: string; tone?: "up" | "down" | "warn" }> = [
-    { label: "Tracked Companies", value: `${trackedCompanies}종목`, sub: "대형주 + Russell 2000 확장" },
-    { label: "Latest Filing", value: snapshot.latestFiling ? snapshot.latestFiling.slice(5) : "-", sub: "최근 감지된 Form 4" },
-    { label: "7D Event Count", value: `${snapshot.rows7d.length}건`, sub: "최근 7일 기준" },
-    { label: "Rare Insider Activity", value: `${snapshot.rareInsider.length}건`, sub: "30일 내부자 매수·클러스터", tone: "warn" as const },
-    { label: "Event Density", value: snapshot.topSector, sub: "30일 섹터 공시 밀도" },
-    { label: "Coverage", value: "Multi Index", sub: `업데이트 ${formatUpdateTime(meta, lockupMeta)}` },
+    { label: "추적 대상", value: `${trackedCompanies}종목`, sub: "유효 날짜 데이터 기준" },
+    { label: "최근 7일 신규 공시", value: `${snapshot.rows7d.length}건`, sub: "데이터 기준일 대비" },
+    { label: "30일 희소 이벤트", value: `${snapshot.rareInsider.length}건`, sub: "매수 또는 클러스터", tone: "warn" as const },
+    { label: "데이터 상태", value: snapshot.latestFiling ? snapshot.latestFiling.replace(/-/g, ".") : "-", sub: `수집 ${collectedAt} · 화면 ${screenDate}` },
   ];
 
   return (
-    <section className="grid gap-3 rounded-xl border border-border bg-card/90 p-3 shadow-sm md:grid-cols-3 xl:grid-cols-6">
+    <section className="grid gap-3 rounded-xl border border-border bg-card/90 p-3 shadow-sm md:grid-cols-2 xl:grid-cols-4">
       {items.map((item) => (
         <div key={item.label} className="rounded-lg border border-border/70 bg-background px-3 py-2.5">
           <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{item.label}</p>
@@ -788,9 +813,18 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
   const [coverage, setCoverage] = useState<CoverageFilter>("major");
   const [query, setQuery] = useState("");
   const [filingSort, setFilingSort] = useState<FilingSort>("default");
-  const normalized = useMemo(
+  const [selectedTrade, setSelectedTrade] = useState<NormalizedTrade | null>(null);
+  const allNormalized = useMemo(
     () => trades.map((trade) => ({ ...trade, txType: normalizeTx(trade.txType) })),
     [trades]
+  );
+  const invalidDateCount = useMemo(
+    () => allNormalized.filter((trade) => !isValidFilingDateOrder(trade)).length,
+    [allNormalized]
+  );
+  const normalized = useMemo(
+    () => allNormalized.filter(isValidFilingDateOrder),
+    [allNormalized]
   );
   const latestFiling = useMemo(
     () => [...normalized].sort((a, b) => b.filedDate.localeCompare(a.filedDate))[0]?.filedDate ?? "",
@@ -847,12 +881,10 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
   const buyValue = rows
     .filter((trade) => trade.txType === "매수")
     .reduce((sum, trade) => sum + trade.value, 0);
-  const sellValue = rows
-    .filter((trade) => trade.txType === "매도")
-    .reduce((sum, trade) => sum + trade.value, 0);
   const clusterCompanies = new Set(
     rows.filter((trade) => trade.clusterCount >= 2).map((trade) => trade.ticker)
   ).size;
+  const rareEventCount = rows.filter((trade) => trade.txType === "매수" || trade.clusterCount >= 2).length;
   const rangeLabel = meta?.dateRange ? `${meta.dateRange.from} ~ ${meta.dateRange.to}` : "2026년 누적";
   const subLabel = `${coverageName(coverage)} · ${period === "전체" ? rangeLabel : `최근 ${period}`}`;
 
@@ -865,16 +897,31 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
           : "샘플 데이터 · 파이프라인 연결 전"}
       </div>
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Stat label="Rare Insider Event" value={`${rows.filter((trade) => trade.txType === "매수" || trade.clusterCount >= 2).length}건`} sub={subLabel} tone="warn" />
-        <Stat label="Insider Buy Value" value={fmtUSD(buyValue / 1e6, 1) + "M"} sub="희소 매수 이벤트 금액" tone="up" />
-        <Stat label="Insider Sell Value" value={fmtUSD(sellValue / 1e6, 1) + "M"} sub="대형주 매도 신고 금액" tone="down" />
-        <Stat label="Cluster Companies" value={`${clusterCompanies}종목`} sub="동일 방향 2인 이상 신고" />
-        <Stat
-          label="Latest Filing Signals"
-          value={`${rows.length}건`}
-          sub={meta?.filingsScanned ? `${coverageName(coverage)} · filing ${meta.filingsScanned}건 스캔` : `${coverageName(coverage)} 중심`}
-        />
+      <div className="grid gap-2 rounded-xl border border-border bg-card p-3 text-[12px] shadow-sm md:grid-cols-4">
+        <div>
+          <p className="font-bold text-muted-foreground">현재 필터 결과</p>
+          <p className="num mt-1 text-lg font-extrabold">{rows.length}건</p>
+          <p className="mt-1 text-[11px] text-muted-foreground">{subLabel}</p>
+        </div>
+        <div>
+          <p className="font-bold text-muted-foreground">희소 내부자 이벤트</p>
+          <p className="num mt-1 text-lg font-extrabold text-warning">{rareEventCount}건</p>
+          <p className="mt-1 text-[11px] text-muted-foreground">매수 또는 클러스터</p>
+        </div>
+        <div>
+          <p className="font-bold text-muted-foreground">내부자 매수 금액</p>
+          <p className={`mt-1 text-lg font-extrabold ${buyValue > 0 ? "num text-positive" : "text-muted-foreground"}`}>
+            {buyValue > 0 ? `${fmtUSD(buyValue / 1e6, 1)}M` : "희소 매수 없음"}
+          </p>
+          <p className="mt-1 text-[11px] text-muted-foreground">현재 필터 기준</p>
+        </div>
+        <div>
+          <p className="font-bold text-muted-foreground">클러스터 발생 종목</p>
+          <p className="num mt-1 text-lg font-extrabold">{clusterCompanies}종목</p>
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            {invalidDateCount > 0 ? `일자 이상치 ${invalidDateCount}건 제외` : "일자 검증 통과"}
+          </p>
+        </div>
       </div>
 
       <div className="mt-4 rounded-xl border border-border bg-card p-3 shadow-sm">
@@ -953,7 +1000,11 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
         {rows.slice(0, 40).map((trade) => {
           const score = eventImportanceScore(trade);
           return (
-            <article key={trade.id} className="rounded-xl border border-border bg-card p-3 shadow-sm">
+            <article
+              key={trade.id}
+              onClick={() => setSelectedTrade(trade)}
+              className="cursor-pointer rounded-xl border border-border bg-card p-3 shadow-sm transition-colors hover:bg-secondary/40"
+            >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
@@ -976,7 +1027,9 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                 </div>
                 <div className="text-right">
                   <p className="num text-[16px] font-extrabold">{score}</p>
-                  <p className="text-[10px] font-bold text-muted-foreground">Importance</p>
+                  <p className="text-[10px] font-bold text-muted-foreground">
+                    {eventImportanceGrade(score)}
+                  </p>
                 </div>
               </div>
               <div className="mt-3 grid grid-cols-2 gap-2 text-[11px]">
@@ -1009,7 +1062,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
       )}
 
       <div className="mt-3 hidden overflow-x-auto rounded-xl border border-border bg-card shadow-sm md:block">
-        <table className="w-full min-w-[1460px] text-[12.5px]">
+        <table className="w-full min-w-[1120px] text-[12.5px]">
           <thead>
             <tr className="border-b border-border bg-secondary/80 text-left text-[11px] uppercase tracking-wide text-muted-foreground">
               <th className="w-[76px] px-3 py-2 font-semibold">
@@ -1024,21 +1077,24 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
               </th>
               <th className="w-[76px] px-3 py-2 font-semibold">거래일</th>
               <th className="w-[190px] px-3 py-2 font-semibold">종목</th>
-              <th className="w-[110px] px-3 py-2 font-semibold">Coverage</th>
               <th className="w-[280px] px-3 py-2 font-semibold">신고인</th>
               <th className="w-[92px] px-3 py-2 text-center font-semibold">구분</th>
-              <th className="w-[128px] px-3 py-2 font-semibold">신고상태</th>
-              <th className="w-[118px] px-3 py-2 text-right font-semibold">수량</th>
-              <th className="w-[96px] px-3 py-2 text-right font-semibold">단가</th>
               <th className="w-[128px] px-3 py-2 text-right font-semibold">거래대금</th>
               <th className="w-[124px] px-3 py-2 text-right font-semibold">직접보유 변동</th>
               <th className="w-[128px] px-3 py-2 text-right font-semibold">Importance</th>
               <th className="w-[110px] px-3 py-2 font-semibold">신호</th>
+              <th className="w-[88px] px-3 py-2 text-center font-semibold">원문</th>
             </tr>
           </thead>
           <tbody>
-            {rows.map((trade) => (
-              <tr key={trade.id} className="border-b border-border/70 last:border-0 hover:bg-secondary/60">
+            {rows.map((trade) => {
+              const score = eventImportanceScore(trade);
+              return (
+              <tr
+                key={trade.id}
+                onClick={() => setSelectedTrade(trade)}
+                className="cursor-pointer border-b border-border/70 last:border-0 hover:bg-secondary/60"
+              >
                 <td className="num whitespace-nowrap px-3 py-2.5 text-muted-foreground">{trade.filedDate.slice(5)}</td>
                 <td className="num whitespace-nowrap px-3 py-2.5 text-muted-foreground">{trade.txDate.slice(5)}</td>
                 <td className="whitespace-nowrap px-3 py-2.5">
@@ -1049,17 +1105,6 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                       <div className="text-[11px] text-muted-foreground">{companyName(trade.ticker, trade.company)}</div>
                     </div>
                   </div>
-                </td>
-                <td className="whitespace-nowrap px-3 py-2.5">
-                  <span
-                    className={`inline-flex h-6 items-center rounded-full px-2 text-[10px] font-extrabold ${
-                      coverageLabel(trade.ticker) === "Russell 2000"
-                        ? "bg-warning/10 text-warning"
-                        : "bg-primary/10 text-primary"
-                    }`}
-                  >
-                    {coverageLabel(trade.ticker)}
-                  </span>
                 </td>
                 <td className="whitespace-nowrap px-3 py-2.5">
                   <div className="font-semibold">{trade.filer}</div>
@@ -1074,11 +1119,6 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                     {transactionLabel(trade)}
                   </span>
                 </td>
-                <td className="whitespace-nowrap px-3 py-2.5 text-[11px] font-semibold text-muted-foreground">
-                  {filingDelayLabel(trade)}
-                </td>
-                <td className="num px-3 py-2.5 text-right">{fmtNum(trade.shares)}</td>
-                <td className="num px-3 py-2.5 text-right">{fmtUSD(trade.price, 2)}</td>
                 <td className="num px-3 py-2.5 text-right font-semibold">{fmtUSD(trade.value / 1e6, 2)}M</td>
                 <td
                   className={`num px-3 py-2.5 text-right font-semibold ${ownChangeClass(trade)}`}
@@ -1086,7 +1126,12 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                 >
                   {ownChangeLabel(trade)}
                 </td>
-                <td className="num px-3 py-2.5 text-right font-extrabold">{eventImportanceScore(trade)}</td>
+                <td
+                  className="num px-3 py-2.5 text-right font-extrabold"
+                  title={eventImportanceParts(trade)}
+                >
+                  {score} · {eventImportanceGrade(score)}
+                </td>
                 <td className="whitespace-nowrap px-3 py-2.5">
                   {trade.clusterCount >= 2 ? (
                     <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-warning">
@@ -1096,11 +1141,126 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                     <span className="text-[11px] text-muted-foreground">단독</span>
                   )}
                 </td>
+                <td className="px-3 py-2.5 text-center">
+                  <a
+                    href={secFilingUrl(trade)}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(event) => event.stopPropagation()}
+                    className="inline-flex h-7 items-center justify-center rounded-md border border-border px-2 text-[11px] font-bold text-muted-foreground hover:text-foreground"
+                  >
+                    SEC
+                  </a>
+                </td>
               </tr>
-            ))}
+              );
+            })}
           </tbody>
         </table>
       </div>
+      {selectedTrade && (
+        <div className="fixed inset-0 z-50 bg-background/70 p-4 backdrop-blur-sm" onClick={() => setSelectedTrade(null)}>
+          <section
+            className="ml-auto flex h-full max-w-[520px] flex-col overflow-y-auto rounded-2xl border border-border bg-card p-5 shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-3 border-b border-border pb-4">
+              <div className="flex items-center gap-3">
+                <TickerMark ticker={selectedTrade.ticker} />
+                <div>
+                  <p className="num text-[13px] font-bold text-primary">{selectedTrade.ticker}</p>
+                  <h3 className="text-xl font-extrabold">{companyName(selectedTrade.ticker, selectedTrade.company)}</h3>
+                  <p className="mt-1 text-[12px] text-muted-foreground">
+                    {coverageLabel(selectedTrade.ticker)} · {inferSector(selectedTrade.ticker, selectedTrade.company, selectedTrade.sector)}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedTrade(null)}
+                className="rounded-lg border border-border px-3 py-1 text-[12px] font-bold text-muted-foreground hover:text-foreground"
+              >
+                닫기
+              </button>
+            </div>
+
+            <div className="mt-4 grid gap-3 text-[13px]">
+              <div className="rounded-xl border border-border bg-background p-4">
+                <p className="font-extrabold">{selectedTrade.filer}</p>
+                <p className="mt-1 text-muted-foreground">{selectedTrade.role}</p>
+                <div className="mt-3 grid grid-cols-2 gap-2 text-[12px]">
+                  <div>
+                    <p className="text-muted-foreground">거래일</p>
+                    <p className="num font-bold">{selectedTrade.txDate}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">신고일</p>
+                    <p className="num font-bold">{selectedTrade.filedDate}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">신고 상태</p>
+                    <p className="font-bold">{filingDelayLabel(selectedTrade)}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">거래 코드</p>
+                    <p className="font-bold">{selectedTrade.txType === "매수" ? "P · 공개시장 매수" : "S · 공개시장 매도"}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-xl border border-border bg-background p-3">
+                  <p className="text-[11px] font-bold text-muted-foreground">수량</p>
+                  <p className="num mt-1 text-lg font-extrabold">{fmtNum(selectedTrade.shares)}주</p>
+                </div>
+                <div className="rounded-xl border border-border bg-background p-3">
+                  <p className="text-[11px] font-bold text-muted-foreground">평균 단가</p>
+                  <p className="num mt-1 text-lg font-extrabold">{fmtUSD(selectedTrade.price, 2)}</p>
+                </div>
+                <div className="rounded-xl border border-border bg-background p-3">
+                  <p className="text-[11px] font-bold text-muted-foreground">거래대금</p>
+                  <p className="num mt-1 text-lg font-extrabold">{fmtUSD(selectedTrade.value / 1e6, 2)}M</p>
+                </div>
+                <div className="rounded-xl border border-border bg-background p-3">
+                  <p className="text-[11px] font-bold text-muted-foreground">거래 후 보유량</p>
+                  <p className="num mt-1 text-lg font-extrabold">{fmtNum(selectedTrade.ownAfter)}주</p>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-border bg-background p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-[11px] font-bold text-muted-foreground">Event Importance</p>
+                    <p className="num mt-1 text-xl font-extrabold">
+                      {eventImportanceScore(selectedTrade)} · {eventImportanceGrade(eventImportanceScore(selectedTrade))}
+                    </p>
+                  </div>
+                  <span className={`rounded-full px-3 py-1 text-[12px] font-bold ${selectedTrade.txType === "매수" ? "bg-positive/10 text-positive" : "bg-negative/10 text-negative"}`}>
+                    {transactionLabel(selectedTrade)}
+                  </span>
+                </div>
+                <p className="mt-3 text-[12px] leading-6 text-muted-foreground">{eventImportanceParts(selectedTrade)}</p>
+              </div>
+
+              <div className="rounded-xl border border-warning/30 bg-warning/10 p-4 text-[12px] leading-6 text-muted-foreground">
+                <p className="font-bold text-foreground">10b5-1 계획 및 직접/간접 보유</p>
+                <p className="mt-1">
+                  현재 요약 데이터에는 10b5-1 계획 여부와 직접/간접 보유 구분이 별도 필드로 저장되어 있지 않습니다.
+                  SEC 원문에서 각주와 보유 형태를 확인해야 합니다.
+                </p>
+              </div>
+
+              <a
+                href={secFilingUrl(selectedTrade)}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex h-11 items-center justify-center rounded-xl bg-primary px-4 text-[13px] font-extrabold text-primary-foreground"
+              >
+                SEC 원문 검색
+              </a>
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 }
@@ -1255,11 +1415,6 @@ export default function App() {
       .catch(() => {});
   }, []);
 
-  const dashboardSnapshot = useMemo(
-    () => marketSnapshot(insiderTrades, lockupEvents),
-    [insiderTrades, lockupEvents]
-  );
-
   return (
     <div className={theme}>
       <div className="min-h-screen bg-background text-foreground">
@@ -1323,55 +1478,12 @@ export default function App() {
               trades={insiderTrades}
               lockups={lockupEvents}
               meta={insiderMeta}
-              lockupMeta={lockupMeta}
             />
           </div>
 
-          <div className="mt-4 grid gap-4 lg:grid-cols-[240px_minmax(0,1fr)]">
-            <aside className="hidden rounded-xl border border-border bg-card p-4 shadow-sm lg:block lg:self-start lg:sticky lg:top-28">
-              <p className="px-2 text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Navigation</p>
-              <div className="mt-3 grid gap-1">
-                <button
-                  onClick={() => setTab("insider")}
-                  className={`flex h-10 items-center justify-between rounded-lg px-3 text-left text-[12px] font-bold transition-colors ${
-                    tab === "insider" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                  }`}
-                >
-                  <span>Insider Events</span>
-                  <Users size={14} />
-                </button>
-                <button
-                  onClick={() => setTab("lockup")}
-                  className={`flex h-10 items-center justify-between rounded-lg px-3 text-left text-[12px] font-bold transition-colors ${
-                    tab === "lockup" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                  }`}
-                >
-                  <span>IPO Lockup</span>
-                  <CalendarClock size={14} />
-                </button>
-              </div>
-              <div className="mt-5 rounded-lg border border-border bg-background p-3">
-                <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Radar Status</p>
-                <div className="mt-3 grid gap-2 text-[11px]">
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Latest</span>
-                    <span className="num font-bold">{dashboardSnapshot.latestFiling ? dashboardSnapshot.latestFiling.slice(5) : "-"}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">7D Events</span>
-                    <span className="num font-bold">{dashboardSnapshot.rows7d.length}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Lockup Soon</span>
-                    <span className="num font-bold">{dashboardSnapshot.lockupSoon}</span>
-                  </div>
-                </div>
-              </div>
-            </aside>
-            <div className="min-w-0">
-              {tab === "insider" && <InsiderTab trades={insiderTrades} meta={insiderMeta} />}
-              {tab === "lockup" && <LockupTab events={lockupEvents} meta={lockupMeta} />}
-            </div>
+          <div className="mt-4 min-w-0">
+            {tab === "insider" && <InsiderTab trades={insiderTrades} meta={insiderMeta} />}
+            {tab === "lockup" && <LockupTab events={lockupEvents} meta={lockupMeta} />}
           </div>
 
           <footer className="mt-12 border-t border-border pt-6">
