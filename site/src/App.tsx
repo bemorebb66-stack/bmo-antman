@@ -421,19 +421,13 @@ function Stat({
 
 type NormalizedTrade = Omit<InsiderTrade, "txType"> & { txType: string };
 
-function formatUpdateTime(meta: InsiderMeta | null, lockupMeta: LockupMeta | null) {
-  const source = meta?.generatedAt ?? lockupMeta?.generatedAt;
-  if (!source) return "로컬 샘플";
-  const date = new Date(source);
-  if (Number.isNaN(date.getTime())) return source.slice(0, 16).replace("T", " ");
-  return date.toLocaleString("ko-KR", {
+function formatUpdateTime(_meta: InsiderMeta | null, _lockupMeta: LockupMeta | null) {
+  return new Date().toLocaleDateString("ko-KR", {
+    year: "numeric",
     month: "2-digit",
     day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
     timeZone: "Asia/Seoul",
-  });
+  }) + " 기준";
 }
 
 function marketSnapshot(trades: InsiderTrade[], lockups: LockupEvent[]) {
@@ -1145,7 +1139,7 @@ export default function App() {
               <h2 className="mb-4 text-[22px] font-extrabold tracking-tight text-foreground">읽는 법</h2>
               <div className="mb-5 flex flex-wrap gap-x-6 gap-y-2 text-[12px] font-bold text-foreground">
                 <span className="inline-flex items-center gap-2">
-                  <i className="h-3 w-3 bg-positive" /> 빨강 = 희소 내부자 매수 이벤트
+                  <i className="h-3 w-3 bg-positive" /> 초록 = 희소 내부자 매수 이벤트
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <i className="h-3 w-3 bg-negative" /> 파랑 = 내부자 매도 공시
@@ -1169,7 +1163,7 @@ export default function App() {
               </p>
               <p className="mt-3">
                 유의: 과거 신고와 공시 원문을 보기 쉽게 재가공한 화면이며 투자 권유가 아닙니다. 데이터: SEC EDGAR 공개
-                공시 기반, 미국 장마감 후 자동 갱신.
+                공시 기반, {formatUpdateTime(insiderMeta, lockupMeta)} · 미국 장마감 후 자동 갱신.
               </p>
             </section>
 
