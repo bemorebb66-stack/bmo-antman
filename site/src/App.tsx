@@ -24,10 +24,120 @@ type Theme = "light" | "dark";
 type TxFilter = "전체" | "매수" | "매도";
 type PeriodFilter = "7D" | "30D" | "90D" | "전체";
 type FilingSort = "default" | "latest" | "oldest";
+type CoverageFilter = "major" | "russell" | "all";
 
 const fmtUSD = (n: number, digits = 0) =>
   "$" + n.toLocaleString("en-US", { maximumFractionDigits: digits });
 const fmtNum = (n: number) => n.toLocaleString("en-US");
+
+const majorUniverseTickers = new Set(
+  [
+    "AAPL",
+    "ABNB",
+    "ADBE",
+    "ADI",
+    "AEP",
+    "AFL",
+    "AMAT",
+    "AMD",
+    "AMGN",
+    "AMZN",
+    "ANET",
+    "AON",
+    "AVGO",
+    "AZO",
+    "BALL",
+    "BX",
+    "BXP",
+    "CARR",
+    "CASY",
+    "CCL",
+    "CHRW",
+    "CME",
+    "CMS",
+    "COF",
+    "COHR",
+    "COST",
+    "CRL",
+    "CRWD",
+    "CSGP",
+    "CTSH",
+    "CVX",
+    "DASH",
+    "DDOG",
+    "DELL",
+    "DVA",
+    "ED",
+    "EIX",
+    "EOG",
+    "EVRG",
+    "EW",
+    "FANG",
+    "FSLR",
+    "GEHC",
+    "GILD",
+    "GL",
+    "GLW",
+    "GM",
+    "GOOG",
+    "GOOGL",
+    "HAL",
+    "HAS",
+    "HOOD",
+    "HST",
+    "HSY",
+    "IDXX",
+    "INTU",
+    "IP",
+    "JBHT",
+    "JBL",
+    "JPM",
+    "KEY",
+    "KEYS",
+    "KMB",
+    "L",
+    "LGN",
+    "LULU",
+    "MCD",
+    "MPWR",
+    "MRVL",
+    "MSFT",
+    "NET",
+    "NOW",
+    "NVDA",
+    "O",
+    "OKLO",
+    "PANW",
+    "PCAR",
+    "PFG",
+    "PPG",
+    "PSX",
+    "QCOM",
+    "RMD",
+    "SCHW",
+    "SLB",
+    "SMR",
+    "SPG",
+    "SPGI",
+    "SRE",
+    "STX",
+    "TDG",
+    "TGT",
+    "TSLA",
+    "TT",
+    "TTD",
+    "TTWO",
+    "TXN",
+    "TXT",
+    "URI",
+    "UTHR",
+    "VRSK",
+    "WDAY",
+    "WM",
+    "WRB",
+    "YUM",
+  ].map((ticker) => ticker.toUpperCase())
+);
 
 const companyKo: Record<string, string> = {
   AAPL: "애플",
@@ -302,6 +412,15 @@ const sectorKo: Record<string, string> = {
 
 const companyName = (ticker: string, fallback: string) =>
   companyKo[ticker] ?? fallback.replace(/&amp;/g, "&").replace(/\s+(INC|CORP|CO|LTD|PLC)\.?$/i, "");
+const coverageLabel = (ticker: string) =>
+  majorUniverseTickers.has(ticker.toUpperCase()) ? "Mega/Large" : "Russell 2000";
+const coverageMatches = (ticker: string, coverage: CoverageFilter) => {
+  if (coverage === "all") return true;
+  const isMajor = majorUniverseTickers.has(ticker.toUpperCase());
+  return coverage === "major" ? isMajor : !isMajor;
+};
+const coverageName = (coverage: CoverageFilter) =>
+  coverage === "major" ? "S&P500 · NASDAQ100" : coverage === "russell" ? "Russell 2000" : "전체";
 const inferSector = (ticker: string, company: string, fallback?: string) => {
   if (fallback) return fallback;
   if (sectorKo[ticker]) return sectorKo[ticker];
@@ -479,12 +598,12 @@ function SummaryBar({
   const snapshot = useMemo(() => marketSnapshot(trades, lockups), [trades, lockups]);
   const trackedCompanies = new Set(trades.map((trade) => trade.ticker)).size;
   const items: Array<{ label: string; value: string; sub: string; tone?: "up" | "down" | "warn" }> = [
-    { label: "Tracked Companies", value: `${trackedCompanies}종목`, sub: "S&P500 · NASDAQ100 중심" },
+    { label: "Tracked Companies", value: `${trackedCompanies}종목`, sub: "대형주 + Russell 2000 확장" },
     { label: "Latest Filing", value: snapshot.latestFiling ? snapshot.latestFiling.slice(5) : "-", sub: "최근 감지된 Form 4" },
     { label: "7D Event Count", value: `${snapshot.rows7d.length}건`, sub: "최근 7일 기준" },
     { label: "Rare Insider Activity", value: `${snapshot.rareInsider.length}건`, sub: "30일 내부자 매수·클러스터", tone: "warn" as const },
     { label: "Event Density", value: snapshot.topSector, sub: "30일 섹터 공시 밀도" },
-    { label: "Coverage", value: "Mega/Large", sub: `업데이트 ${formatUpdateTime(meta, lockupMeta)}` },
+    { label: "Coverage", value: "Multi Index", sub: `업데이트 ${formatUpdateTime(meta, lockupMeta)}` },
   ];
 
   return (
@@ -650,6 +769,7 @@ export interface InsiderMeta {
 function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMeta | null }) {
   const [filter, setFilter] = useState<TxFilter>("전체");
   const [period, setPeriod] = useState<PeriodFilter>("30D");
+  const [coverage, setCoverage] = useState<CoverageFilter>("major");
   const [query, setQuery] = useState("");
   const [filingSort, setFilingSort] = useState<FilingSort>("default");
   const normalized = useMemo(
@@ -661,20 +781,30 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
     [normalized]
   );
   const periodCounts = useMemo(() => {
-    const counts: Record<PeriodFilter, number> = { "7D": 0, "30D": 0, "90D": 0, "전체": normalized.length };
+    const covered = normalized.filter((trade) => coverageMatches(trade.ticker, coverage));
+    const counts: Record<PeriodFilter, number> = { "7D": 0, "30D": 0, "90D": 0, "전체": covered.length };
     if (!latestFiling) return counts;
-    for (const trade of normalized) {
+    for (const trade of covered) {
       const age = daysBetween(latestFiling, trade.filedDate);
       if (age <= 7) counts["7D"] += 1;
       if (age <= 30) counts["30D"] += 1;
       if (age <= 90) counts["90D"] += 1;
     }
     return counts;
-  }, [latestFiling, normalized]);
+  }, [coverage, latestFiling, normalized]);
+  const coverageCounts = useMemo(
+    () => ({
+      major: normalized.filter((trade) => coverageMatches(trade.ticker, "major")).length,
+      russell: normalized.filter((trade) => coverageMatches(trade.ticker, "russell")).length,
+      all: normalized.length,
+    }),
+    [normalized]
+  );
   const rows = useMemo(
     () => {
       const q = query.trim().toLowerCase();
       return normalized
+        .filter((trade) => coverageMatches(trade.ticker, coverage))
         .filter((trade) => filter === "전체" || trade.txType === filter)
         .filter((trade) => {
           if (period === "전체" || !latestFiling) return true;
@@ -696,7 +826,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
           return b.value - a.value;
         });
     },
-    [filingSort, filter, latestFiling, normalized, period, query]
+    [coverage, filingSort, filter, latestFiling, normalized, period, query]
   );
   const buyValue = rows
     .filter((trade) => trade.txType === "매수")
@@ -708,7 +838,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
     rows.filter((trade) => trade.clusterCount >= 2).map((trade) => trade.ticker)
   ).size;
   const rangeLabel = meta?.dateRange ? `${meta.dateRange.from} ~ ${meta.dateRange.to}` : "2026년 누적";
-  const subLabel = period === "전체" ? rangeLabel : `최근 ${period}`;
+  const subLabel = `${coverageName(coverage)} · ${period === "전체" ? rangeLabel : `최근 ${period}`}`;
 
   return (
     <div>
@@ -727,8 +857,42 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
         <Stat
           label="Latest Filing Signals"
           value={`${rows.length}건`}
-          sub={meta?.filingsScanned ? `filing ${meta.filingsScanned}건 스캔` : "S&P500 · NASDAQ100 중심"}
+          sub={meta?.filingsScanned ? `${coverageName(coverage)} · filing ${meta.filingsScanned}건 스캔` : `${coverageName(coverage)} 중심`}
         />
+      </div>
+
+      <div className="mt-4 rounded-xl border border-border bg-card p-3 shadow-sm">
+        <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Coverage</p>
+            <p className="text-[12px] text-muted-foreground">
+              대형주는 기본 레이더, Russell 2000은 Small Cap Insider Radar로 분리해서 봅니다.
+            </p>
+          </div>
+          <span className="text-[11px] font-semibold text-muted-foreground">
+            현재 {coverageName(coverage)} · {rows.length}건
+          </span>
+        </div>
+        <div className="flex flex-wrap gap-1">
+          {([
+            ["major", "Mega/Large"],
+            ["russell", "Russell 2000"],
+            ["all", "전체"],
+          ] as const).map(([option, label]) => (
+            <button
+              key={option}
+              onClick={() => setCoverage(option)}
+              className={`h-9 rounded-lg px-3 text-[12px] font-bold transition-colors ${
+                coverage === option
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+              }`}
+            >
+              {label}
+              <span className="num ml-1 text-[10px] opacity-70">{coverageCounts[option]}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="mt-4 grid gap-3 rounded-xl border border-border bg-card p-3 shadow-sm lg:grid-cols-[1fr_auto]">
@@ -789,6 +953,9 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                   <p className="mt-1 truncate text-[12px] font-semibold text-muted-foreground">
                     {companyName(trade.ticker, trade.company)}
                   </p>
+                  <p className="mt-1 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">
+                    {coverageLabel(trade.ticker)}
+                  </p>
                 </div>
                 <div className="text-right">
                   <p className="num text-[16px] font-extrabold">{score}</p>
@@ -818,14 +985,14 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
       </div>
       {rows.length === 0 && (
         <div className="mt-3 rounded-xl border border-border bg-card px-4 py-10 text-center text-[13px] font-semibold text-muted-foreground shadow-sm">
-          추적 중인 S&P500·NASDAQ100 대형주에서 최근 조건에 맞는 희소 내부자 이벤트가 감지되지 않았습니다.
+          추적 중인 {coverageName(coverage)} 범위에서 최근 조건에 맞는 희소 내부자 이벤트가 감지되지 않았습니다.
           <br />
           내부자 거래는 원래 자주 발생하지 않으므로 30D 또는 90D 범위로 넓혀 확인하세요.
         </div>
       )}
 
       <div className="mt-3 hidden overflow-x-auto rounded-xl border border-border bg-card shadow-sm md:block">
-        <table className="w-full min-w-[1360px] text-[12.5px]">
+        <table className="w-full min-w-[1460px] text-[12.5px]">
           <thead>
             <tr className="border-b border-border bg-secondary/80 text-left text-[11px] uppercase tracking-wide text-muted-foreground">
               <th className="w-[76px] px-3 py-2 font-semibold">
@@ -840,6 +1007,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
               </th>
               <th className="w-[76px] px-3 py-2 font-semibold">거래일</th>
               <th className="w-[190px] px-3 py-2 font-semibold">종목</th>
+              <th className="w-[110px] px-3 py-2 font-semibold">Coverage</th>
               <th className="w-[280px] px-3 py-2 font-semibold">신고인</th>
               <th className="w-[92px] px-3 py-2 text-center font-semibold">구분</th>
               <th className="w-[128px] px-3 py-2 font-semibold">신고상태</th>
@@ -859,6 +1027,17 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                 <td className="whitespace-nowrap px-3 py-2.5">
                   <div className="num text-[13px] font-extrabold">{trade.ticker}</div>
                   <div className="text-[11px] text-muted-foreground">{companyName(trade.ticker, trade.company)}</div>
+                </td>
+                <td className="whitespace-nowrap px-3 py-2.5">
+                  <span
+                    className={`inline-flex h-6 items-center rounded-full px-2 text-[10px] font-extrabold ${
+                      coverageLabel(trade.ticker) === "Russell 2000"
+                        ? "bg-warning/10 text-warning"
+                        : "bg-primary/10 text-primary"
+                    }`}
+                  >
+                    {coverageLabel(trade.ticker)}
+                  </span>
                 </td>
                 <td className="whitespace-nowrap px-3 py-2.5">
                   <div className="font-semibold">{trade.filer}</div>
@@ -1074,7 +1253,7 @@ export default function App() {
                 </p>
                 <h1 className="text-[26px] font-extrabold leading-none tracking-tight">BMO Signal Flow</h1>
                 <p className="mt-1 flex items-center gap-1 text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
-                  <Building2 size={11} /> S&P500 · NASDAQ100 SEC Event Radar
+                  <Building2 size={11} /> S&P500 · NASDAQ100 · Russell 2000 SEC Event Radar
                 </p>
               </div>
             </div>
@@ -1103,11 +1282,12 @@ export default function App() {
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">SEC Event Radar</p>
               <h2 className="mt-1 max-w-[760px] text-2xl font-extrabold tracking-tight md:text-[32px]">
-                S&P500·NASDAQ100 대형주 공시 이벤트 레이더
+                대형주와 Russell 2000 내부자거래 이벤트 레이더
               </h2>
               <p className="mt-2 max-w-[760px] text-[13px] leading-6 text-muted-foreground">
-                BMO Signal Flow는 S&P500·NASDAQ100 기업을 중심으로 주요 SEC 공시와 내부자 거래 신호를 추적합니다.
-                내부자 매매처럼 매일 발생하지 않는 희소 이벤트를 과장하지 않고, 대형주에서 감지된 중요한 정보 흐름을 빠르게 확인하도록 설계했습니다.
+                BMO Signal Flow는 S&P500·NASDAQ100 대형주를 기본 레이더로 두고, Russell 2000 중소형주 내부자거래까지
+                별도 필터로 확장해 추적합니다. 내부자 매매처럼 매일 발생하지 않는 희소 이벤트를 과장하지 않고,
+                중요한 정보 흐름을 빠르게 확인하도록 설계했습니다.
               </p>
             </div>
             <div className="inline-flex items-center gap-2 text-[12px] text-muted-foreground">
@@ -1184,7 +1364,7 @@ export default function App() {
                 </span>
               </div>
               <p>
-                이 화면은 매일 많은 신호가 쏟아지는 대시보드가 아니라, S&P500·NASDAQ100 대형주에서 드물게 발생하는
+                이 화면은 매일 많은 신호가 쏟아지는 대시보드가 아니라, 대형주와 Russell 2000 중소형주에서 드물게 발생하는
                 SEC Form 4 내부자 거래 이벤트를 빠르게 포착하기 위한 레이더입니다.
               </p>
               <p className="mt-3">
