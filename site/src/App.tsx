@@ -911,9 +911,15 @@ export interface LockupMeta {
 
 function LockupTab({ events, meta }: { events: LockupEvent[]; meta: LockupMeta | null }) {
   const rows = useMemo(
-    () => [...events].sort((a, b) => dDay(a.lockupDate) - dDay(b.lockupDate)),
+    () =>
+      [...events].sort((a, b) => {
+        if (a.ticker === "SPCX") return -1;
+        if (b.ticker === "SPCX") return 1;
+        return dDay(a.lockupDate) - dDay(b.lockupDate);
+      }),
     [events]
   );
+  const spacexEvent = rows.find((event) => event.ticker === "SPCX");
   const within30 = events.filter((event) => dDay(event.lockupDate) <= 30 && dDay(event.lockupDate) >= 0).length;
   const within14 = events.filter((event) => dDay(event.lockupDate) <= 14 && dDay(event.lockupDate) >= 0).length;
   const avgDays = events.length ? events.reduce((sum, event) => sum + event.lockupDays, 0) / events.length : 0;
@@ -935,21 +941,53 @@ function LockupTab({ events, meta }: { events: LockupEvent[]; meta: LockupMeta |
         <Stat label="장기 락업" value={`${longLockup}건`} sub="180일 초과" />
       </div>
 
+      {spacexEvent && (
+        <section className="mt-4 rounded-xl border border-primary/30 bg-primary/10 p-4 shadow-sm">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-primary">Most Watched IPO</p>
+              <h3 className="mt-1 text-[18px] font-extrabold">SPCX · 스페이스X</h3>
+              <p className="mt-1 text-[12px] leading-6 text-muted-foreground">
+                현재 수집 데이터에는 대표 락업 해제일 1건이 잡혀 있습니다. 실제 IPO에서는 임직원, 초기 투자자, 전략 투자자,
+                일부 물량 조건에 따라 여러 차례 단계적 락업 해제가 생길 수 있어 추가 공시 확인이 필요합니다.
+              </p>
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-center md:min-w-[360px]">
+              <div className="rounded-lg border border-border bg-card px-3 py-2">
+                <p className="text-[10px] font-bold text-muted-foreground">IPO</p>
+                <p className="num mt-1 text-[12px] font-extrabold">{spacexEvent.ipoDate}</p>
+              </div>
+              <div className="rounded-lg border border-border bg-card px-3 py-2">
+                <p className="text-[10px] font-bold text-muted-foreground">Lockup</p>
+                <p className="num mt-1 text-[12px] font-extrabold">{spacexEvent.lockupDate}</p>
+              </div>
+              <div className="rounded-lg border border-border bg-card px-3 py-2">
+                <p className="text-[10px] font-bold text-muted-foreground">D-Day</p>
+                <p className="num mt-1 text-[12px] font-extrabold">
+                  {dDay(spacexEvent.lockupDate) >= 0 ? `D-${dDay(spacexEvent.lockupDate)}` : "해제"}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       <div className="mt-4 grid gap-2.5">
         {rows.map((event) => {
           const dd = dDay(event.lockupDate);
           const urgent = dd <= 14 && dd >= 0;
+          const featured = event.ticker === "SPCX";
           return (
             <div
               key={event.id}
               className={`grid grid-cols-1 gap-3 rounded-xl border px-4 py-3.5 shadow-sm md:grid-cols-[auto_1fr_auto_auto] md:items-center ${
-                urgent ? "border-warning/60 bg-warning/10" : "border-border bg-card"
+                featured ? "border-primary/40 bg-primary/5" : urgent ? "border-warning/60 bg-warning/10" : "border-border bg-card"
               }`}
             >
               <div className="flex items-center gap-3 md:w-44">
                 <div
                   className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-[13px] font-bold ${
-                    urgent ? "bg-warning text-warning-foreground" : "bg-secondary text-foreground"
+                    featured ? "bg-primary text-primary-foreground" : urgent ? "bg-warning text-warning-foreground" : "bg-secondary text-foreground"
                   }`}
                 >
                   {dd >= 0 ? `D-${dd}` : "해제"}

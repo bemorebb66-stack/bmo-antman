@@ -50,6 +50,7 @@ export interface LockupEvent {
 
 // 실데이터 로드 전 폴백용 샘플(가상의 예시).
 export const LOCKUP_EVENTS: LockupEvent[] = [
+  { id: "l00", ticker: "SPCX", company: "SPACE EXPLORATION TECHNOLOGIES CORP", ipoDate: "2026-06-12", ipoPrice: 135, lockupDate: "2027-06-13", lockupDays: 366, underwriter: null },
   { id: "l01", ticker: "FYNL", company: "Fynleap Technologies", ipoDate: "2026-01-14", ipoPrice: 22, lockupDate: "2026-07-13", lockupDays: 180, underwriter: "Goldman / Morgan Stanley" },
   { id: "l02", ticker: "HRZN", company: "Horizon Biosciences", ipoDate: "2026-02-05", ipoPrice: 16, lockupDate: "2026-08-04", lockupDays: 180, underwriter: "JPMorgan" },
   { id: "l03", ticker: "PLSR", company: "Pulsar Data Systems", ipoDate: "2026-01-28", ipoPrice: 28, lockupDate: "2026-07-27", lockupDays: 180, underwriter: "Goldman Sachs" },
@@ -79,7 +80,8 @@ export const HOLDINGS: HoldingRow[] = [
   { ticker: "MSTR", company: "마이크로스트래티지", custodyUSD: 1620, custodyChangePct: -6.1, weeklyNetBuyUSD: -74, rank: 10, prevRank: 8 },
 ];
 
-export const BASE_DATE = new Date("2026-07-07");
+export const BASE_DATE = new Date();
+BASE_DATE.setHours(0, 0, 0, 0);
 export function dDay(dateStr: string): number {
   return Math.ceil((new Date(dateStr).getTime() - BASE_DATE.getTime()) / 86400000);
 }
