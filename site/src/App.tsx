@@ -642,9 +642,9 @@ function SummaryBar({
   });
   const collectedAt = meta?.generatedAt ? meta.generatedAt.slice(0, 16).replace("T", " ") + " UTC" : "-";
   const items: Array<{ label: string; value: string; sub: string; tone?: "up" | "down" | "warn" }> = [
-    { label: "추적 기업", value: `${trackedCompanies}개`, sub: `유효 공시 ${validTrades.length}건 기준` },
-    { label: "최근 7일 신규 공시", value: `${snapshot.rows7d.length}건`, sub: "데이터 기준일 대비" },
-    { label: "30일 희소 이벤트", value: `${snapshot.rareInsider.length}건`, sub: "매수 또는 클러스터", tone: "warn" as const },
+    { label: "공시 발생 기업", value: `${trackedCompanies}개`, sub: `유효 공시 ${validTrades.length}건 기준` },
+    { label: "최근 7일 신규 공시", value: `${snapshot.rows7d.length}건`, sub: "전체 공시 범위" },
+    { label: "30일 희소 내부자거래", value: `${snapshot.rareInsider.length}건`, sub: "전체 공시 범위 · 매수 또는 클러스터", tone: "warn" as const },
     { label: "최신 유효 공시", value: snapshot.latestFiling ? snapshot.latestFiling.replace(/-/g, ".") : "-", sub: `수집 ${collectedAt} · 화면 ${screenDate}` },
   ];
 
@@ -900,7 +900,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
       <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-[11px] font-bold text-muted-foreground shadow-sm">
         <CheckCircle2 size={13} className={meta ? "text-positive" : "text-warning"} />
         {meta
-          ? `SEC EDGAR 실데이터 · ${meta.filedDate} 신고 ${trades.length}건 · 수집 ${meta.generatedAt.slice(0, 16).replace("T", " ")} UTC`
+          ? `SEC EDGAR · ${meta.filedDate} 신고 ${trades.length}건 수집 · 일자 이상치 ${invalidDateCount}건 제외 · 유효 공시 ${normalized.length}건 · ${meta.generatedAt.slice(0, 16).replace("T", " ")} UTC 수집`
           : "샘플 데이터 · 파이프라인 연결 전"}
       </div>
 
@@ -1064,7 +1064,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
       </div>
       {rows.length === 0 && (
         <div className="mt-3 rounded-xl border border-border bg-card px-4 py-10 text-center text-[13px] font-semibold text-muted-foreground shadow-sm">
-          추적 중인 {coverageName(coverage)} 범위에서 최근 조건에 맞는 희소 내부자 이벤트가 감지되지 않았습니다.
+          추적 중인 {coverageName(coverage)} 범위에서 최근 조건에 맞는 희소 내부자거래가 감지되지 않았습니다.
           <br />
           내부자 거래는 원래 자주 발생하지 않으므로 30D 또는 90D 범위로 넓혀 확인하세요.
         </div>
@@ -1437,9 +1437,9 @@ export default function App() {
                 <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-strong">
                   <span className="inline-block h-px w-3 bg-accent-strong" /> BMO VALUE TALKS
                 </p>
-                <h1 className="text-[26px] font-extrabold leading-none tracking-tight">BMO Signal Flow</h1>
+                <h1 className="text-[26px] font-extrabold leading-tight tracking-tight">미국주식 내부자거래 시그널 레이더</h1>
                 <p className="mt-1 flex items-center gap-1 text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
-                  <Building2 size={11} /> S&P500 · NASDAQ100 · Russell 2000 SEC Event Radar
+                  <Building2 size={11} /> S&P500 · NASDAQ100 · Russell 2000 Insider Trading Radar
                 </p>
               </div>
             </div>
@@ -1455,7 +1455,7 @@ export default function App() {
           </div>
           <div className="mx-auto flex max-w-[1500px] gap-1 overflow-x-auto px-5 pb-3 xl:px-8">
             <Pill active={tab === "insider"} onClick={() => setTab("insider")}>
-              희소 내부자 이벤트
+              희소 내부자거래
             </Pill>
             <Pill active={tab === "lockup"} onClick={() => setTab("lockup")}>
               IPO 락업
@@ -1466,13 +1466,13 @@ export default function App() {
         <main className="mx-auto max-w-[1500px] px-5 py-6 xl:px-8">
           <div className="mb-5 flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-sm md:flex-row md:items-end md:justify-between md:p-6">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">SEC Event Radar</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Insider Trading Radar</p>
               <h2 className="mt-1 max-w-[760px] text-2xl font-extrabold tracking-tight md:text-[32px]">
-                대형주와 Russell 2000 내부자거래 이벤트 레이더
+                미국주식 내부자거래 시그널 레이더
               </h2>
               <p className="mt-2 max-w-[760px] text-[13px] leading-6 text-muted-foreground">
                 BMO Signal Flow는 S&P500·NASDAQ100 대형주를 기본 레이더로 두고, Russell 2000 중소형주 내부자거래까지
-                별도 필터로 확장해 추적합니다. 내부자 매매처럼 매일 발생하지 않는 희소 이벤트를 과장하지 않고,
+                별도 필터로 확장해 추적합니다. 내부자 매매처럼 매일 발생하지 않는 희소 내부자거래를 과장하지 않고,
                 중요한 정보 흐름을 빠르게 확인하도록 설계했습니다.
               </p>
             </div>
