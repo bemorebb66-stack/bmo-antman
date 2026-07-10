@@ -413,7 +413,7 @@ const sectorKo: Record<string, string> = {
 const companyName = (ticker: string, fallback: string) =>
   companyKo[ticker] ?? fallback.replace(/&amp;/g, "&").replace(/\s+(INC|CORP|CO|LTD|PLC)\.?$/i, "");
 const coverageLabel = (ticker: string) =>
-  majorUniverseTickers.has(ticker.toUpperCase()) ? "Mega/Large" : "Russell 2000";
+  majorUniverseTickers.has(ticker.toUpperCase()) ? "S&P/Nasdaq" : "Russell 2000";
 const coverageMatches = (ticker: string, coverage: CoverageFilter) => {
   if (coverage === "all") return true;
   const isMajor = majorUniverseTickers.has(ticker.toUpperCase());
@@ -421,6 +421,22 @@ const coverageMatches = (ticker: string, coverage: CoverageFilter) => {
 };
 const coverageName = (coverage: CoverageFilter) =>
   coverage === "major" ? "S&P500 · NASDAQ100" : coverage === "russell" ? "Russell 2000" : "전체";
+function TickerMark({ ticker }: { ticker: string }) {
+  const clean = ticker.replace(/[^A-Z0-9]/gi, "").slice(0, 2).toUpperCase();
+  const isMajor = coverageMatches(ticker, "major");
+  return (
+    <span
+      className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-[10px] font-extrabold shadow-sm ${
+        isMajor
+          ? "border-primary/20 bg-primary/10 text-primary"
+          : "border-warning/30 bg-warning/10 text-warning"
+      }`}
+      title={`${ticker} ${isMajor ? "S&P500 · NASDAQ100" : "Russell 2000"} logo badge`}
+    >
+      {clean}
+    </span>
+  );
+}
 const inferSector = (ticker: string, company: string, fallback?: string) => {
   if (fallback) return fallback;
   if (sectorKo[ticker]) return sectorKo[ticker];
@@ -875,7 +891,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
         </div>
         <div className="flex flex-wrap gap-1">
           {([
-            ["major", "Mega/Large"],
+            ["major", "S&P500 · NASDAQ100"],
             ["russell", "Russell 2000"],
             ["all", "전체"],
           ] as const).map(([option, label]) => (
@@ -941,6 +957,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
+                    <TickerMark ticker={trade.ticker} />
                     <span className="num text-[15px] font-extrabold">{trade.ticker}</span>
                     <span
                       className={`px-2 py-1 text-[10px] font-extrabold ${
@@ -1025,8 +1042,13 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                 <td className="num whitespace-nowrap px-3 py-2.5 text-muted-foreground">{trade.filedDate.slice(5)}</td>
                 <td className="num whitespace-nowrap px-3 py-2.5 text-muted-foreground">{trade.txDate.slice(5)}</td>
                 <td className="whitespace-nowrap px-3 py-2.5">
-                  <div className="num text-[13px] font-extrabold">{trade.ticker}</div>
-                  <div className="text-[11px] text-muted-foreground">{companyName(trade.ticker, trade.company)}</div>
+                  <div className="flex items-center gap-2">
+                    <TickerMark ticker={trade.ticker} />
+                    <div>
+                      <div className="num text-[13px] font-extrabold">{trade.ticker}</div>
+                      <div className="text-[11px] text-muted-foreground">{companyName(trade.ticker, trade.company)}</div>
+                    </div>
+                  </div>
                 </td>
                 <td className="whitespace-nowrap px-3 py-2.5">
                   <span
