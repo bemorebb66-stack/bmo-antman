@@ -504,9 +504,9 @@ const ownChangeClass = (trade: Pick<NormalizedTrade, "ownChangePct">) => {
 
 function ThemeButton({ theme, setTheme }: { theme: Theme; setTheme: (theme: Theme) => void }) {
   return (
-    <div className="inline-flex h-9 items-center rounded-full border border-border bg-card p-0.5 shadow-sm">
+    <div className="inline-flex h-10 items-center rounded-full border border-border bg-card p-0.5 shadow-sm md:h-9">
       <button
-        className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+        className={`inline-flex h-9 w-9 items-center justify-center rounded-full transition-colors md:h-8 md:w-8 ${
           theme === "light" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
         }`}
         onClick={() => setTheme("light")}
@@ -515,7 +515,7 @@ function ThemeButton({ theme, setTheme }: { theme: Theme; setTheme: (theme: Them
         <Sun size={15} />
       </button>
       <button
-        className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+        className={`inline-flex h-9 w-9 items-center justify-center rounded-full transition-colors md:h-8 md:w-8 ${
           theme === "dark" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
         }`}
         onClick={() => setTheme("dark")}
@@ -531,7 +531,7 @@ function Pill({ active, onClick, children }: { active: boolean; onClick: () => v
   return (
     <button
       onClick={onClick}
-      className={`h-9 rounded-lg px-3.5 text-[13px] font-semibold transition-colors ${
+      className={`h-11 rounded-xl px-3.5 text-[13px] font-semibold transition-colors md:h-9 md:rounded-lg ${
         active
           ? "bg-primary text-primary-foreground shadow-sm"
           : "text-muted-foreground hover:bg-secondary hover:text-foreground"
@@ -649,10 +649,10 @@ function SummaryBar({
   ];
 
   return (
-    <section className="rounded-xl border border-border bg-card/90 p-3 shadow-sm">
-      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+    <section className="rounded-2xl border border-border bg-card/90 p-3 shadow-sm">
+      <div className="grid grid-cols-2 gap-2 md:gap-3 xl:grid-cols-4">
         {items.map((item) => (
-          <div key={item.label} className="rounded-lg border border-border/70 bg-background px-3 py-2.5">
+          <div key={item.label} className="min-w-0 rounded-xl border border-border/70 bg-background px-3 py-3">
             <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{item.label}</p>
             <p
               className={`num mt-1 text-[18px] font-extrabold ${
@@ -661,7 +661,7 @@ function SummaryBar({
             >
               {item.value}
             </p>
-            <p className="mt-1 truncate text-[10.5px] text-muted-foreground">{item.sub}</p>
+            <p className="mt-1 line-clamp-2 text-[10.5px] leading-4 text-muted-foreground">{item.sub}</p>
           </div>
         ))}
       </div>
@@ -1428,32 +1428,36 @@ export default function App() {
     <div className={theme}>
       <div className="min-h-screen bg-background text-foreground">
         <header className="sticky top-0 z-40 border-b border-border bg-shell/95 backdrop-blur">
-          <div className="mx-auto flex max-w-[1500px] flex-col gap-4 px-5 py-4 md:flex-row md:items-center md:justify-between xl:px-8">
-            <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-md shadow-primary/20">
+          <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-3 px-4 py-3 md:px-5 md:py-4 xl:px-8">
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md shadow-primary/20 md:h-11 md:w-11">
                 <BarChart3 size={22} strokeWidth={2.3} />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-strong">
                   <span className="inline-block h-px w-3 bg-accent-strong" /> BMO VALUE TALKS
                 </p>
-                <h1 className="text-[26px] font-extrabold leading-tight tracking-tight">미국주식 내부자거래 시그널 레이더</h1>
-                <p className="mt-1 flex items-center gap-1 text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
+                <h1 className="truncate text-[19px] font-extrabold leading-tight tracking-tight sm:text-[22px] md:text-[26px]">
+                  <span className="md:hidden">내부자거래 레이더</span>
+                  <span className="hidden md:inline">미국주식 내부자거래 시그널 레이더</span>
+                </h1>
+                <p className="mt-1 hidden items-center gap-1 text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground sm:flex">
                   <Building2 size={11} /> S&P500 · NASDAQ100 · Russell 2000 Insider Trading Radar
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2 md:justify-end">
+            <div className="flex shrink-0 items-center gap-2 md:justify-end">
               <a
                 href="https://www.bvtmoneyflow.xyz/"
-                className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-border bg-card px-3 text-[12px] font-semibold text-muted-foreground shadow-sm hover:text-foreground"
+                aria-label="Money Flow 사이트 열기"
+                className="hidden h-10 items-center gap-1.5 rounded-xl border border-border bg-card px-3 text-[12px] font-semibold text-muted-foreground shadow-sm hover:text-foreground sm:inline-flex"
               >
                 Money Flow <ExternalLink size={13} />
               </a>
               <ThemeButton theme={theme} setTheme={setTheme} />
             </div>
           </div>
-          <div className="mx-auto flex max-w-[1500px] gap-1 overflow-x-auto px-5 pb-3 xl:px-8">
+          <div className="mx-auto flex max-w-[1500px] gap-1 overflow-x-auto px-4 pb-3 md:px-5 xl:px-8">
             <Pill active={tab === "insider"} onClick={() => setTab("insider")}>
               희소 내부자거래
             </Pill>
@@ -1463,11 +1467,11 @@ export default function App() {
           </div>
         </header>
 
-        <main className="mx-auto max-w-[1500px] px-5 py-6 xl:px-8">
-          <div className="mb-5 flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-sm md:flex-row md:items-end md:justify-between md:p-6">
+        <main className="mx-auto max-w-[1500px] px-4 py-4 md:px-5 md:py-6 xl:px-8">
+          <div className="mb-4 flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm md:mb-5 md:flex-row md:items-end md:justify-between md:p-6">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Insider Trading Radar</p>
-              <h2 className="mt-1 max-w-[760px] text-2xl font-extrabold tracking-tight md:text-[32px]">
+              <h2 className="mt-1 max-w-[760px] text-[22px] font-extrabold leading-tight tracking-tight md:text-[32px]">
                 미국주식 내부자거래 시그널 레이더
               </h2>
               <p className="mt-2 max-w-[760px] text-[13px] leading-6 text-muted-foreground">
