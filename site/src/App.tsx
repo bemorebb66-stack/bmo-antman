@@ -482,12 +482,12 @@ const eventImportanceGrade = (score: number) => (score >= 75 ? "높음" : score 
 const nextFilingSort = (sort: FilingSort): FilingSort =>
   sort === "default" ? "latest" : sort === "latest" ? "oldest" : "default";
 const filingSortLabel = (sort: FilingSort) =>
-  sort === "latest" ? "신고일 ↓" : sort === "oldest" ? "신고일 ↑" : "신고일";
+  sort === "latest" ? "SEC 공시일 ↓" : sort === "oldest" ? "SEC 공시일 ↑" : "SEC 공시일";
 const filingDelayLabel = (trade: Pick<NormalizedTrade, "filedDate" | "txDate">) => {
   const delay = daysBetween(trade.filedDate, trade.txDate);
   if (delay < 0) return "일자 확인";
-  if (delay === 0) return "당일 신고";
-  return `거래 후 ${delay}일 신고`;
+  if (delay === 0) return "당일 SEC 공시";
+  return `거래 후 ${delay}일 SEC 공시`;
 };
 const transactionLabel = (trade: Pick<NormalizedTrade, "txType">) =>
   normalizeTx(trade.txType) === "매수" ? "공시 매수" : "공시 매도";
@@ -666,7 +666,7 @@ function SummaryBar({
         ))}
       </div>
       <p className="mt-3 rounded-lg bg-background px-3 py-2 text-[12px] font-semibold text-muted-foreground">
-        SEC 신고 {trades.length}건 수집 · 날짜 이상치 {invalidDateCount}건 제외 · 유효 공시 {validTrades.length}건
+        SEC 공시 {trades.length}건 수집 · 날짜 이상치 {invalidDateCount}건 제외 · 유효 공시 {validTrades.length}건
       </p>
     </section>
   );
@@ -900,7 +900,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
       <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-[11px] font-bold text-muted-foreground shadow-sm">
         <CheckCircle2 size={13} className={meta ? "text-positive" : "text-warning"} />
         {meta
-          ? `SEC EDGAR · ${meta.filedDate} 신고 ${trades.length}건 수집 · 일자 이상치 ${invalidDateCount}건 제외 · 유효 공시 ${normalized.length}건 · ${meta.generatedAt.slice(0, 16).replace("T", " ")} UTC 수집`
+          ? `SEC EDGAR · ${meta.filedDate} 공시 ${trades.length}건 수집 · 일자 이상치 ${invalidDateCount}건 제외 · 유효 공시 ${normalized.length}건 · ${meta.generatedAt.slice(0, 16).replace("T", " ")} UTC 수집`
           : "샘플 데이터 · 파이프라인 연결 전"}
       </div>
 
@@ -1084,7 +1084,7 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                   {filingSortLabel(filingSort)}
                 </button>
               </th>
-              <th className="w-[76px] px-3 py-2 font-semibold">거래일</th>
+              <th className="w-[88px] px-3 py-2 font-semibold">실제 거래일</th>
               <th className="w-[190px] px-3 py-2 font-semibold">종목</th>
               <th className="w-[280px] px-3 py-2 font-semibold">신고인</th>
               <th className="w-[92px] px-3 py-2 text-center font-semibold">구분</th>
@@ -1198,15 +1198,15 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
                 <p className="mt-1 text-muted-foreground">{selectedTrade.role}</p>
                 <div className="mt-3 grid grid-cols-2 gap-2 text-[12px]">
                   <div>
-                    <p className="text-muted-foreground">거래일</p>
+                    <p className="text-muted-foreground">실제 거래일</p>
                     <p className="num font-bold">{selectedTrade.txDate}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">신고일</p>
+                    <p className="text-muted-foreground">SEC 공시일</p>
                     <p className="num font-bold">{selectedTrade.filedDate}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">신고 상태</p>
+                    <p className="text-muted-foreground">공시 상태</p>
                     <p className="font-bold">{filingDelayLabel(selectedTrade)}</p>
                   </div>
                   <div>
@@ -1515,19 +1515,19 @@ export default function App() {
                 SEC Form 4 내부자 거래 이벤트를 빠르게 포착하기 위한 레이더입니다.
               </p>
               <p className="mt-3">
-                Event Importance는 공시 유형, 거래대금, 임원 참여 여부, 반복 신고, 지분 변동률을 함께 본 참고 점수입니다.
+                Event Importance는 공시 유형, 거래대금, 임원 참여 여부, 반복 공시, 지분 변동률을 함께 본 참고 점수입니다.
                 주가 반응 데이터가 붙기 전까지는 투자 판단보다 이벤트 선별용으로 보는 편이 적합합니다.
               </p>
               <p className="mt-3">
                 Sector Filing Activity는 자금 흐름이 아니라 공시 이벤트가 어느 섹터에 밀집되어 있는지 보여줍니다.
-                특정 섹터가 강하게 보이더라도 아래 표에서 개별 기업의 신고인, 거래일, 공시 맥락을 확인하세요.
+                특정 섹터가 강하게 보이더라도 아래 표에서 개별 기업의 신고인, 실제 거래일, SEC 공시일, 공시 맥락을 확인하세요.
               </p>
               <p className="mt-3">
                 IPO 락업은 상장 직후 제한되었던 주식의 매도 가능 시점을 추적합니다. 락업 해제는 잠재적 공급 증가 신호일 수
                 있지만, 실제 매도 발생을 뜻하지는 않습니다.
               </p>
               <p className="mt-3">
-                유의: 과거 신고와 공시 원문을 보기 쉽게 재가공한 화면이며 투자 권유가 아닙니다. 데이터: SEC EDGAR 공개
+                유의: 과거 공시와 공시 원문을 보기 쉽게 재가공한 화면이며 투자 권유가 아닙니다. 데이터: SEC EDGAR 공개
                 공시 기반, {formatUpdateTime(insiderMeta, lockupMeta)} · 미국 장마감 후 자동 갱신.
               </p>
             </section>
