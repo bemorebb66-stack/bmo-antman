@@ -1392,12 +1392,17 @@ export default function App() {
   );
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window === "undefined") return "light";
-    return new URLSearchParams(window.location.search).get("theme") === "dark" ? "dark" : "light";
+    const queryTheme = new URLSearchParams(window.location.search).get("theme");
+    if (queryTheme === "dark" || queryTheme === "light") return queryTheme;
+    try { return localStorage.getItem("bmoTheme") === "dark" ? "dark" : "light"; } catch { return "light"; }
   });
   const [insiderTrades, setInsiderTrades] = useState<InsiderTrade[]>(INSIDER_TRADES);
   const [insiderMeta, setInsiderMeta] = useState<InsiderMeta | null>(null);
   const [lockupEvents, setLockupEvents] = useState<LockupEvent[]>(LOCKUP_EVENTS);
   const [lockupMeta, setLockupMeta] = useState<LockupMeta | null>(null);
+  useEffect(() => {
+    try { localStorage.setItem("bmoTheme", theme); } catch { /* Storage may be unavailable. */ }
+  }, [theme]);
   const changeTab = (next: Tab) => {
     setTab(next);
     const tickerQuery = initialTicker ? `?ticker=${encodeURIComponent(initialTicker)}` : "";
@@ -1428,17 +1433,17 @@ export default function App() {
   return (
     <div className={theme}>
       <div className="min-h-screen bg-background text-foreground">
-        <header className="sticky top-0 z-40 border-b-2 border-foreground/70 bg-shell/95 backdrop-blur">
-          <div className="mx-auto flex max-w-[1280px] items-end justify-between gap-3 px-4 pb-3 pt-4 md:px-6">
+        <header className="sticky top-0 z-40 border-b border-primary bg-shell/95 backdrop-blur">
+          <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-3 px-4 pt-4 md:px-6">
             <div className="flex min-w-0 items-center gap-3">
               <div className="min-w-0">
                 <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-strong">
                   <span className="inline-block h-px w-3 bg-accent-strong" /> BMO VALUE TALKS
                 </p>
-                <h1 className="truncate font-serif text-[32px] font-bold leading-tight sm:text-[42px]">
-                  Money <span className="italic text-accent-strong">Flow</span>
+                <h1 className="site-logo">
+                  <span>Money</span><span className="site-logo__flow">Flow</span>
                 </h1>
-                <p className="mt-0.5 hidden text-[11px] text-muted-foreground sm:block">
+                <p className="site-description hidden sm:block">
                   미국 주식 거래대금·내부자 거래·IPO 락업 분석
                 </p>
               </div>
@@ -1462,6 +1467,10 @@ export default function App() {
             </Pill>
             <a href="/today.html" className="inline-flex h-8 shrink-0 items-center rounded-md border border-border bg-card px-3 text-[11.5px] font-bold text-muted-foreground hover:border-primary hover:text-foreground">오늘의 요약</a>
           </nav>
+          <div className="mx-auto flex max-w-[1280px] flex-wrap justify-between gap-x-4 gap-y-1 border-t border-border px-4 py-2 text-[12px] text-muted-foreground md:px-6">
+            <span><b className="font-semibold text-foreground">{tab === "insider" ? insiderTrades.length : lockupEvents.length}건</b> {tab === "insider" ? "SEC 공시 추적" : "IPO 락업 추적"}</span>
+            <span>기준일 <b className="font-semibold text-foreground">{formatUpdateTime(insiderMeta, lockupMeta).replace(" 기준", "")}</b> · 갱신 {tab === "insider" ? insiderMeta?.generatedAt?.slice(0, 16).replace("T", " ") : lockupMeta?.generatedAt?.slice(0, 16).replace("T", " ") || "-"}</span>
+          </div>
         </header>
 
         <main className="mx-auto max-w-[1280px] px-4 py-5 md:px-6 md:py-7">

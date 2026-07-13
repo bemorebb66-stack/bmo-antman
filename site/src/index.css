@@ -89,6 +89,11 @@
     @apply bg-primary/20;
   }
 
+  body,
+  header {
+    border-top: 0;
+  }
+
   button,
   a {
     -webkit-tap-highlight-color: transparent;
@@ -97,5 +102,36 @@
   .num {
     font-variant-numeric: tabular-nums;
     font-family: "IBM Plex Mono", ui-monospace, monospace;
+  }
+
+  .site-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 54px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  .site-logo__flow {
+    color: hsl(var(--accent-strong));
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  .site-description {
+    margin: 8px 0 14px;
+    color: hsl(var(--muted-foreground));
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 560px) {
+    .site-logo { gap: 7px; font-size: 40px; }
+    .site-description { font-size: 12.5px; }
   }
 }
