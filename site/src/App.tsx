@@ -1412,7 +1412,9 @@ function LockupTab({ events, meta, initialTicker = "" }: { events: LockupEvent[]
 export default function App() {
   const params = new URLSearchParams(window.location.search);
   const initialTicker = (params.get("ticker") ?? "").trim().toUpperCase();
-  const [tab, setTab] = useState<Tab>(() => params.get("tab") === "lockup" ? "lockup" : "insider");
+  const [tab, setTab] = useState<Tab>(() =>
+    window.location.pathname.includes("ipo-lockup") || params.get("tab") === "lockup" ? "lockup" : "insider"
+  );
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window === "undefined") return "light";
     return new URLSearchParams(window.location.search).get("theme") === "dark" ? "dark" : "light";
@@ -1421,6 +1423,11 @@ export default function App() {
   const [insiderMeta, setInsiderMeta] = useState<InsiderMeta | null>(null);
   const [lockupEvents, setLockupEvents] = useState<LockupEvent[]>(LOCKUP_EVENTS);
   const [lockupMeta, setLockupMeta] = useState<LockupMeta | null>(null);
+  const changeTab = (next: Tab) => {
+    setTab(next);
+    const tickerQuery = initialTicker ? `?ticker=${encodeURIComponent(initialTicker)}` : "";
+    window.history.replaceState(null, "", `${next === "lockup" ? "/ipo-lockup/" : "/insider/"}${tickerQuery}`);
+  };
 
   useEffect(() => {
     fetch("data/insider.json")
@@ -1483,10 +1490,10 @@ export default function App() {
             >
               시장 흐름
             </a>
-            <Pill active={tab === "insider"} onClick={() => setTab("insider")}>
+            <Pill active={tab === "insider"} onClick={() => changeTab("insider")}>
               희소 내부자거래
             </Pill>
-            <Pill active={tab === "lockup"} onClick={() => setTab("lockup")}>
+            <Pill active={tab === "lockup"} onClick={() => changeTab("lockup")}>
               IPO 락업
             </Pill>
           </div>
