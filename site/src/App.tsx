@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   CalendarClock,
-  CheckCircle2,
   Moon,
   Search,
   ShieldAlert,
@@ -541,34 +540,6 @@ function Pill({ active, onClick, children }: { active: boolean; onClick: () => v
   );
 }
 
-function Stat({
-  label,
-  value,
-  sub,
-  tone,
-}: {
-  label: string;
-  value: string;
-  sub: string;
-  tone?: "up" | "down" | "warn";
-}) {
-  const color =
-    tone === "up"
-      ? "text-positive"
-      : tone === "down"
-        ? "text-negative"
-        : tone === "warn"
-          ? "text-warning"
-          : "";
-  return (
-    <div className="rounded-xl border border-border bg-card px-4 py-3.5 shadow-sm">
-      <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{label}</p>
-      <p className={`num mt-2 text-[23px] font-bold leading-none ${color}`}>{value}</p>
-      <p className="mt-2 text-[11px] text-muted-foreground">{sub}</p>
-    </div>
-  );
-}
-
 type NormalizedTrade = Omit<InsiderTrade, "txType"> & { txType: string };
 
 function formatUpdateTime(_meta: InsiderMeta | null, _lockupMeta: LockupMeta | null) {
@@ -618,10 +589,12 @@ function marketSnapshot(trades: InsiderTrade[], lockups: LockupEvent[]) {
 }
 
 function SummaryBar({
+  tab,
   trades,
   lockups,
   meta,
 }: {
+  tab: Tab;
   trades: InsiderTrade[];
   lockups: LockupEvent[];
   meta: InsiderMeta | null;
@@ -640,33 +613,48 @@ function SummaryBar({
     timeZone: "Asia/Seoul",
   });
   const collectedAt = meta?.generatedAt ? meta.generatedAt.slice(0, 16).replace("T", " ") + " UTC" : "-";
-  const items: Array<{ label: string; value: string; sub: string; tone?: "up" | "down" | "warn" }> = [
-    { label: "공시 발생 기업", value: `${trackedCompanies}개`, sub: `유효 공시 ${validTrades.length}건 기준` },
-    { label: "최근 7일 신규 공시", value: `${snapshot.rows7d.length}건`, sub: "전체 공시 범위" },
-    { label: "30일 희소 내부자거래", value: `${snapshot.rareInsider.length}건`, sub: "전체 공시 범위 · 매수 또는 클러스터", tone: "warn" as const },
-    { label: "최신 유효 공시", value: snapshot.latestFiling ? snapshot.latestFiling.replace(/-/g, ".") : "-", sub: `수집 ${collectedAt} · 화면 ${screenDate}` },
-  ];
+  const within30 = lockups.filter((event) => dDay(event.lockupDate) <= 30 && dDay(event.lockupDate) >= 0).length;
+  const within14 = lockups.filter((event) => dDay(event.lockupDate) <= 14 && dDay(event.lockupDate) >= 0).length;
+  const avgDays = lockups.length ? lockups.reduce((sum, event) => sum + event.lockupDays, 0) / lockups.length : 0;
+  const longLockup = lockups.filter((event) => event.lockupDays > 180).length;
+  const items: Array<{ label: string; value: string; sub: string; tone?: "up" | "down" | "warn" }> = tab === "insider"
+    ? [
+        { label: "공시 발생 기업", value: `${trackedCompanies}개`, sub: `유효 공시 ${validTrades.length}건 기준` },
+        { label: "최근 7일 신규 공시", value: `${snapshot.rows7d.length}건`, sub: "전체 공시 범위" },
+        { label: "30일 희소 내부자거래", value: `${snapshot.rareInsider.length}건`, sub: "매수 또는 클러스터 기준", tone: "warn" },
+        { label: "최신 유효 공시", value: snapshot.latestFiling ? snapshot.latestFiling.replace(/-/g, ".") : "-", sub: `수집 ${collectedAt}` },
+      ]
+    : [
+        { label: "14일 내 락업 해제", value: `${within14}건`, sub: "매도 압력 사전 확인", tone: "warn" },
+        { label: "30일 내 락업 해제", value: `${within30}건`, sub: "유통물량 확대 가능" },
+        { label: "평균 락업 기간", value: `${avgDays.toFixed(0)}일`, sub: "공모일 기준" },
+        { label: "180일 초과 락업", value: `${longLockup}건`, sub: `전체 ${lockups.length}건 기준` },
+      ];
 
   return (
-    <section className="rounded-2xl border border-border bg-card/90 p-3 shadow-sm">
-      <div className="grid grid-cols-2 gap-2 md:gap-3 xl:grid-cols-4">
+    <section>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {items.map((item) => (
-          <div key={item.label} className="min-w-0 rounded-xl border border-border/70 bg-background px-3 py-3">
-            <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{item.label}</p>
+          <div key={item.label} className="min-h-[122px] min-w-0 rounded-xl border border-border bg-card px-5 py-4 shadow-sm">
+            <p className="text-[13px] font-bold text-muted-foreground">{item.label}</p>
             <p
-              className={`num mt-1 text-[18px] font-extrabold ${
+              className={`num mt-2 text-[30px] font-extrabold leading-none ${
                 item.tone === "up" ? "text-positive" : item.tone === "down" ? "text-negative" : item.tone === "warn" ? "text-warning" : ""
               }`}
             >
               {item.value}
             </p>
-            <p className="mt-1 line-clamp-2 text-[10.5px] leading-4 text-muted-foreground">{item.sub}</p>
+            <p className="mt-2 line-clamp-2 text-[12px] leading-4 text-muted-foreground">{item.sub}</p>
           </div>
         ))}
       </div>
-      <p className="mt-3 rounded-lg bg-background px-3 py-2 text-[12px] font-semibold text-muted-foreground">
-        SEC 공시 {trades.length}건 수집 · 날짜 이상치 {invalidDateCount}건 제외 · 유효 공시 {validTrades.length}건
-      </p>
+      {tab === "insider" && <div className="mt-3 flex flex-wrap gap-2 text-[12px] font-semibold text-muted-foreground">
+        <span className="rounded-full border border-border bg-card px-3 py-2">SEC EDGAR</span>
+        <span className="rounded-full border border-border bg-card px-3 py-2">공시 {trades.length}건 수집</span>
+        <span className="rounded-full border border-warning/40 bg-warning/10 px-3 py-2">날짜 이상치 {invalidDateCount}건 제외</span>
+        <span className="rounded-full border border-positive/30 bg-positive/10 px-3 py-2 text-positive">유효 공시 {validTrades.length}건</span>
+        <span className="rounded-full border border-border bg-card px-3 py-2">화면 {screenDate}</span>
+      </div>}
     </section>
   );
 }
@@ -896,20 +884,13 @@ function InsiderTab({ trades, meta, initialTicker = "" }: { trades: InsiderTrade
 
   return (
     <div>
-      <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-[11px] font-bold text-muted-foreground shadow-sm">
-        <CheckCircle2 size={13} className={meta ? "text-positive" : "text-warning"} />
-        {meta
-          ? `SEC EDGAR · ${meta.filedDate} 공시 ${trades.length}건 수집 · 일자 이상치 ${invalidDateCount}건 제외 · 유효 공시 ${normalized.length}건 · ${meta.generatedAt.slice(0, 16).replace("T", " ")} UTC 수집`
-          : "샘플 데이터 · 파이프라인 연결 전"}
-      </div>
-
-      <div className="grid gap-2 rounded-xl border border-border bg-card p-3 text-[12px] shadow-sm md:grid-cols-4">
-        <div>
+      <div className="grid gap-3 text-[12px] sm:grid-cols-2 xl:grid-cols-4">
+        <div className="min-h-[104px] rounded-xl border border-border bg-card p-4 shadow-sm">
           <p className="font-bold text-muted-foreground">현재 필터 결과</p>
           <p className="num mt-1 text-lg font-extrabold">{rows.length}건</p>
           <p className="mt-1 text-[11px] text-muted-foreground">{subLabel}</p>
         </div>
-        <div>
+        <div className="min-h-[104px] rounded-xl border border-border bg-card p-4 shadow-sm">
           <p className="font-bold text-muted-foreground">매수</p>
           <p className={`num mt-1 text-lg font-extrabold ${buyCount > 0 ? "text-positive" : "text-muted-foreground"}`}>
             {buyCount}건
@@ -918,12 +899,12 @@ function InsiderTab({ trades, meta, initialTicker = "" }: { trades: InsiderTrade
             {buyValue > 0 ? `${fmtUSD(buyValue / 1e6, 1)}M` : "희소 매수 없음"}
           </p>
         </div>
-        <div>
+        <div className="min-h-[104px] rounded-xl border border-border bg-card p-4 shadow-sm">
           <p className="font-bold text-muted-foreground">매도</p>
           <p className="num mt-1 text-lg font-extrabold text-negative">{sellCount}건</p>
           <p className="mt-1 text-[11px] text-muted-foreground">Form 4 공시 기준</p>
         </div>
-        <div>
+        <div className="min-h-[104px] rounded-xl border border-border bg-card p-4 shadow-sm">
           <p className="font-bold text-muted-foreground">클러스터 발생 종목</p>
           <p className="num mt-1 text-lg font-extrabold">{clusterCompanies}종목</p>
           <p className="mt-1 text-[11px] text-muted-foreground">
@@ -967,7 +948,7 @@ function InsiderTab({ trades, meta, initialTicker = "" }: { trades: InsiderTrade
       </div>
 
       <div className="mt-4 grid gap-3 rounded-xl border border-border bg-card p-3 shadow-sm lg:grid-cols-[1fr_auto]">
-        <label className="flex h-10 items-center gap-2 rounded-lg border border-border bg-background px-3">
+        <label className="flex h-11 items-center gap-2 rounded-xl border border-border bg-card px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10">
           <Search size={15} className="text-muted-foreground" />
           <input
             value={query}
@@ -982,6 +963,14 @@ function InsiderTab({ trades, meta, initialTicker = "" }: { trades: InsiderTrade
               {option}
             </Pill>
           ))}
+          {(query || filter !== "전체" || period !== "30D" || coverage !== "major") && (
+            <button
+              onClick={() => { setQuery(""); setFilter("전체"); setPeriod("30D"); setCoverage("major"); }}
+              className="h-8 rounded-md border border-border bg-card px-3 text-[11.5px] font-bold text-muted-foreground hover:border-primary hover:text-foreground"
+            >
+              필터 초기화
+            </button>
+          )}
         </div>
       </div>
 
@@ -1298,10 +1287,6 @@ function LockupTab({ events, meta, initialTicker = "" }: { events: LockupEvent[]
     [events, initialTicker]
   );
   const spacexEvent = rows.find((event) => event.ticker === "SPCX");
-  const within30 = events.filter((event) => dDay(event.lockupDate) <= 30 && dDay(event.lockupDate) >= 0).length;
-  const within14 = events.filter((event) => dDay(event.lockupDate) <= 14 && dDay(event.lockupDate) >= 0).length;
-  const avgDays = events.length ? events.reduce((sum, event) => sum + event.lockupDays, 0) / events.length : 0;
-  const longLockup = events.filter((event) => event.lockupDays > 180).length;
 
   return (
     <div>
@@ -1312,15 +1297,8 @@ function LockupTab({ events, meta, initialTicker = "" }: { events: LockupEvent[]
           : "샘플 데이터 · 파이프라인 연결 전"}
       </div>
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Stat label="14일 내 락업 해제" value={`${within14}건`} sub="매도 압력 사전 확인" tone="warn" />
-        <Stat label="30일 내 락업 해제" value={`${within30}건`} sub="유통물량 확대 가능" />
-        <Stat label="평균 락업 기간" value={`${avgDays.toFixed(0)}일`} sub="공모일 기준" />
-        <Stat label="장기 락업" value={`${longLockup}건`} sub="180일 초과" />
-      </div>
-
       {spacexEvent && (
-        <section className="mt-4 rounded-xl border border-primary/30 bg-primary/10 p-4 shadow-sm">
+        <section className="mt-4 rounded-xl border border-border bg-card p-5 shadow-sm">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-primary">Most Watched IPO</p>
@@ -1451,17 +1429,17 @@ export default function App() {
     <div className={theme}>
       <div className="min-h-screen bg-background text-foreground">
         <header className="sticky top-0 z-40 border-b-2 border-foreground/70 bg-shell/95 backdrop-blur">
-          <div className="mx-auto flex max-w-[1140px] items-end justify-between gap-3 px-4 pb-2 pt-3 md:px-7">
+          <div className="mx-auto flex max-w-[1280px] items-end justify-between gap-3 px-4 pb-3 pt-4 md:px-6">
             <div className="flex min-w-0 items-center gap-3">
               <div className="min-w-0">
                 <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-strong">
                   <span className="inline-block h-px w-3 bg-accent-strong" /> BMO VALUE TALKS
                 </p>
-                <h1 className="truncate font-serif text-[25px] font-bold leading-tight sm:text-[30px]">
-                  Signal <span className="italic text-primary">Flow</span>
+                <h1 className="truncate font-serif text-[32px] font-bold leading-tight sm:text-[42px]">
+                  Money <span className="italic text-accent-strong">Flow</span>
                 </h1>
                 <p className="mt-0.5 hidden text-[11px] text-muted-foreground sm:block">
-                  미국 주식 내부자 거래와 IPO 락업 일정 추적
+                  미국 주식 거래대금·내부자 거래·IPO 락업 분석
                 </p>
               </div>
             </div>
@@ -1469,7 +1447,7 @@ export default function App() {
               <ThemeButton theme={theme} setTheme={setTheme} />
             </div>
           </div>
-          <nav aria-label="BMO Value Talks 서비스" className="mx-auto flex max-w-[1140px] gap-1 overflow-x-auto px-4 pb-2 md:px-7">
+          <nav aria-label="BMO Value Talks 서비스" className="mx-auto flex max-w-[1280px] gap-1.5 overflow-x-auto px-4 pb-3 md:px-6">
             <a
               href="/"
               className="inline-flex h-8 shrink-0 items-center rounded-md border border-border bg-card px-3 text-[11.5px] font-bold text-muted-foreground hover:border-primary hover:text-foreground"
@@ -1477,7 +1455,7 @@ export default function App() {
               시장 흐름
             </a>
             <Pill active={tab === "insider"} onClick={() => changeTab("insider")}>
-              희소 내부자거래
+              내부자 거래
             </Pill>
             <Pill active={tab === "lockup"} onClick={() => changeTab("lockup")}> 
               IPO 락업
@@ -1486,7 +1464,7 @@ export default function App() {
           </nav>
         </header>
 
-        <main className="mx-auto max-w-[1140px] px-4 py-4 md:px-7 md:py-5">
+        <main className="mx-auto max-w-[1280px] px-4 py-5 md:px-6 md:py-7">
           <div className="mb-4 flex flex-col gap-3 border-b border-border pb-4 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-primary">{tab === "insider" ? "INSIDER TRADING" : "IPO LOCKUP"}</p>
@@ -1506,6 +1484,7 @@ export default function App() {
 
           <div className="grid gap-3">
             <SummaryBar
+              tab={tab}
               trades={insiderTrades}
               lockups={lockupEvents}
               meta={insiderMeta}
