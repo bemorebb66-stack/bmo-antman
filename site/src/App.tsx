@@ -29,6 +29,8 @@ type CoverageFilter = "major" | "russell" | "all";
 const fmtUSD = (n: number, digits = 0) =>
   "$" + n.toLocaleString("en-US", { maximumFractionDigits: digits });
 const fmtNum = (n: number) => n.toLocaleString("en-US");
+const moneyFlowTickerUrl = (ticker: string) =>
+  `https://www.bvtmoneyflow.xyz/?ticker=${encodeURIComponent(ticker)}`;
 
 const majorUniverseTickers = new Set(
   [
@@ -813,11 +815,11 @@ export interface InsiderMeta {
   } | null;
 }
 
-function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMeta | null }) {
+function InsiderTab({ trades, meta, initialTicker = "" }: { trades: InsiderTrade[]; meta: InsiderMeta | null; initialTicker?: string }) {
   const [filter, setFilter] = useState<TxFilter>("전체");
   const [period, setPeriod] = useState<PeriodFilter>("30D");
-  const [coverage, setCoverage] = useState<CoverageFilter>("major");
-  const [query, setQuery] = useState("");
+  const [coverage, setCoverage] = useState<CoverageFilter>(() => initialTicker ? "all" : "major");
+  const [query, setQuery] = useState(initialTicker);
   const [filingSort, setFilingSort] = useState<FilingSort>("default");
   const [selectedTrade, setSelectedTrade] = useState<NormalizedTrade | null>(null);
   const allNormalized = useMemo(
@@ -1259,6 +1261,13 @@ function InsiderTab({ trades, meta }: { trades: InsiderTrade[]; meta: InsiderMet
               </div>
 
               <a
+                href={moneyFlowTickerUrl(selectedTrade.ticker)}
+                className="inline-flex h-11 items-center justify-center rounded-xl border border-primary px-4 text-[13px] font-extrabold text-primary"
+              >
+                Money Flow에서 거래대금 확인
+              </a>
+
+              <a
                 href={secFilingUrl(selectedTrade)}
                 target="_blank"
                 rel="noreferrer"
@@ -1279,15 +1288,17 @@ export interface LockupMeta {
   candidatesChecked?: number;
 }
 
-function LockupTab({ events, meta }: { events: LockupEvent[]; meta: LockupMeta | null }) {
+function LockupTab({ events, meta, initialTicker = "" }: { events: LockupEvent[]; meta: LockupMeta | null; initialTicker?: string }) {
   const rows = useMemo(
     () =>
-      [...events].sort((a, b) => {
+      [...events]
+        .filter((event) => !initialTicker || event.ticker.toUpperCase() === initialTicker.toUpperCase())
+        .sort((a, b) => {
         if (a.ticker === "SPCX") return -1;
         if (b.ticker === "SPCX") return 1;
         return dDay(a.lockupDate) - dDay(b.lockupDate);
       }),
-    [events]
+    [events, initialTicker]
   );
   const spacexEvent = rows.find((event) => event.ticker === "SPCX");
   const within30 = events.filter((event) => dDay(event.lockupDate) <= 30 && dDay(event.lockupDate) >= 0).length;
@@ -1383,6 +1394,12 @@ function LockupTab({ events, meta }: { events: LockupEvent[]; meta: LockupMeta |
                 <div className="num text-[12px] font-semibold text-muted-foreground">
                   {event.ipoDate} → {event.lockupDate}
                 </div>
+                <a
+                  href={moneyFlowTickerUrl(event.ticker)}
+                  className="mt-1 inline-flex text-[11px] font-bold text-primary hover:underline"
+                >
+                  거래대금 보기
+                </a>
               </div>
             </div>
           );
@@ -1393,7 +1410,9 @@ function LockupTab({ events, meta }: { events: LockupEvent[]; meta: LockupMeta |
 }
 
 export default function App() {
-  const [tab, setTab] = useState<Tab>("insider");
+  const params = new URLSearchParams(window.location.search);
+  const initialTicker = (params.get("ticker") ?? "").trim().toUpperCase();
+  const [tab, setTab] = useState<Tab>(() => params.get("tab") === "lockup" ? "lockup" : "insider");
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window === "undefined") return "light";
     return new URLSearchParams(window.location.search).get("theme") === "dark" ? "dark" : "light";
@@ -1458,6 +1477,12 @@ export default function App() {
             </div>
           </div>
           <div className="mx-auto flex max-w-[1500px] gap-1 overflow-x-auto px-4 pb-3 md:px-5 xl:px-8">
+            <a
+              href="https://www.bvtmoneyflow.xyz/"
+              className="inline-flex h-9 shrink-0 items-center rounded-lg border border-border bg-card px-3 text-[12px] font-bold text-muted-foreground hover:text-foreground"
+            >
+              시장 흐름
+            </a>
             <Pill active={tab === "insider"} onClick={() => setTab("insider")}>
               희소 내부자거래
             </Pill>
@@ -1495,8 +1520,8 @@ export default function App() {
           </div>
 
           <div className="mt-4 min-w-0">
-            {tab === "insider" && <InsiderTab trades={insiderTrades} meta={insiderMeta} />}
-            {tab === "lockup" && <LockupTab events={lockupEvents} meta={lockupMeta} />}
+            {tab === "insider" && <InsiderTab trades={insiderTrades} meta={insiderMeta} initialTicker={initialTicker} />}
+            {tab === "lockup" && <LockupTab events={lockupEvents} meta={lockupMeta} initialTicker={initialTicker} />}
           </div>
 
           <footer className="mt-12 border-t border-border pt-6">
