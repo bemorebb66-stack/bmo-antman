@@ -1,10 +1,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
-  BarChart3,
-  Building2,
   CalendarClock,
   CheckCircle2,
-  ExternalLink,
   Moon,
   Search,
   ShieldAlert,
@@ -533,10 +530,10 @@ function Pill({ active, onClick, children }: { active: boolean; onClick: () => v
   return (
     <button
       onClick={onClick}
-      className={`h-11 rounded-xl px-3.5 text-[13px] font-semibold transition-colors md:h-9 md:rounded-lg ${
+      className={`h-8 shrink-0 rounded-md border px-3 text-[11.5px] font-bold transition-colors ${
         active
-          ? "bg-primary text-primary-foreground shadow-sm"
-          : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+          ? "border-foreground bg-foreground text-background"
+          : "border-border bg-card text-muted-foreground hover:border-primary hover:text-foreground"
       }`}
     >
       {children}
@@ -1453,68 +1450,57 @@ export default function App() {
   return (
     <div className={theme}>
       <div className="min-h-screen bg-background text-foreground">
-        <header className="sticky top-0 z-40 border-b border-border bg-shell/95 backdrop-blur">
-          <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-3 px-4 py-3 md:px-5 md:py-4 xl:px-8">
+        <header className="sticky top-0 z-40 border-b-2 border-foreground/70 bg-shell/95 backdrop-blur">
+          <div className="mx-auto flex max-w-[1140px] items-end justify-between gap-3 px-4 pb-2 pt-3 md:px-7">
             <div className="flex min-w-0 items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md shadow-primary/20 md:h-11 md:w-11">
-                <BarChart3 size={22} strokeWidth={2.3} />
-              </div>
               <div className="min-w-0">
                 <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-strong">
                   <span className="inline-block h-px w-3 bg-accent-strong" /> BMO VALUE TALKS
                 </p>
-                <h1 className="truncate text-[19px] font-extrabold leading-tight tracking-tight sm:text-[22px] md:text-[26px]">
-                  <span className="md:hidden">내부자거래 레이더</span>
-                  <span className="hidden md:inline">미국주식 내부자거래 시그널 레이더</span>
+                <h1 className="truncate font-serif text-[25px] font-bold leading-tight sm:text-[30px]">
+                  Signal <span className="italic text-primary">Flow</span>
                 </h1>
-                <p className="mt-1 hidden items-center gap-1 text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground sm:flex">
-                  <Building2 size={11} /> S&P500 · NASDAQ100 · Russell 2000 Insider Trading Radar
+                <p className="mt-0.5 hidden text-[11px] text-muted-foreground sm:block">
+                  미국 주식 내부자 거래와 IPO 락업 일정 추적
                 </p>
               </div>
             </div>
             <div className="flex shrink-0 items-center gap-2 md:justify-end">
-              <a
-                href="https://www.bvtmoneyflow.xyz/"
-                aria-label="Money Flow 사이트 열기"
-                className="hidden h-10 items-center gap-1.5 rounded-xl border border-border bg-card px-3 text-[12px] font-semibold text-muted-foreground shadow-sm hover:text-foreground sm:inline-flex"
-              >
-                Money Flow <ExternalLink size={13} />
-              </a>
               <ThemeButton theme={theme} setTheme={setTheme} />
             </div>
           </div>
-          <div className="mx-auto flex max-w-[1500px] gap-1 overflow-x-auto px-4 pb-3 md:px-5 xl:px-8">
+          <nav aria-label="BMO Value Talks 서비스" className="mx-auto flex max-w-[1140px] gap-1 overflow-x-auto px-4 pb-2 md:px-7">
             <a
-              href="https://www.bvtmoneyflow.xyz/"
-              className="inline-flex h-9 shrink-0 items-center rounded-lg border border-border bg-card px-3 text-[12px] font-bold text-muted-foreground hover:text-foreground"
+              href="/"
+              className="inline-flex h-8 shrink-0 items-center rounded-md border border-border bg-card px-3 text-[11.5px] font-bold text-muted-foreground hover:border-primary hover:text-foreground"
             >
               시장 흐름
             </a>
             <Pill active={tab === "insider"} onClick={() => changeTab("insider")}>
               희소 내부자거래
             </Pill>
-            <Pill active={tab === "lockup"} onClick={() => changeTab("lockup")}>
+            <Pill active={tab === "lockup"} onClick={() => changeTab("lockup")}> 
               IPO 락업
             </Pill>
-          </div>
+            <a href="/today.html" className="inline-flex h-8 shrink-0 items-center rounded-md border border-border bg-card px-3 text-[11.5px] font-bold text-muted-foreground hover:border-primary hover:text-foreground">오늘의 요약</a>
+          </nav>
         </header>
 
-        <main className="mx-auto max-w-[1500px] px-4 py-4 md:px-5 md:py-6 xl:px-8">
-          <div className="mb-4 flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm md:mb-5 md:flex-row md:items-end md:justify-between md:p-6">
+        <main className="mx-auto max-w-[1140px] px-4 py-4 md:px-7 md:py-5">
+          <div className="mb-4 flex flex-col gap-3 border-b border-border pb-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Insider Trading Radar</p>
-              <h2 className="mt-1 max-w-[760px] text-[22px] font-extrabold leading-tight tracking-tight md:text-[32px]">
-                미국주식 내부자거래 시그널 레이더
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-primary">{tab === "insider" ? "INSIDER TRADING" : "IPO LOCKUP"}</p>
+              <h2 className="mt-1 max-w-[760px] font-serif text-[24px] font-bold leading-tight md:text-[30px]">
+                {tab === "insider" ? "내부자 거래" : "IPO 락업"}
               </h2>
-              <p className="mt-2 max-w-[760px] text-[13px] leading-6 text-muted-foreground">
-                BMO Signal Flow는 S&P500·NASDAQ100 대형주를 기본 레이더로 두고, Russell 2000 중소형주 내부자거래까지
-                별도 필터로 확장해 추적합니다. 내부자 매매처럼 매일 발생하지 않는 희소 내부자거래를 과장하지 않고,
-                중요한 정보 흐름을 빠르게 확인하도록 설계했습니다.
+              <p className="mt-1 max-w-[760px] text-[12.5px] leading-5 text-muted-foreground">
+                {tab === "insider"
+                  ? "미국 상장기업 임원과 주요 주주의 내부자 거래를 확인합니다."
+                  : "미국 상장기업의 보호예수 해제 일정과 잠재 공급 이벤트를 확인합니다."}
               </p>
             </div>
             <div className="inline-flex items-center gap-2 text-[12px] text-muted-foreground">
-              <Search size={14} />
-              업데이트 {formatUpdateTime(insiderMeta, lockupMeta)}
+              기준일 · <b className="font-semibold text-foreground">{formatUpdateTime(insiderMeta, lockupMeta)}</b>
             </div>
           </div>
 

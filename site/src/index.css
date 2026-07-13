@@ -5,62 +5,62 @@
 @layer base {
   :root,
   .light {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --background: 43 33% 97%;
+    --foreground: 42 17% 9%;
+    --card: 45 29% 99%;
+    --card-foreground: 42 17% 9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-    --primary: 221 83% 53%;
+    --primary: 7 66% 44%;
     --primary-foreground: 0 0% 100%;
     --secondary: 214 32% 91%;
     --secondary-foreground: 222 47% 11%;
     --muted: 214 32% 92%;
-    --muted-foreground: 215 16% 44%;
-    --accent: 221 83% 53%;
+    --muted-foreground: 36 10% 42%;
+    --accent: 7 66% 44%;
     --accent-foreground: 0 0% 100%;
     --destructive: 2 68% 48%;
     --destructive-foreground: 0 0% 100%;
-    --border: 214 32% 86%;
-    --input: 214 32% 86%;
-    --ring: 221 83% 53%;
-    --radius: 0.5rem;
-    --shell: 0 0% 100%;
-    --panel: 210 40% 96%;
-    --positive: 160 84% 39%;
-    --negative: 217 91% 60%;
+    --border: 39 20% 84%;
+    --input: 39 20% 84%;
+    --ring: 7 66% 44%;
+    --radius: 0.45rem;
+    --shell: 45 29% 99%;
+    --panel: 42 25% 95%;
+    --positive: 7 66% 44%;
+    --negative: 195 42% 29%;
     --warning: 38 92% 50%;
     --warning-foreground: 32 40% 10%;
-    --accent-strong: 221 83% 53%;
+    --accent-strong: 7 66% 44%;
   }
 
   .dark {
-    --background: 222 47% 7%;
-    --foreground: 210 40% 96%;
-    --card: 222 47% 11%;
+    --background: 48 31% 5%;
+    --foreground: 43 29% 90%;
+    --card: 43 17% 9%;
     --card-foreground: 210 40% 96%;
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 96%;
-    --primary: 217 91% 60%;
+    --primary: 9 66% 59%;
     --primary-foreground: 222 47% 7%;
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 96%;
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
-    --accent: 217 91% 60%;
+    --accent: 9 66% 59%;
     --accent-foreground: 222 47% 7%;
     --destructive: 2 65% 58%;
     --destructive-foreground: 222 47% 7%;
-    --border: 217 33% 20%;
-    --input: 217 33% 20%;
-    --ring: 217 91% 60%;
-    --shell: 222 47% 9%;
-    --panel: 222 47% 8%;
-    --positive: 160 84% 45%;
-    --negative: 213 94% 68%;
+    --border: 40 12% 21%;
+    --input: 40 12% 21%;
+    --ring: 9 66% 59%;
+    --shell: 43 17% 9%;
+    --panel: 45 16% 7%;
+    --positive: 9 66% 59%;
+    --negative: 196 32% 60%;
     --warning: 38 92% 58%;
     --warning-foreground: 40 42% 8%;
-    --accent-strong: 217 91% 60%;
+    --accent-strong: 9 66% 59%;
   }
 }
 
@@ -77,6 +77,12 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "tnum";
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: 0;
   }
 
   body::selection {
