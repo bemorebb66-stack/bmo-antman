@@ -3,13 +3,13 @@
     "source": "SEC EDGAR daily form index + Form 4 XML",
     "universe": "S&P 500 + Nasdaq 100",
     "universeSize": 514,
-    "filedDate": "2026-07-15",
+    "filedDate": "2026-07-16",
     "dateRange": {
       "from": "2026-01-01",
-      "to": "2026-07-16"
+      "to": "2026-07-17"
     },
-    "generatedAt": "2026-07-16T05:30:17.758Z",
-    "filingsScanned": 919,
+    "generatedAt": "2026-07-17T05:31:08.996Z",
+    "filingsScanned": 914,
     "monthlyRowCap": 20,
     "daysPerMonthCap": 8,
     "rowsPerIndexDayCap": 3,
@@ -107,19 +107,37 @@
       "clusterCount": 1
     },
     {
+      "ticker": "ABNB",
+      "company": "Airbnb, Inc.",
+      "filer": "Gebbia Joseph",
+      "role": "10%대주주",
+      "txType": "매도",
+      "shares": 761636,
+      "price": 145.65,
+      "value": 110930624,
+      "ownBefore": 2189329,
+      "filedDate": "2026-01-14",
+      "txDate": "2026-07-13",
+      "ownAfter": 16873292,
+      "ownChangePct": 670.7,
+      "id": "f4-0001193125-26-012915",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526012915/ownership.xml",
+      "clusterCount": 4
+    },
+    {
       "ticker": "ANET",
       "company": "Arista Networks, Inc.",
       "filer": "Ullal Jayshree",
       "role": "CEO",
       "txType": "매도",
-      "shares": 540717,
-      "price": 175.93,
-      "value": 95128006,
+      "shares": 548561,
+      "price": 176.53,
+      "value": 96836948,
       "ownBefore": 28728424,
       "filedDate": "2026-04-22",
-      "txDate": "2026-07-10",
-      "ownAfter": 27423424,
-      "ownChangePct": -4.5,
+      "txDate": "2026-07-09",
+      "ownAfter": 83141108,
+      "ownChangePct": 189.4,
       "id": "f4-0001596532-26-000064",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000064/edgardoc.xml",
       "clusterCount": 3
@@ -141,24 +159,6 @@
       "id": "f4-0001596532-26-000138",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000138/edgardoc.xml",
       "clusterCount": 3
-    },
-    {
-      "ticker": "ABNB",
-      "company": "Airbnb, Inc.",
-      "filer": "Gebbia Joseph",
-      "role": "10%대주주",
-      "txType": "매도",
-      "shares": 499096,
-      "price": 145.75,
-      "value": 72742257,
-      "ownBefore": 2189329,
-      "filedDate": "2026-01-14",
-      "txDate": "2026-07-07",
-      "ownAfter": 2595119,
-      "ownChangePct": 18.5,
-      "id": "f4-0001193125-26-012915",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526012915/ownership.xml",
-      "clusterCount": 4
     },
     {
       "ticker": "AAPL",
@@ -431,22 +431,22 @@
       "clusterCount": 1
     },
     {
-      "ticker": "AXON",
-      "company": "AXON ENTERPRISE, INC.",
-      "filer": "Smith Patrick W",
-      "role": "CEO",
+      "ticker": "XYZ",
+      "company": "Block, Inc.",
+      "filer": "Eisen Anthony Mathew",
+      "role": "이사",
       "txType": "매도",
-      "shares": 10000,
-      "price": 643.79,
-      "value": 6437895,
-      "ownBefore": 79207553,
-      "filedDate": "2026-07-09",
-      "txDate": "2026-07-07",
-      "ownAfter": 79197553,
-      "ownChangePct": 0,
-      "id": "f4-0001628280-26-047809",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/1069183/000162828026047809/wk-form4_1783631382.xml",
-      "clusterCount": 2
+      "shares": 84000,
+      "price": 78.75,
+      "value": 6614940,
+      "ownBefore": 7654688,
+      "filedDate": "2026-07-02",
+      "txDate": "2026-07-13",
+      "ownAfter": 5534016,
+      "ownChangePct": -27.7,
+      "id": "f4-0001628280-26-047076",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1512673/000162828026047076/wk-form4_1783034362.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "AMAT",
@@ -465,24 +465,6 @@
       "id": "f4-0001628280-26-044741",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/6951/000162828026044741/wk-form4_1782164283.xml",
       "clusterCount": 2
-    },
-    {
-      "ticker": "XYZ",
-      "company": "Block, Inc.",
-      "filer": "Eisen Anthony Mathew",
-      "role": "이사",
-      "txType": "매도",
-      "shares": 66000,
-      "price": 79.01,
-      "value": 5214540,
-      "ownBefore": 7654688,
-      "filedDate": "2026-07-02",
-      "txDate": "2026-07-08",
-      "ownAfter": 5588016,
-      "ownChangePct": -27,
-      "id": "f4-0001628280-26-047076",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/1512673/000162828026047076/wk-form4_1783034362.xml",
-      "clusterCount": 1
     },
     {
       "ticker": "CASY",
@@ -537,6 +519,24 @@
       "id": "f4-0001588503-26-000014",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1701605/000158850326000014/wk-form4_1783022681.xml",
       "clusterCount": 3
+    },
+    {
+      "ticker": "CRWD",
+      "company": "CrowdStrike Holdings, Inc.",
+      "filer": "Kurtz George",
+      "role": "CEO",
+      "txType": "매도",
+      "shares": 20000,
+      "price": 192.81,
+      "value": 3856250,
+      "ownBefore": 173110481,
+      "filedDate": "2026-07-13",
+      "txDate": "2026-07-10",
+      "ownAfter": 173090481,
+      "ownChangePct": 0,
+      "id": "f4-0001778564-26-000117",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1535527/000177856426000117/form4-07132026_080701.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "AMP",
@@ -737,24 +737,6 @@
       "clusterCount": 5
     },
     {
-      "ticker": "ADI",
-      "company": "ANALOG DEVICES INC",
-      "filer": "Stata Ray",
-      "role": "이사",
-      "txType": "매도",
-      "shares": 4248,
-      "price": 386.61,
-      "value": 1642333,
-      "ownBefore": 1908087,
-      "filedDate": "2026-06-12",
-      "txDate": "2026-07-08",
-      "ownAfter": 2464188,
-      "ownChangePct": 29.1,
-      "id": "f4-0000900729-26-000010",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/6281/000090072926000010/wk-form4_1781297078.xml",
-      "clusterCount": 2
-    },
-    {
       "ticker": "APP",
       "company": "AppLovin Corp",
       "filer": "Webb Maynard G Jr",
@@ -842,7 +824,7 @@
       "ownChangePct": -14.4,
       "id": "f4-0001767894-26-000012",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1086222/000176789426000012/wk-form4_1773173606.xml",
-      "clusterCount": 5
+      "clusterCount": 6
     },
     {
       "ticker": "ABNB",
@@ -1040,7 +1022,7 @@
       "ownChangePct": 63.8,
       "id": "f4-0001699796-26-000002",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1086222/000169979626000002/wk-form4_1767388475.xml",
-      "clusterCount": 5
+      "clusterCount": 6
     },
     {
       "ticker": "COHR",
@@ -1076,7 +1058,7 @@
       "ownChangePct": -23.4,
       "id": "f4-0001718588-26-000004",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1086222/000171858826000004/wk-form4_1771967364.xml",
-      "clusterCount": 5
+      "clusterCount": 6
     },
     {
       "ticker": "AVGO",
@@ -1184,6 +1166,24 @@
       "ownChangePct": -3.8,
       "id": "f4-0001193125-26-005781",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/906345/000119312526005781/ownership.xml",
+      "clusterCount": 1
+    },
+    {
+      "ticker": "ADI",
+      "company": "ANALOG DEVICES INC",
+      "filer": "Stata Ray",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 1416,
+      "price": 398.11,
+      "value": 563722,
+      "ownBefore": 1908087,
+      "filedDate": "2026-06-12",
+      "txDate": "2026-06-10",
+      "ownAfter": 1906671,
+      "ownChangePct": -0.1,
+      "id": "f4-0000900729-26-000010",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/6281/000090072926000010/wk-form4_1781297078.xml",
       "clusterCount": 1
     },
     {
@@ -1295,22 +1295,22 @@
       "clusterCount": 2
     },
     {
-      "ticker": "ADI",
-      "company": "ANALOG DEVICES INC",
-      "filer": "Golz Karen",
-      "role": "이사",
+      "ticker": "AKAM",
+      "company": "AKAMAI TECHNOLOGIES INC",
+      "filer": "Joseph Paul C",
+      "role": "EVP - Global Sales",
       "txType": "매도",
-      "shares": 1000,
-      "price": 389.83,
-      "value": 389830,
-      "ownBefore": 12019,
-      "filedDate": "2026-07-14",
-      "txDate": "2026-07-13",
-      "ownAfter": 11019,
-      "ownChangePct": -8.3,
-      "id": "f4-0001744712-26-000005",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/6281/000174471226000005/wk-form4_1784061909.xml",
-      "clusterCount": 2
+      "shares": 3100,
+      "price": 126.77,
+      "value": 392987,
+      "ownBefore": 34672,
+      "filedDate": "2026-07-15",
+      "txDate": "2026-07-15",
+      "ownAfter": 31572,
+      "ownChangePct": -8.9,
+      "id": "f4-0001845574-26-000016",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1086222/000184557426000016/wk-form4_1784145921.xml",
+      "clusterCount": 6
     },
     {
       "ticker": "AKAM",
@@ -1328,7 +1328,7 @@
       "ownChangePct": -16.2,
       "id": "f4-0001576905-26-000002",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1086222/000157690526000002/wk-form4_1769205544.xml",
-      "clusterCount": 5
+      "clusterCount": 6
     },
     {
       "ticker": "AKAM",
@@ -1346,7 +1346,7 @@
       "ownChangePct": -13.8,
       "id": "f4-0001810228-26-000008",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1086222/000181022826000008/wk-form4_1772747635.xml",
-      "clusterCount": 5
+      "clusterCount": 6
     },
     {
       "ticker": "ARE",
@@ -1670,7 +1670,7 @@
       "ownChangePct": -9.2,
       "id": "f4-0001628280-26-019560",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1069183/000162828026019560/wk-form4_1773871651.xml",
-      "clusterCount": 2
+      "clusterCount": 1
     },
     {
       "ticker": "BALL",
