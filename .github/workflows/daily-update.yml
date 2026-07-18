@@ -33,14 +33,15 @@ jobs:
       - name: Fetch SEC data
         run: |
           node pipeline/fetch_form4.mjs \
-            --from 2026-01-01 \
+            --from "$(date -u -d '10 days ago' +%Y-%m-%d)" \
             --to "$(date -u +%Y-%m-%d)" \
             --universe major \
-            --max-rows 140 \
+            --max-rows 1000 \
             --max-filings-per-day 500 \
-            --max-rows-per-month 20 \
-            --max-days-per-month 8 \
-            --max-rows-per-index-day 3 \
+            --max-rows-per-month 1000 \
+            --max-days-per-month 999 \
+            --max-rows-per-index-day 200 \
+            --merge-existing-days 120 \
             --quiet
           node pipeline/fetch_lockup.mjs --max-candidates 40 --months 9
 

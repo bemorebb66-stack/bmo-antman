@@ -6,7 +6,7 @@
 //
 // SEC 요구사항: User-Agent에 연락처 명시, 초당 10요청 이하 (여기선 요청당 130ms 대기)
 
-import { writeFileSync, mkdirSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -37,6 +37,7 @@ const MAX_ROWS_PER_INDEX_DAY = argVal(
   "--max-rows-per-index-day",
   RANGE_MODE ? Math.max(1, Math.ceil(MAX_ROWS_PER_MONTH / MAX_DAYS_PER_MONTH)) : MAX_ROWS
 );
+const MERGE_EXISTING_DAYS = argVal("--merge-existing-days", 0);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -372,6 +373,25 @@ async function main() {
     rows.push(r);
   }
 
+  // 짧은 최근 구간을 다시 수집한 뒤 기존 데이터와 합쳐 누락과 SEC 지연 공시를 보완한다.
+  // 이번 수집 구간에 같은 종목·신고인·방향이 있으면 최신 수집 결과를 우선한다.
+  const outPath = join(__dirname, "out", "insider.json");
+  if (MERGE_EXISTING_DAYS > 0 && existsSync(outPath)) {
+    const cutoff = new Date(`${latestDate}T00:00:00Z`);
+    cutoff.setUTCDate(cutoff.getUTCDate() - MERGE_EXISTING_DAYS);
+    const cutoffDate = cutoff.toISOString().slice(0, 10);
+    const currentKeys = new Set(rows.map((r) => `${r.ticker}|${r.filer}|${r.txType}`));
+    try {
+      const previous = JSON.parse(readFileSync(outPath, "utf8"));
+      for (const row of previous.trades || []) {
+        const key = `${row.ticker}|${row.filer}|${row.txType}`;
+        if (row.filedDate >= cutoffDate && !currentKeys.has(key)) rows.push(row);
+      }
+    } catch (error) {
+      if (!QUIET) console.warn(`기존 내부자 데이터 병합 건너뜀: ${error.message}`);
+    }
+  }
+
   // 클러스터 탐지: 같은 종목 + 같은 방향, 서로 다른 신고인 수
   const clusterKey = (r) => `${r.ticker}|${r.txType}`;
   const clusters = {};
@@ -400,7 +420,6 @@ async function main() {
     trades: rows,
   };
 
-  const outPath = join(__dirname, "out", "insider.json");
   const sitePath = join(__dirname, "..", "site", "public", "data", "insider.json");
   mkdirSync(dirname(outPath), { recursive: true });
   mkdirSync(dirname(sitePath), { recursive: true });
