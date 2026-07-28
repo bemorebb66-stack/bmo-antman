@@ -345,7 +345,10 @@ async function main() {
   // 가장 늦은 거래의 ownAfter를 이어붙여서 구간 전체의 순변동을 계산한다.
   const merged = new Map();
   for (const r of rows) {
-    const k = `${r.ticker}|${r.filer}|${r.txType}`;
+    // Combine split executions only within the same trading day. Keeping the
+    // date in the key prevents a newer transaction from disappearing into an
+    // older aggregate for the same insider.
+    const k = `${r.ticker}|${r.filer}|${r.txType}|${r.txDate || r.filedDate}`;
     const prev = merged.get(k);
     if (!prev) {
       merged.set(k, { ...r, _earliest: r.txDate, _latest: r.txDate });
@@ -380,11 +383,13 @@ async function main() {
     const cutoff = new Date(`${latestDate}T00:00:00Z`);
     cutoff.setUTCDate(cutoff.getUTCDate() - MERGE_EXISTING_DAYS);
     const cutoffDate = cutoff.toISOString().slice(0, 10);
-    const currentKeys = new Set(rows.map((r) => `${r.ticker}|${r.filer}|${r.txType}`));
+    const currentKeys = new Set(
+      rows.map((r) => `${r.ticker}|${r.filer}|${r.txType}|${r.txDate || r.filedDate}`)
+    );
     try {
       const previous = JSON.parse(readFileSync(outPath, "utf8"));
       for (const row of previous.trades || []) {
-        const key = `${row.ticker}|${row.filer}|${row.txType}`;
+        const key = `${row.ticker}|${row.filer}|${row.txType}|${row.txDate || row.filedDate}`;
         if (row.filedDate >= cutoffDate && !currentKeys.has(key)) rows.push(row);
       }
     } catch (error) {

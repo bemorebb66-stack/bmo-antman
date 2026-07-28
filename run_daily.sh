@@ -9,12 +9,12 @@ echo "[1/3] SEC EDGAR Form 4 수집..."
 node "$ROOT/pipeline/fetch_form4.mjs" \
   --from 2026-01-01 \
   --to "$(date -u +%Y-%m-%d)" \
-  --universe major \
-  --max-rows 140 \
-  --max-filings-per-day 500 \
-  --max-rows-per-month 20 \
-  --max-days-per-month 8 \
-  --max-rows-per-index-day 3 \
+  --universe all \
+  --max-rows 3000 \
+  --max-filings-per-day 2000 \
+  --max-rows-per-month 3000 \
+  --max-days-per-month 999 \
+  --max-rows-per-index-day 1000 \
   --quiet
 
 echo "[2/3] SEC EDGAR IPO 락업 수집..."
