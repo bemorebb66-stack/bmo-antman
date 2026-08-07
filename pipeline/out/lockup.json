@@ -1,7 +1,7 @@
 {
   "meta": {
     "source": "SEC EDGAR full-text search + 424B4 prospectus 본문 파싱",
-    "generatedAt": "2026-08-06T06:11:38.542Z",
+    "generatedAt": "2026-08-07T05:19:09.863Z",
     "candidatesChecked": 78,
     "note": "락업일수·공모가만 SEC 원문에서 추출. 발행주식수(유통물량 비율)·현재가·시총 등은 미포함(발행구조가 회사마다 달라 정규식으로 신뢰성 있게 추출 불가 / 실시간 시세는 별도 유료·무료 API 연동 필요)."
   },
@@ -323,6 +323,16 @@
       "ipoDate": "2026-06-30",
       "ipoPrice": 29,
       "lockupDate": "2026-12-27",
+      "lockupDays": 180,
+      "underwriter": null
+    },
+    {
+      "id": "lk-0001628280-26-054354",
+      "ticker": "BRVE",
+      "company": "Braveheart Bio, Inc.",
+      "ipoDate": "2026-08-06",
+      "ipoPrice": 18,
+      "lockupDate": "2027-02-02",
       "lockupDays": 180,
       "underwriter": null
     },
