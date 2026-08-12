@@ -3,13 +3,13 @@
     "source": "SEC EDGAR daily form index + Form 4 XML",
     "universe": "All SEC Form 4 issuers",
     "universeSize": null,
-    "filedDate": "2026-08-10",
+    "filedDate": "2026-08-11",
     "dateRange": {
-      "from": "2026-08-01",
-      "to": "2026-08-11"
+      "from": "2026-08-02",
+      "to": "2026-08-12"
     },
-    "generatedAt": "2026-08-11T04:40:20.345Z",
-    "filingsScanned": 7926,
+    "generatedAt": "2026-08-12T05:01:58.342Z",
+    "filingsScanned": 8254,
     "monthlyRowCap": 3000,
     "daysPerMonthCap": 999,
     "rowsPerIndexDayCap": 1000,
@@ -248,7 +248,7 @@
       "ownChangePct": -15,
       "id": "f4-0001193125-26-324172",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526324172/ownership.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "LUNR",
@@ -356,7 +356,7 @@
       "ownChangePct": 19.8,
       "id": "f4-0001193125-26-340528",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2131524/000119312526340528/ownership.xml",
-      "clusterCount": 7
+      "clusterCount": 10
     },
     {
       "ticker": "MDLN",
@@ -521,6 +521,24 @@
       "clusterCount": 2
     },
     {
+      "ticker": "ABNB",
+      "company": "Airbnb, Inc.",
+      "filer": "Blecharczyk Nathan",
+      "role": "Chief Strategy Officer",
+      "txType": "매도",
+      "shares": 1062000,
+      "price": 174.41,
+      "value": 185228134,
+      "ownBefore": 6826794,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 6295794,
+      "ownChangePct": -7.8,
+      "id": "f4-0001193125-26-345316",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526345316/ownership.xml",
+      "clusterCount": 5
+    },
+    {
       "ticker": "SN",
       "company": "SharkNinja, Inc.",
       "filer": "Barrocas Mark",
@@ -680,7 +698,43 @@
       "ownChangePct": -68.2,
       "id": "f4-0000021344-26-000156",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/21344/000002134426000156/form4.xml",
-      "clusterCount": 4
+      "clusterCount": 5
+    },
+    {
+      "ticker": "LB",
+      "company": "LandBridge Co LLC",
+      "filer": "Capobianco David N",
+      "role": "10%대주주",
+      "txType": "매도",
+      "shares": 1250000,
+      "price": 75.05,
+      "value": 93812500,
+      "ownBefore": 1250000,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 0,
+      "ownChangePct": -100,
+      "id": "f4-0001193125-26-345446",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1298438/000119312526345446/ownership.xml",
+      "clusterCount": 2
+    },
+    {
+      "ticker": "LB",
+      "company": "LandBridge Co LLC",
+      "filer": "Landbridge Holdings Llc",
+      "role": "10%대주주",
+      "txType": "매도",
+      "shares": 1250000,
+      "price": 75.05,
+      "value": 93812500,
+      "ownBefore": 1250000,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 0,
+      "ownChangePct": -100,
+      "id": "f4-0001193125-26-345454",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1298438/000119312526345454/ownership.xml",
+      "clusterCount": 2
     },
     {
       "ticker": "KNTK",
@@ -699,6 +753,24 @@
       "id": "f4-0000905148-26-003534",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2020876/000090514826003534/form4.xml",
       "clusterCount": 1
+    },
+    {
+      "ticker": "BRVE",
+      "company": "Braveheart Bio, Inc.",
+      "filer": "Ah Bio Fund Iv, L.p.",
+      "role": "10%대주주",
+      "txType": "매수",
+      "shares": 4400000,
+      "price": 18,
+      "value": 79200000,
+      "ownBefore": 9132420,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 10232420,
+      "ownChangePct": 12,
+      "id": "f4-0001231919-26-000859",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1889476/000123191926000859/form4-08112026_090855.xml",
+      "clusterCount": 10
     },
     {
       "ticker": "SN",
@@ -735,6 +807,24 @@
       "id": "f4-0001013594-26-000831",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/933897/000101359426000831/form4.xml",
       "clusterCount": 1
+    },
+    {
+      "ticker": "ABNB",
+      "company": "Airbnb, Inc.",
+      "filer": "Chesky Brian",
+      "role": "CEO",
+      "txType": "매도",
+      "shares": 440000,
+      "price": 174.68,
+      "value": 76860872,
+      "ownBefore": 170477064,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 245220,
+      "ownChangePct": -99.9,
+      "id": "f4-0001193125-26-345326",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526345326/ownership.xml",
+      "clusterCount": 5
     },
     {
       "ticker": "GM",
@@ -788,7 +878,7 @@
       "ownChangePct": -75.3,
       "id": "f4-0001193125-26-304987",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526304987/ownership.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "BBY",
@@ -861,6 +951,24 @@
       "id": "f4-0001140361-26-020298",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/320193/000114036126020298/form4.xml",
       "clusterCount": 2
+    },
+    {
+      "ticker": "BRVE",
+      "company": "Braveheart Bio, Inc.",
+      "filer": "Chimovits Erez",
+      "role": "10%대주주",
+      "txType": "매수",
+      "shares": 3880000,
+      "price": 18,
+      "value": 69840000,
+      "ownBefore": 10235159,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 12175159,
+      "ownChangePct": 19,
+      "id": "f4-0000947871-26-000783",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/2131524/000094787126000783/ownership.xml",
+      "clusterCount": 10
     },
     {
       "ticker": "PBF",
@@ -1076,7 +1184,7 @@
       "ownChangePct": -1.7,
       "id": "f4-0001769628-26-000351",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000351/form4.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "BSM",
@@ -1202,7 +1310,7 @@
       "ownChangePct": -67.9,
       "id": "f4-0001786925-26-000037",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1477333/000178692526000037/wk-form4_1785973571.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "LNBIX",
@@ -1274,7 +1382,7 @@
       "ownChangePct": -1.9,
       "id": "f4-0001769628-26-000327",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000327/form4.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "ACT",
@@ -1562,7 +1670,7 @@
       "ownChangePct": -90.1,
       "id": "f4-0001769628-26-000341",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000341/form4.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "CRWV",
@@ -1580,7 +1688,7 @@
       "ownChangePct": -2.5,
       "id": "f4-0001769628-26-000338",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000338/form4.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "ATTO",
@@ -1796,7 +1904,7 @@
       "ownChangePct": -97.1,
       "id": "f4-0001769628-26-000324",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000324/form4.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "CVX",
@@ -1904,7 +2012,7 @@
       "ownChangePct": -87.3,
       "id": "f4-0001769628-26-000335",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000335/form4.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "BLSM",
@@ -1943,6 +2051,24 @@
       "clusterCount": 6
     },
     {
+      "ticker": "BRVE",
+      "company": "Braveheart Bio, Inc.",
+      "filer": "Orbimed Advisors Llc",
+      "role": "10%대주주",
+      "txType": "매수",
+      "shares": 1940000,
+      "price": 18,
+      "value": 34920000,
+      "ownBefore": 10235159,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 12175159,
+      "ownChangePct": 19,
+      "id": "f4-0000947871-26-000782",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/2131524/000094787126000782/ownership.xml",
+      "clusterCount": 10
+    },
+    {
       "ticker": "REF",
       "company": "Reformation Inc.",
       "filer": "Aflalo Yael",
@@ -1976,7 +2102,7 @@
       "ownChangePct": -19.4,
       "id": "f4-0001473289-26-000021",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1477333/000147328926000021/wk-form4_1786057384.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "DDOG",
@@ -2228,7 +2354,7 @@
       "ownChangePct": -14.6,
       "id": "f4-0001786925-26-000031",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1477333/000178692526000031/wk-form4_1785972255.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "BAER",
@@ -2426,7 +2552,25 @@
       "ownChangePct": -35.3,
       "id": "f4-0000021344-26-000158",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/21344/000002134426000158/form4.xml",
-      "clusterCount": 4
+      "clusterCount": 5
+    },
+    {
+      "ticker": "CRDA CRDB",
+      "company": "CRAWFORD &amp; CO",
+      "filer": "Crawford Jesse C",
+      "role": "10%대주주",
+      "txType": "매도",
+      "shares": 2000000,
+      "price": 12.81,
+      "value": 25627400,
+      "ownBefore": 5447188,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 4447188,
+      "ownChangePct": -18.4,
+      "id": "f4-0000025475-26-000066",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/25475/000002547526000066/form4.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "JNJ",
@@ -2571,6 +2715,24 @@
       "id": "f4-0002061219-26-000011",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1795586/000206121926000011/wk-form4_1786404963.xml",
       "clusterCount": 5
+    },
+    {
+      "ticker": "P",
+      "company": "Everpure, Inc.",
+      "filer": "Colgrove John",
+      "role": "Chief Visionary Officer",
+      "txType": "매도",
+      "shares": 235185,
+      "price": 95.94,
+      "value": 22563034,
+      "ownBefore": 40981544,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 40746359,
+      "ownChangePct": -0.6,
+      "id": "f4-0001474432-26-000080",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1651902/000147443226000080/wk-form4_1786485441.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "LKNCY",
@@ -3111,6 +3273,24 @@
       "id": "f4-0001231919-26-000791",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1817241/000123191926000791/form4-07242026_010725.xml",
       "clusterCount": 1
+    },
+    {
+      "ticker": "VSAT",
+      "company": "VIASAT INC",
+      "filer": "Baldridge Richard A",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 223542,
+      "price": 80.62,
+      "value": 18021561,
+      "ownBefore": 416320,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 192778,
+      "ownChangePct": -53.7,
+      "id": "f4-0001193125-26-344702",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1229083/000119312526344702/ownership.xml",
+      "clusterCount": 6
     },
     {
       "ticker": "BSX",
@@ -3776,7 +3956,7 @@
       "ownChangePct": -100,
       "id": "f4-0000021344-26-000154",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/21344/000002134426000154/form4.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "MTAK",
@@ -3848,6 +4028,24 @@
       "ownChangePct": -3.5,
       "id": "f4-0001193125-26-323754",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1818794/000119312526323754/ownership.xml",
+      "clusterCount": 1
+    },
+    {
+      "ticker": "AUR",
+      "company": "Aurora Innovation, Inc.",
+      "filer": "Volpi Michelangelo",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 1889023,
+      "price": 7.05,
+      "value": 13320156,
+      "ownBefore": 1889023,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 0,
+      "ownChangePct": -100,
+      "id": "f4-0001193125-26-344685",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1828108/000119312526344685/ownership.xml",
       "clusterCount": 1
     },
     {
@@ -4208,7 +4406,7 @@
       "ownChangePct": -4,
       "id": "f4-0001786925-26-000033",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1477333/000178692526000033/wk-form4_1785972339.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "CLS",
@@ -4281,6 +4479,42 @@
       "id": "f4-0000109380-26-000109",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1186735/000010938026000109/wk-form4_1785962016.xml",
       "clusterCount": 3
+    },
+    {
+      "ticker": "BY",
+      "company": "BYLINE BANCORP, INC.",
+      "filer": "Del Valle Perochena Antonio",
+      "role": "10%대주주",
+      "txType": "매도",
+      "shares": 300000,
+      "price": 39.1,
+      "value": 11730000,
+      "ownBefore": 11835145,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 11535145,
+      "ownChangePct": -2.5,
+      "id": "f4-0001709907-26-000002",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1702750/000170990726000002/form4-08112026_040806.xml",
+      "clusterCount": 2
+    },
+    {
+      "ticker": "BY",
+      "company": "BYLINE BANCORP, INC.",
+      "filer": "Mbg Investors I, L.p.",
+      "role": "10%대주주",
+      "txType": "매도",
+      "shares": 300000,
+      "price": 39.1,
+      "value": 11730000,
+      "ownBefore": 11835145,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 11535145,
+      "ownChangePct": -2.5,
+      "id": "f4-0001710094-26-000002",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1702750/000171009426000002/form4-08112026_090824.xml",
+      "clusterCount": 2
     },
     {
       "ticker": "AVR",
@@ -5018,7 +5252,7 @@
       "ownChangePct": 0,
       "id": "f4-0001193125-26-337965",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1521332/000119312526337965/ownership.xml",
-      "clusterCount": 1
+      "clusterCount": 2
     },
     {
       "ticker": "UFPT",
@@ -5378,7 +5612,7 @@
       "ownChangePct": -49.6,
       "id": "f4-0000021344-26-000161",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/21344/000002134426000161/form4.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "SCI",
@@ -5649,6 +5883,24 @@
       "id": "f4-0002124082-26-000005",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1163668/000212408226000005/primary_doc.xml",
       "clusterCount": 2
+    },
+    {
+      "ticker": "ALL",
+      "company": "ALLSTATE CORP",
+      "filer": "Dugenske John E",
+      "role": "임원",
+      "txType": "매도",
+      "shares": 32996,
+      "price": 269.33,
+      "value": 8886803,
+      "ownBefore": 127493,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 94497,
+      "ownChangePct": -25.9,
+      "id": "f4-0000899051-26-000120",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/899051/000089905126000120/form4.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "RSI",
@@ -6479,6 +6731,42 @@
       "clusterCount": 2
     },
     {
+      "ticker": "CBT",
+      "company": "CABOT CORP",
+      "filer": "Keohane Sean D",
+      "role": "CEO",
+      "txType": "매도",
+      "shares": 91923,
+      "price": 86.41,
+      "value": 7942634,
+      "ownBefore": 496057,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 404134,
+      "ownChangePct": -18.5,
+      "id": "f4-0001193125-26-345177",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/16040/000119312526345177/ownership.xml",
+      "clusterCount": 1
+    },
+    {
+      "ticker": "CRL",
+      "company": "CHARLES RIVER LABORATORIES INTERNATIONAL, INC.",
+      "filer": "Foster James C",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 28733,
+      "price": 275,
+      "value": 7901575,
+      "ownBefore": 60329,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 31596,
+      "ownChangePct": -47.6,
+      "id": "f4-0001100682-26-000126",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1100682/000110068226000126/form4.xml",
+      "clusterCount": 4
+    },
+    {
       "ticker": "APPF",
       "company": "APPFOLIO INC",
       "filer": "Duca Maurice J",
@@ -6801,6 +7089,24 @@
       "id": "f4-0000043920-26-000126",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/43920/000004392026000126/form4.xml",
       "clusterCount": 7
+    },
+    {
+      "ticker": "CDW",
+      "company": "CDW Corp",
+      "filer": "Connelly Elizabeth H.",
+      "role": "See Remarks",
+      "txType": "매도",
+      "shares": 53390,
+      "price": 137.62,
+      "value": 7347532,
+      "ownBefore": 60910,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 34215,
+      "ownChangePct": -43.8,
+      "id": "f4-0001402057-26-000068",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1402057/000140205726000068/wk-form4_1786479982.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "CRWD",
@@ -8168,7 +8474,7 @@
       "ownChangePct": -5,
       "id": "f4-0001628280-26-054882",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1047127/000162828026054882/wk-form4_1786134969.xml",
-      "clusterCount": 3
+      "clusterCount": 4
     },
     {
       "ticker": "OFG",
@@ -8186,6 +8492,24 @@
       "ownChangePct": -25.5,
       "id": "f4-0001254550-26-000019",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1254550/000125455026000019/wk-form4_1785270385.xml",
+      "clusterCount": 1
+    },
+    {
+      "ticker": "AXON",
+      "company": "AXON ENTERPRISE, INC.",
+      "filer": "Smith Patrick W",
+      "role": "CEO",
+      "txType": "매도",
+      "shares": 10000,
+      "price": 548.9,
+      "value": 5488962,
+      "ownBefore": 91105259,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 3030997,
+      "ownChangePct": -96.7,
+      "id": "f4-0001628280-26-055749",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1069183/000162828026055749/wk-form4_1786480564.xml",
       "clusterCount": 1
     },
     {
@@ -8564,6 +8888,24 @@
       "ownChangePct": -19.7,
       "id": "f4-0001628280-26-053640",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1923233/000162828026053640/wk-form4_1785969421.xml",
+      "clusterCount": 2
+    },
+    {
+      "ticker": "APTV",
+      "company": "Aptiv PLC",
+      "filer": "Clark Kevin P",
+      "role": "CEO",
+      "txType": "매수",
+      "shares": 102380,
+      "price": 48.89,
+      "value": 5005368,
+      "ownBefore": 599826,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 651016,
+      "ownChangePct": 8.5,
+      "id": "f4-0001193125-26-344586",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1521332/000119312526344586/ownership.xml",
       "clusterCount": 2
     },
     {
@@ -8978,7 +9320,7 @@
       "ownChangePct": -17.1,
       "id": "f4-0001769628-26-000349",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000349/form4.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "APLD",
@@ -9593,6 +9935,24 @@
       "clusterCount": 6
     },
     {
+      "ticker": "CROX",
+      "company": "Crocs, Inc.",
+      "filer": "Rees Andrew",
+      "role": "CEO",
+      "txType": "매도",
+      "shares": 30000,
+      "price": 138.49,
+      "value": 4154785,
+      "ownBefore": 4383330,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 4353330,
+      "ownChangePct": -0.7,
+      "id": "f4-0001609901-26-000014",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1334036/000160990126000014/wk-form4_1786462677.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "ABNB",
       "company": "Airbnb, Inc.",
       "filer": "Blecharczyk Nathan",
@@ -9608,7 +9968,25 @@
       "ownChangePct": -14.7,
       "id": "f4-0001193125-26-335515",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526335515/ownership.xml",
-      "clusterCount": 4
+      "clusterCount": 5
+    },
+    {
+      "ticker": "UFPT",
+      "company": "UFP TECHNOLOGIES INC",
+      "filer": "Bailly R Jeffrey",
+      "role": "Executive Chairman",
+      "txType": "매도",
+      "shares": 13011,
+      "price": 316.13,
+      "value": 4113221,
+      "ownBefore": 20625,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 7614,
+      "ownChangePct": -63.1,
+      "id": "f4-0002084956-26-000056",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1033284/000208495626000056/form4.xml",
+      "clusterCount": 2
     },
     {
       "ticker": "BANF",
@@ -9662,7 +10040,7 @@
       "ownChangePct": -10.2,
       "id": "f4-0001938203-26-000011",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/927628/000193820326000011/wk-form4_1785787808.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "MIAX",
@@ -9896,7 +10274,7 @@
       "ownChangePct": -34,
       "id": "f4-0001193125-26-312447",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526312447/ownership.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "MRK",
@@ -10238,6 +10616,24 @@
       "ownChangePct": -9.1,
       "id": "f4-0001193125-26-312456",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1404655/000119312526312456/ownership.xml",
+      "clusterCount": 2
+    },
+    {
+      "ticker": "AUGO",
+      "company": "Aura Minerals Inc.",
+      "filer": "Rosa Luvizotto Glauber",
+      "role": "COO",
+      "txType": "매도",
+      "shares": 50000,
+      "price": 75.02,
+      "value": 3751000,
+      "ownBefore": 340628,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 290628,
+      "ownChangePct": -14.7,
+      "id": "f4-0000950103-26-012188",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1468642/000095010326012188/ownership.xml",
       "clusterCount": 2
     },
     {
@@ -10655,6 +11051,24 @@
       "clusterCount": 2
     },
     {
+      "ticker": "AUGO",
+      "company": "Aura Minerals Inc.",
+      "filer": "Rosa Luvizotto Glauber",
+      "role": "COO",
+      "txType": "매도",
+      "shares": 50000,
+      "price": 70.1,
+      "value": 3505000,
+      "ownBefore": 390628,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 340628,
+      "ownChangePct": -12.8,
+      "id": "f4-0000950103-26-012190",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1468642/000095010326012190/ownership.xml",
+      "clusterCount": 2
+    },
+    {
       "ticker": "FAST",
       "company": "FASTENAL CO",
       "filer": "Heise Rita J.",
@@ -10706,7 +11120,7 @@
       "ownChangePct": -5.4,
       "id": "f4-0001100682-26-000124",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1100682/000110068226000124/form4.xml",
-      "clusterCount": 3
+      "clusterCount": 4
     },
     {
       "ticker": "HWC",
@@ -10943,6 +11357,24 @@
       "clusterCount": 2
     },
     {
+      "ticker": "IRTC",
+      "company": "iRhythm Holdings, Inc.",
+      "filer": "Blackford Quentin S.",
+      "role": "CEO",
+      "txType": "매도",
+      "shares": 26859,
+      "price": 124.65,
+      "value": 3348012,
+      "ownBefore": 252867,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 226008,
+      "ownChangePct": -10.6,
+      "id": "f4-0001612451-26-000012",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1612451/000161245126000012/wk-form4_1786478560.xml",
+      "clusterCount": 4
+    },
+    {
       "ticker": "CLVT",
       "company": "CLARIVATE PLC",
       "filer": "Cornick Kenneth L.",
@@ -11067,6 +11499,24 @@
       "id": "f4-0001865116-26-000007",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1865116/000186511626000007/wk-form4_1786137246.xml",
       "clusterCount": 5
+    },
+    {
+      "ticker": "ECAT",
+      "company": "BlackRock ESG Capital Allocation Term Trust",
+      "filer": "Saba Capital Management, L.p.",
+      "role": "10%대주주",
+      "txType": "매도",
+      "shares": 205881,
+      "price": 15.81,
+      "value": 3254979,
+      "ownBefore": 15155619,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 14949738,
+      "ownChangePct": -1.4,
+      "id": "f4-0001510281-26-000264",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1864843/000151028126000264/primary_doc.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "TRV",
@@ -11267,6 +11717,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "WLK",
+      "company": "WESTLAKE CORP",
+      "filer": "Chao Albert",
+      "role": "Executive Chairman",
+      "txType": "매도",
+      "shares": 38873,
+      "price": 80.28,
+      "value": 3120775,
+      "ownBefore": 1356017,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-11",
+      "ownAfter": 1317144,
+      "ownChangePct": -2.9,
+      "id": "f4-0001193125-26-345140",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1299403/000119312526345140/ownership.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "FFIV",
       "company": "F5, INC.",
       "filer": "Locoh-donou Francois",
@@ -11300,7 +11768,7 @@
       "ownChangePct": -13.6,
       "id": "f4-0001214659-26-009768",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1883451/000121465926009768/marketforms-73737.xml",
-      "clusterCount": 5
+      "clusterCount": 6
     },
     {
       "ticker": "CSW",
@@ -11318,7 +11786,7 @@
       "ownChangePct": -21,
       "id": "f4-0001663176-26-000003",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1624794/000166317626000003/wk-form4_1785960356.xml",
-      "clusterCount": 1
+      "clusterCount": 2
     },
     {
       "ticker": "FFIV",
@@ -11337,6 +11805,42 @@
       "id": "f4-0001764727-26-000008",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1048695/000176472726000008/wk-form4_1785793325.xml",
       "clusterCount": 8
+    },
+    {
+      "ticker": "CPNG",
+      "company": "Coupang, Inc.",
+      "filer": "Rogers Harold",
+      "role": "See Remarks",
+      "txType": "매도",
+      "shares": 192110,
+      "price": 16.18,
+      "value": 3107975,
+      "ownBefore": 933041,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 740931,
+      "ownChangePct": -20.6,
+      "id": "f4-0001628280-26-055757",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1834584/000162828026055757/wk-form4_1786480767.xml",
+      "clusterCount": 2
+    },
+    {
+      "ticker": "APPN",
+      "company": "APPIAN CORP",
+      "filer": "Calkins Matthew W",
+      "role": "CEO",
+      "txType": "매도",
+      "shares": 90000,
+      "price": 34.46,
+      "value": 3101142,
+      "ownBefore": 6856354,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 6811354,
+      "ownChangePct": -0.7,
+      "id": "f4-0001309192-26-000009",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1441683/000130919226000009/wk-form4_1786478914.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "FSLR",
@@ -11588,7 +12092,7 @@
       "ownChangePct": 2.9,
       "id": "f4-0001470831-26-000798",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2131524/000147083126000798/wk-form4_1786134649.xml",
-      "clusterCount": 7
+      "clusterCount": 10
     },
     {
       "ticker": "BRVE",
@@ -11606,7 +12110,7 @@
       "ownChangePct": 15.8,
       "id": "f4-0001470831-26-000801",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2131524/000147083126000801/wk-form4_1786134672.xml",
-      "clusterCount": 7
+      "clusterCount": 10
     },
     {
       "ticker": "BPOP",
@@ -11933,6 +12437,24 @@
       "clusterCount": 3
     },
     {
+      "ticker": "ABNB",
+      "company": "Airbnb, Inc.",
+      "filer": "Chenault Kenneth I",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 16692,
+      "price": 170,
+      "value": 2837640,
+      "ownBefore": 49225,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 40879,
+      "ownChangePct": -17,
+      "id": "f4-0001193125-26-345303",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526345303/ownership.xml",
+      "clusterCount": 5
+    },
+    {
       "ticker": "AVR",
       "company": "Anteris Technologies Global Corp.",
       "filer": "L1 Capital Pty Ltd",
@@ -11984,7 +12506,7 @@
       "ownChangePct": -0.1,
       "id": "f4-0001366574-26-000020",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1477333/000136657426000020/wk-form4_1786051386.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "CHRD",
@@ -12021,6 +12543,24 @@
       "id": "f4-0001628280-26-049647",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1512673/000162828026049647/wk-form4_1784928388.xml",
       "clusterCount": 3
+    },
+    {
+      "ticker": "AXIA3",
+      "company": "AXIA Energia S.A.",
+      "filer": "Batista De Lima Filho Pedro",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 272400,
+      "price": 10.27,
+      "value": 2797136,
+      "ownBefore": 31335133,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 31198933,
+      "ownChangePct": -0.4,
+      "id": "f4-0001213900-26-087927",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1439124/000121390026087927/marketforms-73746.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "ARX",
@@ -12434,7 +12974,7 @@
       "ownChangePct": -51.2,
       "id": "f4-0001100682-26-000120",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1100682/000110068226000120/form4.xml",
-      "clusterCount": 3
+      "clusterCount": 4
     },
     {
       "ticker": "ZWS",
@@ -13085,6 +13625,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "EHC",
+      "company": "Encompass Health Corp",
+      "filer": "Coltharp Douglas E",
+      "role": "CFO",
+      "txType": "매도",
+      "shares": 18869,
+      "price": 125.38,
+      "value": 2365795,
+      "ownBefore": 69377,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 50508,
+      "ownChangePct": -27.2,
+      "id": "f4-0000785161-26-000192",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1186879/000078516126000192/wk-form4_1786474039.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "FIG",
       "company": "Figma, Inc.",
       "filer": "Voskanian Shaunt",
@@ -13209,6 +13767,24 @@
       "id": "f4-0001193125-26-335520",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1313311/000119312526335520/ownership.xml",
       "clusterCount": 2
+    },
+    {
+      "ticker": "BETA",
+      "company": "BETA Technologies, Inc.",
+      "filer": "Clark Kyle",
+      "role": "SEE REMARKS",
+      "txType": "매도",
+      "shares": 95792,
+      "price": 24.01,
+      "value": 2299996,
+      "ownBefore": 16423620,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-11",
+      "ownAfter": 16375724,
+      "ownChangePct": -0.3,
+      "id": "f4-0002090083-26-000018",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1784570/000209008326000018/primarydocument.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "PAY",
@@ -13589,6 +14165,24 @@
       "clusterCount": 2
     },
     {
+      "ticker": "OCFC",
+      "company": "OCEANFIRST FINANCIAL CORP",
+      "filer": "Buran John R",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 113463,
+      "price": 19.4,
+      "value": 2201591,
+      "ownBefore": 113463,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 0,
+      "ownChangePct": -100,
+      "id": "f4-0001237678-26-000008",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1237678/000123767826000008/wk-form4_1786479734.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "WLFC",
       "company": "WILLIS LEASE FINANCE CORP",
       "filer": "Willis Austin Chandler",
@@ -13694,7 +14288,7 @@
       "ownChangePct": -12.2,
       "id": "f4-0001100682-26-000122",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1100682/000110068226000122/form4.xml",
-      "clusterCount": 3
+      "clusterCount": 4
     },
     {
       "ticker": "S",
@@ -13712,6 +14306,24 @@
       "ownChangePct": -2.8,
       "id": "f4-0001866222-26-000037",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1583708/000186622226000037/wk-form4_1786141644.xml",
+      "clusterCount": 6
+    },
+    {
+      "ticker": "VSAT",
+      "company": "VIASAT INC",
+      "filer": "Blair Robert James",
+      "role": "SVP, General Counsel",
+      "txType": "매도",
+      "shares": 27064,
+      "price": 79.76,
+      "value": 2158673,
+      "ownBefore": 49444,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 22380,
+      "ownChangePct": -54.7,
+      "id": "f4-0001193125-26-344667",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1684559/000119312526344667/ownership.xml",
       "clusterCount": 6
     },
     {
@@ -14201,6 +14813,24 @@
       "clusterCount": 6
     },
     {
+      "ticker": "TWST",
+      "company": "Twist Bioscience Corp",
+      "filer": "Chess Robert",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 18417,
+      "price": 110.89,
+      "value": 2042261,
+      "ownBefore": 39501,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 21084,
+      "ownChangePct": -46.6,
+      "id": "f4-0001214659-26-009894",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1227886/000121465926009894/marketforms-73745.xml",
+      "clusterCount": 6
+    },
+    {
       "ticker": "NUE",
       "company": "NUCOR CORP",
       "filer": "Laxton Stephen D",
@@ -14342,7 +14972,7 @@
       "ownChangePct": -8.5,
       "id": "f4-0001225208-26-006859",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1963767/000122520826006859/doc4.xml",
-      "clusterCount": 2
+      "clusterCount": 3
     },
     {
       "ticker": "GSAT",
@@ -14540,7 +15170,7 @@
       "ownChangePct": 0,
       "id": "f4-0001470831-26-000796",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2131524/000147083126000796/wk-form4_1786134631.xml",
-      "clusterCount": 7
+      "clusterCount": 10
     },
     {
       "ticker": "PFE",
@@ -14576,6 +15206,24 @@
       "ownChangePct": -11.8,
       "id": "f4-0001225208-26-006757",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/720005/000122520826006757/doc4.xml",
+      "clusterCount": 2
+    },
+    {
+      "ticker": "AMRC",
+      "company": "Ameresco, Inc.",
+      "filer": "Cox Brian C",
+      "role": "이사",
+      "txType": "매수",
+      "shares": 79400,
+      "price": 25.07,
+      "value": 1990558,
+      "ownBefore": 0,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 39700,
+      "ownChangePct": 0,
+      "id": "f4-0001628280-26-055890",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1488139/000162828026055890/wk-form4_1786490555.xml",
       "clusterCount": 2
     },
     {
@@ -14972,7 +15620,7 @@
       "ownChangePct": -16.1,
       "id": "f4-0001628280-26-051448",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/31462/000162828026051448/wk-form4_1785530778.xml",
-      "clusterCount": 1
+      "clusterCount": 2
     },
     {
       "ticker": "VRSN",
@@ -16178,7 +16826,7 @@
       "ownChangePct": -2.4,
       "id": "f4-0001193125-26-257929",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526257929/ownership.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "NRG",
@@ -16340,7 +16988,7 @@
       "ownChangePct": -3.9,
       "id": "f4-0001727277-26-000016",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/927628/000172727726000016/wk-form4_1785960285.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "WWD",
@@ -16628,7 +17276,7 @@
       "ownChangePct": -31.9,
       "id": "f4-0001706865-26-000007",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/927628/000170686526000007/wk-form4_1785444712.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "TNGX",
@@ -16919,6 +17567,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "XYZ",
+      "company": "Block, Inc.",
+      "filer": "Eisen Anthony Mathew",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 18000,
+      "price": 78.73,
+      "value": 1417140,
+      "ownBefore": 4664016,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-11",
+      "ownAfter": 4646016,
+      "ownChangePct": -0.4,
+      "id": "f4-0001628280-26-055837",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1512673/000162828026055837/wk-form4_1786485228.xml",
+      "clusterCount": 3
+    },
+    {
       "ticker": "AEE",
       "company": "AMEREN CORP",
       "filer": "Moehn Michael L",
@@ -17006,7 +17672,7 @@
       "ownChangePct": -8.5,
       "id": "f4-0000950103-26-012137",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1468642/000095010326012137/ownership.xml",
-      "clusterCount": 1
+      "clusterCount": 2
     },
     {
       "ticker": "GBFH",
@@ -17477,6 +18143,42 @@
       "clusterCount": 3
     },
     {
+      "ticker": "ZBRA",
+      "company": "ZEBRA TECHNOLOGIES CORP",
+      "filer": "Cho Michael",
+      "role": "Chief Strategy Officer",
+      "txType": "매도",
+      "shares": 3500,
+      "price": 375.2,
+      "value": 1313200,
+      "ownBefore": 8670,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 5170,
+      "ownChangePct": -40.4,
+      "id": "f4-0001628280-26-055736",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1530071/000162828026055736/wk-form4_1786480049.xml",
+      "clusterCount": 2
+    },
+    {
+      "ticker": "ECL",
+      "company": "ECOLAB INC.",
+      "filer": "Cook Gregory B",
+      "role": "COO",
+      "txType": "매도",
+      "shares": 4567,
+      "price": 285.13,
+      "value": 1302300,
+      "ownBefore": 16241,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-11",
+      "ownAfter": 11673,
+      "ownChangePct": -28.1,
+      "id": "f4-0001628280-26-055786",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1989181/000162828026055786/wk-form4_1786481926.xml",
+      "clusterCount": 2
+    },
+    {
       "ticker": "VICR",
       "company": "VICOR CORP",
       "filer": "Davies Philip D",
@@ -17729,6 +18431,24 @@
       "clusterCount": 7
     },
     {
+      "ticker": "CRWV",
+      "company": "CoreWeave, Inc.",
+      "filer": "Jain Sachin",
+      "role": "COO",
+      "txType": "매도",
+      "shares": 13608,
+      "price": 92.09,
+      "value": 1253161,
+      "ownBefore": 161393,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 147785,
+      "ownChangePct": -8.4,
+      "id": "f4-0001769628-26-000367",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000367/form4.xml",
+      "clusterCount": 5
+    },
+    {
       "ticker": "EQBK",
       "company": "EQUITY BANCSHARES INC",
       "filer": "Elliott Brad S",
@@ -17762,7 +18482,7 @@
       "ownChangePct": -17,
       "id": "f4-0001193125-26-293152",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526293152/ownership.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "RBLX",
@@ -17960,6 +18680,24 @@
       "ownChangePct": -53.5,
       "id": "f4-0000074260-26-000094",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1990259/000007426026000094/wk-form4_1785515456.xml",
+      "clusterCount": 2
+    },
+    {
+      "ticker": "CVSA",
+      "company": "Covista Inc.",
+      "filer": "Beck Douglas G.",
+      "role": "SVP, GC, Corp. Sec &amp;",
+      "txType": "매도",
+      "shares": 9052,
+      "price": 135.81,
+      "value": 1229352,
+      "ownBefore": 33070,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 28544,
+      "ownChangePct": -13.7,
+      "id": "f4-0000730464-26-000038",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1646763/000073046426000038/form4.xml",
       "clusterCount": 2
     },
     {
@@ -18287,6 +19025,24 @@
       "clusterCount": 2
     },
     {
+      "ticker": "COF",
+      "company": "CAPITAL ONE FINANCIAL CORP",
+      "filer": "Zamsky Michael",
+      "role": "Chief Credit &amp; Fin'l",
+      "txType": "매도",
+      "shares": 5473,
+      "price": 218.02,
+      "value": 1193223,
+      "ownBefore": 33465,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 27992,
+      "ownChangePct": -16.4,
+      "id": "f4-0001938261-26-000008",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/927628/000193826126000008/wk-form4_1786479329.xml",
+      "clusterCount": 5
+    },
+    {
       "ticker": "AAOI",
       "company": "APPLIED OPTOELECTRONICS, INC.",
       "filer": "Yeh Shu-hua (joshua)",
@@ -18539,6 +19295,24 @@
       "clusterCount": 3
     },
     {
+      "ticker": "ANF",
+      "company": "ABERCROMBIE &amp; FITCH CO /DE/",
+      "filer": "Lipesky Scott D.",
+      "role": "COO",
+      "txType": "매도",
+      "shares": 10000,
+      "price": 115,
+      "value": 1150000,
+      "ownBefore": 162534,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 152534,
+      "ownChangePct": -6.2,
+      "id": "f4-0001225208-26-007063",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1018840/000122520826007063/doc4.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "ABNB",
       "company": "Airbnb, Inc.",
       "filer": "Mertz Elinor",
@@ -18554,7 +19328,7 @@
       "ownChangePct": -0.8,
       "id": "f4-0001193125-26-335531",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526335531/ownership.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "EOSE",
@@ -19616,7 +20390,7 @@
       "ownChangePct": 5.6,
       "id": "f4-0001470831-26-000804",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2131524/000147083126000804/wk-form4_1786135298.xml",
-      "clusterCount": 7
+      "clusterCount": 10
     },
     {
       "ticker": "CLBK",
@@ -19907,6 +20681,24 @@
       "clusterCount": 7
     },
     {
+      "ticker": "ALSN",
+      "company": "Allison Transmission Holdings Inc",
+      "filer": "Bohley G Frederick",
+      "role": "See Remarks",
+      "txType": "매도",
+      "shares": 7922,
+      "price": 122.38,
+      "value": 969496,
+      "ownBefore": 116847,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 112886,
+      "ownChangePct": -3.4,
+      "id": "f4-0001193125-26-344582",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1411207/000119312526344582/ownership.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "KLTR",
       "company": "KALTURA INC",
       "filer": "Israeli Natan",
@@ -19941,6 +20733,24 @@
       "id": "f4-0000073756-26-000144",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1185201/000007375626000144/wk-form4_1786394065.xml",
       "clusterCount": 4
+    },
+    {
+      "ticker": "ARX",
+      "company": "Accelerant Holdings",
+      "filer": "Radke Jeffrey L",
+      "role": "CEO",
+      "txType": "매도",
+      "shares": 80000,
+      "price": 12.09,
+      "value": 967096,
+      "ownBefore": 27671939,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 27591939,
+      "ownChangePct": -0.3,
+      "id": "f4-0001628280-26-055804",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1997350/000162828026055804/wk-form4_1786483508.xml",
+      "clusterCount": 3
     },
     {
       "ticker": "IBTA",
@@ -20048,7 +20858,7 @@
       "ownChangePct": -4.5,
       "id": "f4-0001475922-26-000070",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1475922/000147592226000070/form4.xml",
-      "clusterCount": 1
+      "clusterCount": 2
     },
     {
       "ticker": "MGNI",
@@ -20804,7 +21614,7 @@
       "ownChangePct": -0.6,
       "id": "f4-0001214659-26-009655",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1753655/000121465926009655/marketforms-73659.xml",
-      "clusterCount": 5
+      "clusterCount": 6
     },
     {
       "ticker": "ACAD",
@@ -20843,6 +21653,24 @@
       "clusterCount": 3
     },
     {
+      "ticker": "KO",
+      "company": "COCA COLA CO",
+      "filer": "Ray Sanket",
+      "role": "임원",
+      "txType": "매도",
+      "shares": 9958,
+      "price": 86.5,
+      "value": 861367,
+      "ownBefore": 72063,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 62105,
+      "ownChangePct": -13.8,
+      "id": "f4-0000021344-26-000163",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/21344/000002134426000163/form4.xml",
+      "clusterCount": 5
+    },
+    {
       "ticker": "CRWV",
       "company": "CoreWeave, Inc.",
       "filer": "Baker Jeff",
@@ -20858,7 +21686,7 @@
       "ownChangePct": -31,
       "id": "f4-0001769628-26-000339",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1699866/000176962826000339/form4.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "BEAM",
@@ -21815,6 +22643,24 @@
       "clusterCount": 2
     },
     {
+      "ticker": "NET",
+      "company": "Cloudflare, Inc.",
+      "filer": "Graham-cumming John",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 2520,
+      "price": 303.97,
+      "value": 765997,
+      "ownBefore": 8438187,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 8435667,
+      "ownChangePct": 0,
+      "id": "f4-0002062725-26-000018",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1477333/000206272526000018/wk-form4_1786482230.xml",
+      "clusterCount": 5
+    },
+    {
       "ticker": "NRIX",
       "company": "Nurix Therapeutics, Inc.",
       "filer": "Ring Christine",
@@ -21831,6 +22677,42 @@
       "id": "f4-0001817199-26-000028",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1549595/000181719926000028/wk-form4_1785793916.xml",
       "clusterCount": 3
+    },
+    {
+      "ticker": "ECHO",
+      "company": "EchoStar CORP",
+      "filer": "Bye Stephen J",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 8508,
+      "price": 89.83,
+      "value": 764273,
+      "ownBefore": 9814,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 1306,
+      "ownChangePct": -86.7,
+      "id": "f4-0001602724-26-000004",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1602724/000160272426000004/form4-08112026_100816.xml",
+      "clusterCount": 1
+    },
+    {
+      "ticker": "BRZE",
+      "company": "Braze, Inc.",
+      "filer": "Hyman Jonathan",
+      "role": "Chief Technology Officer",
+      "txType": "매도",
+      "shares": 28043,
+      "price": 27.12,
+      "value": 760438,
+      "ownBefore": 2549023,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 2520980,
+      "ownChangePct": -1.1,
+      "id": "f4-0001888935-26-000015",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1676238/000188893526000015/wk-form4_1786481852.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "BFST",
@@ -22226,7 +23108,7 @@
       "ownChangePct": -3.7,
       "id": "f4-0001727277-26-000014",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/927628/000172727726000014/wk-form4_1783541305.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "ALH",
@@ -22892,7 +23774,7 @@
       "ownChangePct": -4.6,
       "id": "f4-0001850152-26-000010",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1850152/000185015226000010/wk-form4_1785873670.xml",
-      "clusterCount": 3
+      "clusterCount": 4
     },
     {
       "ticker": "DXCM",
@@ -22985,6 +23867,24 @@
       "clusterCount": 2
     },
     {
+      "ticker": "CAR",
+      "company": "AVIS BUDGET GROUP, INC.",
+      "filer": "Simhambhatla Ravi",
+      "role": "EVP, CDIO - see remarks",
+      "txType": "매도",
+      "shares": 4702,
+      "price": 138.79,
+      "value": 652575,
+      "ownBefore": 63174,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 58472,
+      "ownChangePct": -7.4,
+      "id": "f4-0001934960-26-000011",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/723612/000193496026000011/wk-form4_1786479059.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "GTES",
       "company": "Gates Industrial Corp Ltd.",
       "filer": "Zhang Peifang",
@@ -23072,7 +23972,7 @@
       "ownChangePct": -11.4,
       "id": "f4-0001628280-26-048825",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1047127/000162828026048825/wk-form4_1784579878.xml",
-      "clusterCount": 3
+      "clusterCount": 4
     },
     {
       "ticker": "FCF",
@@ -23091,6 +23991,24 @@
       "id": "f4-0001483558-26-000022",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/712537/000148355826000022/wk-form4_1786391321.xml",
       "clusterCount": 3
+    },
+    {
+      "ticker": "AZZ",
+      "company": "AZZ INC",
+      "filer": "Vellines Jeffrey",
+      "role": "COO",
+      "txType": "매도",
+      "shares": 4220,
+      "price": 153.55,
+      "value": 647981,
+      "ownBefore": 6054,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-11",
+      "ownAfter": 1834,
+      "ownChangePct": -69.7,
+      "id": "f4-0000008947-26-000175",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/8947/000000894726000175/wk-form4_1786487708.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "CLS",
@@ -23216,6 +24134,24 @@
       "ownChangePct": -79.5,
       "id": "f4-0001646370-26-000002",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1646370/000164637026000002/wk-form4_1786046524.xml",
+      "clusterCount": 1
+    },
+    {
+      "ticker": "AXGN",
+      "company": "Axogen, Inc.",
+      "filer": "Weiler Kathy Johnson",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 14150,
+      "price": 45.3,
+      "value": 640967,
+      "ownBefore": 14150,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 0,
+      "ownChangePct": -100,
+      "id": "f4-0000805928-26-000096",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/805928/000080592826000096/wk-form4_1786479331.xml",
       "clusterCount": 1
     },
     {
@@ -23936,7 +24872,7 @@
       "ownChangePct": -11.4,
       "id": "f4-0001225208-26-007043",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1739966/000122520826007043/doc4.xml",
-      "clusterCount": 2
+      "clusterCount": 3
     },
     {
       "ticker": "MARA",
@@ -24137,6 +25073,24 @@
       "clusterCount": 8
     },
     {
+      "ticker": "MANH",
+      "company": "MANHATTAN ASSOCIATES INC",
+      "filer": "Clark Eric Andrew",
+      "role": "CEO",
+      "txType": "매도",
+      "shares": 3000,
+      "price": 197.76,
+      "value": 593280,
+      "ownBefore": 92638,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-11",
+      "ownAfter": 89638,
+      "ownChangePct": -3.2,
+      "id": "f4-0001225208-26-007068",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/2055583/000122520826007068/doc4.xml",
+      "clusterCount": 3
+    },
+    {
       "ticker": "TFIN",
       "company": "Triumph Financial, Inc.",
       "filer": "Nelson Adam D",
@@ -24314,7 +25268,7 @@
       "ownChangePct": -3.1,
       "id": "f4-0001193125-26-312434",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1832377/000119312526312434/ownership.xml",
-      "clusterCount": 4
+      "clusterCount": 6
     },
     {
       "ticker": "GRMN",
@@ -24603,6 +25557,24 @@
       "id": "f4-0001865525-26-000024",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1576280/000186552526000024/wk-form4_1786050361.xml",
       "clusterCount": 2
+    },
+    {
+      "ticker": "AMKR",
+      "company": "AMKOR TECHNOLOGY, INC.",
+      "filer": "Alexander Douglas A",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 10000,
+      "price": 55.81,
+      "value": 558100,
+      "ownBefore": 34109,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 29109,
+      "ownChangePct": -14.7,
+      "id": "f4-0001628280-26-055750",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1195858/000162828026055750/wk-form4_1786480565.xml",
+      "clusterCount": 4
     },
     {
       "ticker": "AMZN",
@@ -25055,6 +26027,24 @@
       "clusterCount": 4
     },
     {
+      "ticker": "DOCN",
+      "company": "DigitalOcean Holdings, Inc.",
+      "filer": "Adelman Warren J",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 4200,
+      "price": 124.01,
+      "value": 520855,
+      "ownBefore": 71633,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 67433,
+      "ownChangePct": -5.9,
+      "id": "f4-0001366975-26-000008",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1366975/000136697526000008/wk-form4_1786488744.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "COF",
       "company": "CAPITAL ONE FINANCIAL CORP",
       "filer": "Mouadeb Mark Daniel",
@@ -25070,7 +26060,7 @@
       "ownChangePct": -2.3,
       "id": "f4-0001938196-26-000015",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/927628/000193819626000015/wk-form4_1785960371.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "GF",
@@ -25142,7 +26132,7 @@
       "ownChangePct": -10.4,
       "id": "f4-0002125725-26-000004",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2125725/000212572526000004/wk-form4_1785873709.xml",
-      "clusterCount": 3
+      "clusterCount": 4
     },
     {
       "ticker": "SHIP",
@@ -25415,6 +26405,24 @@
       "clusterCount": 4
     },
     {
+      "ticker": "BCML",
+      "company": "BayCom Corp",
+      "filer": "Baron Christopher F",
+      "role": "CEO",
+      "txType": "매수",
+      "shares": 16500,
+      "price": 30.39,
+      "value": 501436,
+      "ownBefore": 997,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 9247,
+      "ownChangePct": 827.5,
+      "id": "f4-0001437749-26-026919",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/2131631/000143774926026919/rdgdoc.xml",
+      "clusterCount": 2
+    },
+    {
       "ticker": "NMM",
       "company": "Navios Maritime Partners L.P.",
       "filer": "Frangou Angeliki",
@@ -25631,6 +26639,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "MTRN",
+      "company": "MATERION Corp",
+      "filer": "Chadwick Shelly Marie",
+      "role": "CFO",
+      "txType": "매도",
+      "shares": 1705,
+      "price": 293,
+      "value": 499565,
+      "ownBefore": 16951,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 15246,
+      "ownChangePct": -10.1,
+      "id": "f4-0001688289-26-000018",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1688289/000168828926000018/wk-form4_1786481408.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "SON",
       "company": "SONOCO PRODUCTS CO",
       "filer": "Coker R. Howard",
@@ -25772,7 +26798,7 @@
       "ownChangePct": -1.1,
       "id": "f4-0001214659-26-009657",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1755970/000121465926009657/marketforms-73657.xml",
-      "clusterCount": 5
+      "clusterCount": 6
     },
     {
       "ticker": "TRNO",
@@ -25952,7 +26978,7 @@
       "ownChangePct": -51.4,
       "id": "f4-0001292814-26-004109",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1471055/000129281426004109/ownership.xml",
-      "clusterCount": 3
+      "clusterCount": 4
     },
     {
       "ticker": "MTB",
@@ -26189,6 +27215,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "NPWR",
+      "company": "Net Power Inc.",
+      "filer": "8 Rivers Capital, Llc",
+      "role": "10%대주주",
+      "txType": "매도",
+      "shares": 301490,
+      "price": 1.55,
+      "value": 468290,
+      "ownBefore": 6276145,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-11",
+      "ownAfter": 6125400,
+      "ownChangePct": -2.4,
+      "id": "f4-0001104659-26-094206",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1981100/000110465926094206/tm2622855-1_4seq1.xml",
+      "clusterCount": 2
+    },
+    {
       "ticker": "EQBK",
       "company": "EQUITY BANCSHARES INC",
       "filer": "Elliott Brad S",
@@ -26348,7 +27392,7 @@
       "ownChangePct": -1.6,
       "id": "f4-0001674236-26-000019",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1023024/000167423626000019/wk-form4_1785441772.xml",
-      "clusterCount": 1
+      "clusterCount": 2
     },
     {
       "ticker": "THG",
@@ -26474,7 +27518,7 @@
       "ownChangePct": -7.2,
       "id": "f4-0001494259-26-000062",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1494259/000149425926000062/form4.xml",
-      "clusterCount": 1
+      "clusterCount": 2
     },
     {
       "ticker": "BANF",
@@ -26708,7 +27752,7 @@
       "ownChangePct": -56.3,
       "id": "f4-0001292814-26-004113",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1471055/000129281426004113/ownership.xml",
-      "clusterCount": 3
+      "clusterCount": 4
     },
     {
       "ticker": "NCNO",
@@ -26816,7 +27860,7 @@
       "ownChangePct": -0.6,
       "id": "f4-0000922147-26-000010",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/879585/000092214726000010/form4-08102026_050825.xml",
-      "clusterCount": 1
+      "clusterCount": 2
     },
     {
       "ticker": "KTOS",
@@ -27215,6 +28259,24 @@
       "clusterCount": 2
     },
     {
+      "ticker": "CYRX",
+      "company": "Cryoport, Inc.",
+      "filer": "Shelton Jerrell",
+      "role": "CEO",
+      "txType": "매도",
+      "shares": 28800,
+      "price": 14.91,
+      "value": 429385,
+      "ownBefore": 1230614,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-11",
+      "ownAfter": 1201814,
+      "ownChangePct": -2.3,
+      "id": "f4-0001104659-26-094228",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1124524/000110465926094228/tm2622922-1_4seq1.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "TER",
       "company": "TERADYNE, INC",
       "filer": "Matz Marilyn",
@@ -27338,7 +28400,7 @@
       "ownChangePct": -18.5,
       "id": "f4-0001193125-26-338271",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/797721/000119312526338271/ownership.xml",
-      "clusterCount": 4
+      "clusterCount": 6
     },
     {
       "ticker": "MPAA",
@@ -27410,7 +28472,7 @@
       "ownChangePct": -0.8,
       "id": "f4-0001214659-26-009065",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1755970/000121465926009065/marketforms-73631.xml",
-      "clusterCount": 5
+      "clusterCount": 6
     },
     {
       "ticker": "CORZ",
@@ -27717,6 +28779,24 @@
       "id": "f4-0001193125-26-326146",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/903129/000119312526326146/ownership.xml",
       "clusterCount": 1
+    },
+    {
+      "ticker": "CC",
+      "company": "Chemours Co",
+      "filer": "Cowan Alister",
+      "role": "이사",
+      "txType": "매수",
+      "shares": 26000,
+      "price": 15.62,
+      "value": 406120,
+      "ownBefore": 43988,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 56988,
+      "ownChangePct": 29.6,
+      "id": "f4-0001193125-26-344635",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1627223/000119312526344635/ownership.xml",
+      "clusterCount": 5
     },
     {
       "ticker": "BBBY",
@@ -28760,7 +29840,7 @@
       "ownChangePct": -10.2,
       "id": "f4-0001193125-26-335361",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1992819/000119312526335361/ownership.xml",
-      "clusterCount": 4
+      "clusterCount": 6
     },
     {
       "ticker": "MGNI",
@@ -29267,6 +30347,24 @@
       "clusterCount": 4
     },
     {
+      "ticker": "HPP",
+      "company": "Hudson Pacific Properties, Inc.",
+      "filer": "Bortz Jon E",
+      "role": "이사",
+      "txType": "매수",
+      "shares": 25000,
+      "price": 13.4,
+      "value": 335000,
+      "ownBefore": 10394,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-11",
+      "ownAfter": 35394,
+      "ownChangePct": 240.5,
+      "id": "f4-0001229310-26-000012",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1229310/000122931026000012/wk-form4_1786488151.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "CAPS",
       "company": "Capstone Holding Corp.",
       "filer": "Lipman Matthew E.",
@@ -29282,7 +30380,7 @@
       "ownChangePct": 1.7,
       "id": "f4-0001437749-26-024215",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/887151/000143774926024215/rdgdoc.xml",
-      "clusterCount": 2
+      "clusterCount": 3
     },
     {
       "ticker": "CAPS",
@@ -29300,7 +30398,7 @@
       "ownChangePct": 0,
       "id": "f4-0001437749-26-024417",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/887151/000143774926024417/rdgdoc.xml",
-      "clusterCount": 2
+      "clusterCount": 3
     },
     {
       "ticker": "FCBC",
@@ -29354,7 +30452,7 @@
       "ownChangePct": -35.5,
       "id": "f4-0001292814-26-004111",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1471055/000129281426004111/ownership.xml",
-      "clusterCount": 3
+      "clusterCount": 4
     },
     {
       "ticker": "WMT",
@@ -30074,7 +31172,7 @@
       "ownChangePct": -25,
       "id": "f4-0001628280-26-051435",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1047127/000162828026051435/wk-form4_1785530197.xml",
-      "clusterCount": 3
+      "clusterCount": 4
     },
     {
       "ticker": "KMTS",
@@ -30128,7 +31226,7 @@
       "ownChangePct": 166.7,
       "id": "f4-0001437749-26-025356",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1730984/000143774926025356/rdgdoc.xml",
-      "clusterCount": 1
+      "clusterCount": 2
     },
     {
       "ticker": "ITT",
@@ -30452,7 +31550,7 @@
       "ownChangePct": -1.3,
       "id": "f4-0001938196-26-000012",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/927628/000193819626000012/wk-form4_1785875053.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "NDAQ",
@@ -30471,6 +31569,24 @@
       "id": "f4-0001193125-26-335033",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1120193/000119312526335033/ownership.xml",
       "clusterCount": 3
+    },
+    {
+      "ticker": "CVSA",
+      "company": "Covista Inc.",
+      "filer": "Phelan Robert J.",
+      "role": "CFO",
+      "txType": "매도",
+      "shares": 2186,
+      "price": 135.15,
+      "value": 295438,
+      "ownBefore": 50492,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 48306,
+      "ownChangePct": -4.3,
+      "id": "f4-0000730464-26-000039",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/730464/000073046426000039/form4.xml",
+      "clusterCount": 2
     },
     {
       "ticker": "CMCO",
@@ -30597,6 +31713,24 @@
       "id": "f4-0001046179-26-000455",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2114025/000104617926000455/wk-form4_1784715422.xml",
       "clusterCount": 3
+    },
+    {
+      "ticker": "DOCS",
+      "company": "Doximity, Inc.",
+      "filer": "Cabral Timothy S",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 7500,
+      "price": 39.11,
+      "value": 293325,
+      "ownBefore": 10721,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 3221,
+      "ownChangePct": -70,
+      "id": "f4-0001585858-26-000002",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1585858/000158585826000002/wk-form4_1786482287.xml",
+      "clusterCount": 2
     },
     {
       "ticker": "VRSN",
@@ -30957,6 +32091,24 @@
       "id": "f4-0001624651-26-000039",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1624651/000162465126000039/wk-form4_1784752476.xml",
       "clusterCount": 3
+    },
+    {
+      "ticker": "SKY",
+      "company": "Champion Homes, Inc.",
+      "filer": "Berman Michael B",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 3000,
+      "price": 93.22,
+      "value": 279660,
+      "ownBefore": 8325,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 6825,
+      "ownChangePct": -18,
+      "id": "f4-0001193125-26-344791",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1266261/000119312526344791/ownership.xml",
+      "clusterCount": 2
     },
     {
       "ticker": "QLYS",
@@ -31733,6 +32885,24 @@
       "clusterCount": 2
     },
     {
+      "ticker": "CSW",
+      "company": "CSW INDUSTRIALS, INC.",
+      "filer": "Underwood Jeff",
+      "role": "EVP, GM Contractor Solut",
+      "txType": "매도",
+      "shares": 720,
+      "price": 346.96,
+      "value": 249811,
+      "ownBefore": 7129,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 6409,
+      "ownChangePct": -10.1,
+      "id": "f4-0002017190-26-000003",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1624794/000201719026000003/wk-form4_1786486763.xml",
+      "clusterCount": 2
+    },
+    {
       "ticker": "FDMT",
       "company": "4D Molecular Therapeutics, Inc.",
       "filer": "Kirn David",
@@ -31928,6 +33098,24 @@
       "ownChangePct": -2.9,
       "id": "f4-0001110803-26-000161",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2040663/000111080326000161/form4.xml",
+      "clusterCount": 2
+    },
+    {
+      "ticker": "ANIP",
+      "company": "ANI PHARMACEUTICALS INC",
+      "filer": "Gutwerg Ori",
+      "role": "SVP, GENERICS",
+      "txType": "매도",
+      "shares": 3162,
+      "price": 77,
+      "value": 243474,
+      "ownBefore": 78696,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 75534,
+      "ownChangePct": -4,
+      "id": "f4-0001846478-26-000015",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1023024/000184647826000015/wk-form4_1786496247.xml",
       "clusterCount": 2
     },
     {
@@ -32918,7 +34106,7 @@
       "ownChangePct": -10.7,
       "id": "f4-0001823608-26-000180",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1823608/000182360826000180/wk-form4_1785782623.xml",
-      "clusterCount": 2
+      "clusterCount": 3
     },
     {
       "ticker": "CSGP",
@@ -33008,7 +34196,7 @@
       "ownChangePct": -11.8,
       "id": "f4-0001193125-26-342484",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/90896/000119312526342484/ownership.xml",
-      "clusterCount": 1
+      "clusterCount": 2
     },
     {
       "ticker": "APTV",
@@ -33026,6 +34214,24 @@
       "ownChangePct": -1.4,
       "id": "f4-0001193125-26-272599",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1521332/000119312526272599/ownership.xml",
+      "clusterCount": 1
+    },
+    {
+      "ticker": "ACU",
+      "company": "ACME UNITED CORP",
+      "filer": "Davidson Rex Lynn",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 3684,
+      "price": 56.48,
+      "value": 208072,
+      "ownBefore": 3684,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 0,
+      "ownChangePct": -100,
+      "id": "f4-0001193125-26-344784",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/2098/000119312526344784/ownership.xml",
       "clusterCount": 1
     },
     {
@@ -33623,6 +34829,24 @@
       "clusterCount": 3
     },
     {
+      "ticker": "CIA",
+      "company": "CITIZENS, INC.",
+      "filer": "Stenberg Jon",
+      "role": "CEO",
+      "txType": "매수",
+      "shares": 50000,
+      "price": 3.99,
+      "value": 199630,
+      "ownBefore": 327574,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 377574,
+      "ownChangePct": 15.3,
+      "id": "f4-0002015793-26-000012",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/24090/000201579326000012/wk-form4_1786477775.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "NLST",
       "company": "NETLIST INC",
       "filer": "Sasaki Gail M",
@@ -33729,6 +34953,24 @@
       "id": "f4-0000950103-26-011715",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1910139/000095010326011715/ownership.xml",
       "clusterCount": 2
+    },
+    {
+      "ticker": "TRVG",
+      "company": "trivago N.V.",
+      "filer": "Breidenbach Joana Carena",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 37733,
+      "price": 5.2,
+      "value": 196308,
+      "ownBefore": 71183,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 33450,
+      "ownChangePct": -53,
+      "id": "f4-0001628280-26-055597",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/2111576/000162828026055597/wk-form4_1786468143.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "EOSE",
@@ -33854,7 +35096,7 @@
       "ownChangePct": -0.9,
       "id": "f4-0001214659-26-009656",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1753672/000121465926009656/marketforms-73658.xml",
-      "clusterCount": 5
+      "clusterCount": 6
     },
     {
       "ticker": "ACNB",
@@ -33965,6 +35207,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "CC",
+      "company": "Chemours Co",
+      "filer": "Cranston Mary B",
+      "role": "이사",
+      "txType": "매수",
+      "shares": 12000,
+      "price": 15.82,
+      "value": 189900,
+      "ownBefore": 107141,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 113141,
+      "ownChangePct": 5.6,
+      "id": "f4-0001193125-26-344632",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1104268/000119312526344632/ownership.xml",
+      "clusterCount": 5
+    },
+    {
       "ticker": "TOI",
       "company": "Oncology Institute, Inc.",
       "filer": "Chernett Jorey",
@@ -33998,6 +35258,24 @@
       "ownChangePct": -22.4,
       "id": "f4-0001090009-26-000090",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2042013/000109000926000090/form4.xml",
+      "clusterCount": 2
+    },
+    {
+      "ticker": "ZBRA",
+      "company": "ZEBRA TECHNOLOGIES CORP",
+      "filer": "Connly Linda",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 500,
+      "price": 377.68,
+      "value": 188840,
+      "ownBefore": 4208,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 3708,
+      "ownChangePct": -11.9,
+      "id": "f4-0001628280-26-055740",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1766467/000162828026055740/wk-form4_1786480145.xml",
       "clusterCount": 2
     },
     {
@@ -34181,6 +35459,24 @@
       "clusterCount": 2
     },
     {
+      "ticker": "AMPH",
+      "company": "Amphastar Pharmaceuticals, Inc.",
+      "filer": "Peters William J",
+      "role": "CFO",
+      "txType": "매도",
+      "shares": 8180,
+      "price": 22.48,
+      "value": 183886,
+      "ownBefore": 181026,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 172846,
+      "ownChangePct": -4.5,
+      "id": "f4-0001263136-26-000012",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1297184/000126313626000012/form4-08112026_080855.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "CNS",
       "company": "COHEN &amp; STEERS, INC.",
       "filer": "Dulik Elena",
@@ -34250,7 +35546,7 @@
       "ownChangePct": -1,
       "id": "f4-0001214659-26-009653",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1883451/000121465926009653/marketforms-73656.xml",
-      "clusterCount": 5
+      "clusterCount": 6
     },
     {
       "ticker": "NTLA",
@@ -34341,6 +35637,24 @@
       "id": "f4-0001526378-26-000037",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1526378/000152637826000037/wk-form4_1785966899.xml",
       "clusterCount": 7
+    },
+    {
+      "ticker": "AMRC",
+      "company": "Ameresco, Inc.",
+      "filer": "Sakellaris George P",
+      "role": "CEO",
+      "txType": "매수",
+      "shares": 7000,
+      "price": 25.85,
+      "value": 180920,
+      "ownBefore": 2976791,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-11",
+      "ownAfter": 2983791,
+      "ownChangePct": 0.2,
+      "id": "f4-0001628280-26-055891",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1488139/000162828026055891/wk-form4_1786490560.xml",
+      "clusterCount": 2
     },
     {
       "ticker": "SYM",
@@ -34829,6 +36143,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "BSBR",
+      "company": "Banco Santander (Brasil) S.A.",
+      "filer": "Queiroz Celso Mateus De",
+      "role": "Officer w/o Specific Des",
+      "txType": "매도",
+      "shares": 29299,
+      "price": 5.78,
+      "value": 169348,
+      "ownBefore": 53137,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-06",
+      "ownAfter": 23838,
+      "ownChangePct": -55.1,
+      "id": "f4-0001292814-26-004202",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1471055/000129281426004202/ownership.xml",
+      "clusterCount": 4
+    },
+    {
       "ticker": "STVN",
       "company": "Stevanato Group S.p.A.",
       "filer": "Dal Lago Marco",
@@ -34847,6 +36179,24 @@
       "clusterCount": 3
     },
     {
+      "ticker": "HALO",
+      "company": "HALOZYME THERAPEUTICS, INC.",
+      "filer": "Connaughton Bernadette",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 1626,
+      "price": 102.8,
+      "value": 167153,
+      "ownBefore": 42044,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 40418,
+      "ownChangePct": -3.9,
+      "id": "f4-0001662521-26-000002",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1662521/000166252126000002/wk-form4_1786484634.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "PFE",
       "company": "PFIZER INC",
       "filer": "Damico Jennifer B.",
@@ -34863,6 +36213,24 @@
       "id": "f4-0001225208-26-007004",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1805617/000122520826007004/doc4.xml",
       "clusterCount": 1
+    },
+    {
+      "ticker": "CAPS",
+      "company": "Capstone Holding Corp.",
+      "filer": "Strout Gordon Lewis Jr",
+      "role": "이사",
+      "txType": "매수",
+      "shares": 41500,
+      "price": 4,
+      "value": 166000,
+      "ownBefore": 0,
+      "filedDate": "2026-08-11",
+      "txDate": "2025-03-07",
+      "ownAfter": 41500,
+      "ownChangePct": 0,
+      "id": "f4-0001437749-26-027117",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/887151/000143774926027117/rdgdoc.xml",
+      "clusterCount": 3
     },
     {
       "ticker": "JACK",
@@ -34989,6 +36357,24 @@
       "id": "f4-0001959033-26-000014",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1959033/000195903326000014/form4.xml",
       "clusterCount": 4
+    },
+    {
+      "ticker": "ATNI",
+      "company": "ATN International, Inc.",
+      "filer": "Mabey Mary",
+      "role": "SVP AND GENERAL COUNSEL",
+      "txType": "매도",
+      "shares": 5000,
+      "price": 32.13,
+      "value": 160625,
+      "ownBefore": 65402,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 60402,
+      "ownChangePct": -7.6,
+      "id": "f4-0001735750-26-000011",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/879585/000173575026000011/form4-08112026_070839.xml",
+      "clusterCount": 2
     },
     {
       "ticker": "PB",
@@ -35243,6 +36629,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "FAST",
+      "company": "FASTENAL CO",
+      "filer": "Ancius Michael J",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 3000,
+      "price": 52,
+      "value": 156000,
+      "ownBefore": 61690,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 58690,
+      "ownChangePct": -4.9,
+      "id": "f4-0001454708-26-000008",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1454708/000145470826000008/wk-form4_1786478899.xml",
+      "clusterCount": 2
+    },
+    {
       "ticker": "PYPL",
       "company": "PayPal Holdings, Inc.",
       "filer": "Natali Chris",
@@ -35474,7 +36878,7 @@
       "ownChangePct": -2.7,
       "id": "f4-0001985217-26-000012",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1985217/000198521726000012/wk-form4_1785873735.xml",
-      "clusterCount": 3
+      "clusterCount": 4
     },
     {
       "ticker": "NXDR",
@@ -35528,7 +36932,7 @@
       "ownChangePct": 0.8,
       "id": "f4-0001470831-26-000800",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2131524/000147083126000800/wk-form4_1786134664.xml",
-      "clusterCount": 7
+      "clusterCount": 10
     },
     {
       "ticker": "EQH",
@@ -35565,6 +36969,42 @@
       "id": "f4-0002143905-26-000003",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1839970/000214390526000003/form4-08102026_100801.xml",
       "clusterCount": 4
+    },
+    {
+      "ticker": "ARLO",
+      "company": "Arlo Technologies, Inc.",
+      "filer": "Rothstein Amy M",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 9251,
+      "price": 16.13,
+      "value": 149219,
+      "ownBefore": 75623,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 66372,
+      "ownChangePct": -12.2,
+      "id": "f4-0001776144-26-000004",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1736946/000177614426000004/form4-08112026_070850.xml",
+      "clusterCount": 2
+    },
+    {
+      "ticker": "FRPH",
+      "company": "FRP HOLDINGS, INC.",
+      "filer": "Baker John D. Iii",
+      "role": "CEO",
+      "txType": "매수",
+      "shares": 6800,
+      "price": 21.91,
+      "value": 148988,
+      "ownBefore": 296791,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 303591,
+      "ownChangePct": 2.3,
+      "id": "f4-0000897069-26-001606",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1785797/000089706926001606/form4.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "UCB",
@@ -36755,6 +38195,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "WTRG",
+      "company": "Essential Utilities, Inc.",
+      "filer": "Arnold Colleen",
+      "role": "President",
+      "txType": "매도",
+      "shares": 2855,
+      "price": 39.55,
+      "value": 112915,
+      "ownBefore": 20202,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 17347,
+      "ownChangePct": -14.1,
+      "id": "f4-0000078128-26-000078",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1957696/000007812826000078/form4.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "MXF",
       "company": "MEXICO FUND INC",
       "filer": "Saba Capital Management, L.p.",
@@ -36969,6 +38427,24 @@
       "id": "f4-0002014440-26-000010",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2014440/000201444026000010/wk-form4_1785963124.xml",
       "clusterCount": 1
+    },
+    {
+      "ticker": "AEHR",
+      "company": "AEHR TEST SYSTEMS",
+      "filer": "Sporck Alistair N",
+      "role": "VP Contactor Business Un",
+      "txType": "매도",
+      "shares": 1000,
+      "price": 108.49,
+      "value": 108490,
+      "ownBefore": 23547,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 22547,
+      "ownChangePct": -4.2,
+      "id": "f4-0001040470-26-000241",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1040470/000104047026000241/primary_01.xml",
+      "clusterCount": 2
     },
     {
       "ticker": "RBRK",
@@ -37598,7 +39074,7 @@
       "ownChangePct": 3.4,
       "id": "f4-0001193125-26-342481",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1627223/000119312526342481/ownership.xml",
-      "clusterCount": 1
+      "clusterCount": 5
     },
     {
       "ticker": "CBSH",
@@ -37817,6 +39293,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "PNW",
+      "company": "PINNACLE WEST CAPITAL CORP",
+      "filer": "Blankenship Elizabeth A",
+      "role": "VP, Controller and CAO",
+      "txType": "매도",
+      "shares": 980,
+      "price": 99.17,
+      "value": 97182,
+      "ownBefore": 11866,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 10886,
+      "ownChangePct": -8.3,
+      "id": "f4-0001628280-26-055895",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1780676/000162828026055895/wk-form4_1786491722.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "SAGT",
       "company": "SAGTEC GLOBAL Ltd",
       "filer": "Loong Xin Yee",
@@ -37925,6 +39419,42 @@
       "clusterCount": 1
     },
     {
+      "ticker": "SPOK",
+      "company": "Spok Holdings, Inc",
+      "filer": "Cournoyer Christine",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 8320,
+      "price": 11.28,
+      "value": 93870,
+      "ownBefore": 24581,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 16261,
+      "ownChangePct": -33.8,
+      "id": "f4-0001180466-26-000010",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1180466/000118046626000010/ownership.xml",
+      "clusterCount": 1
+    },
+    {
+      "ticker": "LOCO",
+      "company": "El Pollo Loco Holdings, Inc.",
+      "filer": "Biglari, Sardar",
+      "role": "10%대주주",
+      "txType": "매도",
+      "shares": 5500,
+      "price": 17.06,
+      "value": 93830,
+      "ownBefore": 382090,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 380990,
+      "ownChangePct": -0.3,
+      "id": "f4-0000921895-26-002049",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1334429/000092189526002049/form408106005_08112026.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "SYF",
       "company": "Synchrony Financial",
       "filer": "Owens Darrell",
@@ -37976,7 +39506,7 @@
       "ownChangePct": -49.3,
       "id": "f4-0001193125-26-335348",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1287579/000119312526335348/ownership.xml",
-      "clusterCount": 4
+      "clusterCount": 6
     },
     {
       "ticker": "BYRN",
@@ -38141,6 +39671,24 @@
       "clusterCount": 3
     },
     {
+      "ticker": "CPNG",
+      "company": "Coupang, Inc.",
+      "filer": "Lee Jonathan D.",
+      "role": "Chief Accounting Officer",
+      "txType": "매도",
+      "shares": 5519,
+      "price": 16.1,
+      "value": 88867,
+      "ownBefore": 187434,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 181915,
+      "ownChangePct": -2.9,
+      "id": "f4-0001628280-26-055752",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1834584/000162828026055752/wk-form4_1786480614.xml",
+      "clusterCount": 2
+    },
+    {
       "ticker": "SODI",
       "company": "SOLITRON DEVICES INC",
       "filer": "Olesen Value Fund L.p.",
@@ -38211,6 +39759,24 @@
       "id": "f4-0001437749-26-024996",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1323979/000143774926024996/rdgdoc.xml",
       "clusterCount": 1
+    },
+    {
+      "ticker": "PRI",
+      "company": "Primerica, Inc.",
+      "filer": "Cottle Amber Lynne",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 279,
+      "price": 313.63,
+      "value": 87502,
+      "ownBefore": 3828,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-11",
+      "ownAfter": 3549,
+      "ownChangePct": -7.3,
+      "id": "f4-0001475922-26-000072",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1926145/000147592226000072/form4.xml",
+      "clusterCount": 2
     },
     {
       "ticker": "CBAN",
@@ -38840,7 +40406,7 @@
       "ownChangePct": -22.6,
       "id": "f4-0001823608-26-000184",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1823608/000182360826000184/wk-form4_1785958488.xml",
-      "clusterCount": 2
+      "clusterCount": 3
     },
     {
       "ticker": "CCNE",
@@ -38948,7 +40514,7 @@
       "ownChangePct": -1.8,
       "id": "f4-0002111348-26-000011",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1516513/000211134826000011/wk-form4_1784556922.xml",
-      "clusterCount": 1
+      "clusterCount": 2
     },
     {
       "ticker": "SOPH",
@@ -39056,7 +40622,7 @@
       "ownChangePct": -1.2,
       "id": "f4-0001430437-26-000018",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1477333/000143043726000018/wk-form4_1785876260.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "LAES",
@@ -39471,6 +41037,24 @@
       "id": "f4-0001959402-26-000004",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/721994/000195940226000004/wk-form4_1786044708.xml",
       "clusterCount": 2
+    },
+    {
+      "ticker": "ICLR",
+      "company": "ICON PLC",
+      "filer": "Balfe Barry Edward",
+      "role": "CEO",
+      "txType": "매도",
+      "shares": 382,
+      "price": 164.07,
+      "value": 62676,
+      "ownBefore": 10068,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 9686,
+      "ownChangePct": -3.8,
+      "id": "f4-0001628280-26-055723",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/2058614/000162828026055723/wk-form4_1786479751.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "ADPT",
@@ -39975,6 +41559,24 @@
       "id": "f4-0001769052-26-000008",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1666138/000176905226000008/wk-form4_1786395992.xml",
       "clusterCount": 1
+    },
+    {
+      "ticker": "AUDC",
+      "company": "AUDIOCODES LTD",
+      "filer": "Aldema Lior",
+      "role": "EVP and Chief Business O",
+      "txType": "매도",
+      "shares": 5624,
+      "price": 9.98,
+      "value": 56126,
+      "ownBefore": 106877,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 104065,
+      "ownChangePct": -2.6,
+      "id": "f4-0001976408-26-000714",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1086434/000197640826000714/primary_doc.xml",
+      "clusterCount": 2
     },
     {
       "ticker": "GEVO",
@@ -40643,6 +42245,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "CARG",
+      "company": "CarGurus, Inc.",
+      "filer": "Trevisan Jason",
+      "role": "CEO",
+      "txType": "매도",
+      "shares": 1100,
+      "price": 41.06,
+      "value": 45166,
+      "ownBefore": 675862,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 674762,
+      "ownChangePct": -0.2,
+      "id": "f4-0001494259-26-000063",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1494259/000149425926000063/form4.xml",
+      "clusterCount": 2
+    },
+    {
       "ticker": "PCG",
       "company": "PG&amp;E Corp",
       "filer": "Cooper Kerry Whorton",
@@ -40895,6 +42515,24 @@
       "clusterCount": 2
     },
     {
+      "ticker": "TRIN",
+      "company": "Trinity Capital Inc.",
+      "filer": "Brown Kyle Steven",
+      "role": "CEO",
+      "txType": "매수",
+      "shares": 2296,
+      "price": 18.04,
+      "value": 41424,
+      "ownBefore": 609966,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 612262,
+      "ownChangePct": 0.4,
+      "id": "f4-0001193125-26-344786",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1796795/000119312526344786/ownership.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "CZWI",
       "company": "Citizens Community Bancorp Inc.",
       "filer": "Bianchi Stephen M",
@@ -41036,7 +42674,7 @@
       "ownChangePct": 0.3,
       "id": "f4-0001470831-26-000799",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2141644/000147083126000799/wk-form4_1786134657.xml",
-      "clusterCount": 7
+      "clusterCount": 10
     },
     {
       "ticker": "HCWB",
@@ -41072,6 +42710,24 @@
       "ownChangePct": 22.8,
       "id": "f4-0001493152-26-035619",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1231174/000149315226035619/ownership.xml",
+      "clusterCount": 3
+    },
+    {
+      "ticker": "AMAL",
+      "company": "Amalgamated Financial Corp.",
+      "filer": "Mark Finser",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 800,
+      "price": 49.85,
+      "value": 39880,
+      "ownBefore": 20233,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 19433,
+      "ownChangePct": -4,
+      "id": "f4-0001823608-26-000186",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1823608/000182360826000186/wk-form4_1786475141.xml",
       "clusterCount": 3
     },
     {
@@ -41273,6 +42929,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "WWR",
+      "company": "WESTWATER RESOURCES, INC.",
+      "filer": "Anderson Karli S.",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 50000,
+      "price": 0.76,
+      "value": 38020,
+      "ownBefore": 840909,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 790909,
+      "ownChangePct": -5.9,
+      "id": "f4-0001104659-26-094271",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1577417/000110465926094271/tm2622881-1_4seq1.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "EIX",
       "company": "EDISON INTERNATIONAL",
       "filer": "Taylor Peter J.",
@@ -41343,6 +43017,24 @@
       "id": "f4-0001769190-26-000001",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1769190/000176919026000001/primary_doc.xml",
       "clusterCount": 1
+    },
+    {
+      "ticker": "AUDC",
+      "company": "AUDIOCODES LTD",
+      "filer": "Baruch Niran",
+      "role": "CFO",
+      "txType": "매도",
+      "shares": 3750,
+      "price": 9.99,
+      "value": 37464,
+      "ownBefore": 101250,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 99375,
+      "ownChangePct": -1.9,
+      "id": "f4-0001976408-26-000715",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1086434/000197640826000715/primary_doc.xml",
+      "clusterCount": 2
     },
     {
       "ticker": "FIG",
@@ -41669,6 +43361,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "YYAI",
+      "company": "AIRWA INC.",
+      "filer": "Hrt Financial Lp",
+      "role": "10%대주주",
+      "txType": "매도",
+      "shares": 421879,
+      "price": 0.08,
+      "value": 33328,
+      "ownBefore": 1225321,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 803442,
+      "ownChangePct": -34.4,
+      "id": "f4-0001475597-26-000193",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1674440/000147559726000193/primary_doc.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "GFS",
       "company": "GLOBALFOUNDRIES Inc.",
       "filer": "Azar Samak L",
@@ -41828,6 +43538,24 @@
       "ownChangePct": -2,
       "id": "f4-0000899140-26-000750",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1799091/000089914026000750/form4.xml",
+      "clusterCount": 1
+    },
+    {
+      "ticker": "LAW",
+      "company": "CS Disco, Inc.",
+      "filer": "Friedrichsen Eric",
+      "role": "CEO",
+      "txType": "매수",
+      "shares": 7500,
+      "price": 4.26,
+      "value": 31950,
+      "ownBefore": 1473680,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 1481180,
+      "ownChangePct": 0.5,
+      "id": "f4-0001625641-26-000165",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1625641/000162564126000165/wk-form4_1786482848.xml",
       "clusterCount": 1
     },
     {
@@ -42011,6 +43739,42 @@
       "clusterCount": 5
     },
     {
+      "ticker": "CC",
+      "company": "Chemours Co",
+      "filer": "Martinko Joseph T.",
+      "role": "See Remarks",
+      "txType": "매수",
+      "shares": 1940,
+      "price": 15.47,
+      "value": 30009,
+      "ownBefore": 53492,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 55431,
+      "ownChangePct": 3.6,
+      "id": "f4-0001193125-26-344633",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1627223/000119312526344633/ownership.xml",
+      "clusterCount": 5
+    },
+    {
+      "ticker": "CC",
+      "company": "Chemours Co",
+      "filer": "Foley Michael Robert",
+      "role": "See Remarks",
+      "txType": "매수",
+      "shares": 1934,
+      "price": 15.51,
+      "value": 30000,
+      "ownBefore": -1934,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 0,
+      "ownChangePct": 0,
+      "id": "f4-0001193125-26-344634",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1627223/000119312526344634/ownership.xml",
+      "clusterCount": 5
+    },
+    {
       "ticker": "SFST",
       "company": "SOUTHERN FIRST BANCSHARES INC",
       "filer": "Lattimore Ray",
@@ -42170,7 +43934,7 @@
       "ownChangePct": -0.4,
       "id": "f4-0001214659-26-009654",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1581280/000121465926009654/marketforms-73660.xml",
-      "clusterCount": 5
+      "clusterCount": 6
     },
     {
       "ticker": "CZNC",
@@ -42261,6 +44025,24 @@
       "id": "f4-0001140361-26-031824",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1130713/000114036126031824/form4.xml",
       "clusterCount": 3
+    },
+    {
+      "ticker": "KMPR",
+      "company": "KEMPER Corp",
+      "filer": "Camden Bradley T",
+      "role": "CFO",
+      "txType": "매수",
+      "shares": 1000,
+      "price": 26.34,
+      "value": 26340,
+      "ownBefore": 50259,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-11",
+      "ownAfter": 51259,
+      "ownChangePct": 2,
+      "id": "f4-0001993636-26-000009",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1993636/000199363626000009/wk-form4_1786485868.xml",
+      "clusterCount": 1
     },
     {
       "ticker": "EDIT",
@@ -42782,7 +44564,7 @@
       "ownChangePct": -0.2,
       "id": "f4-0001938203-26-000013",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/927628/000193820326000013/wk-form4_1786392312.xml",
-      "clusterCount": 4
+      "clusterCount": 5
     },
     {
       "ticker": "CAMP",
@@ -42999,6 +44781,42 @@
       "id": "f4-0001717677-26-000009",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1367859/000171767726000009/wk-form4_1786394923.xml",
       "clusterCount": 2
+    },
+    {
+      "ticker": "FEMY",
+      "company": "FEMASYS INC",
+      "filer": "Canning John Charles",
+      "role": "COO",
+      "txType": "매수",
+      "shares": 4375,
+      "price": 3.2,
+      "value": 14000,
+      "ownBefore": 0,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-07",
+      "ownAfter": 4375,
+      "ownChangePct": 0,
+      "id": "f4-0001140361-26-032320",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/2124732/000114036126032320/form4.xml",
+      "clusterCount": 1
+    },
+    {
+      "ticker": "CPSS",
+      "company": "CONSUMER PORTFOLIO SERVICES, INC.",
+      "filer": "Ralston Catrina Marie",
+      "role": "President",
+      "txType": "매도",
+      "shares": 1383,
+      "price": 9.5,
+      "value": 13139,
+      "ownBefore": 146057,
+      "filedDate": "2026-08-11",
+      "txDate": "2026-08-10",
+      "ownAfter": 144674,
+      "ownChangePct": -0.9,
+      "id": "f4-0001683168-26-006215",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/889609/000168316826006215/ownership.xml",
+      "clusterCount": 1
     }
   ]
 }
