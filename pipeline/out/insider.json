@@ -3,12 +3,12 @@
     "source": "SEC EDGAR daily form index + Form 4 XML",
     "universe": "All SEC Form 4 issuers",
     "universeSize": null,
-    "filedDate": "2026-08-24",
+    "filedDate": "2026-08-25",
     "dateRange": {
-      "from": "2026-08-15",
-      "to": "2026-08-25"
+      "from": "2026-08-16",
+      "to": "2026-08-26"
     },
-    "generatedAt": "2026-08-25T04:04:39.473Z",
+    "generatedAt": "2026-08-26T04:06:11.583Z",
     "filingsScanned": 7029,
     "monthlyRowCap": 3000,
     "daysPerMonthCap": 999,
