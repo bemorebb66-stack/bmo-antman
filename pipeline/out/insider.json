@@ -3,13 +3,13 @@
     "source": "SEC EDGAR daily form index + Form 4 XML",
     "universe": "All SEC Form 4 issuers",
     "universeSize": null,
-    "filedDate": "2026-08-25",
+    "filedDate": "2026-08-26",
     "dateRange": {
-      "from": "2026-08-16",
-      "to": "2026-08-26"
+      "from": "2026-08-17",
+      "to": "2026-08-27"
     },
-    "generatedAt": "2026-08-26T04:06:11.583Z",
-    "filingsScanned": 7029,
+    "generatedAt": "2026-08-27T13:34:39.041Z",
+    "filingsScanned": 7032,
     "monthlyRowCap": 3000,
     "daysPerMonthCap": 999,
     "rowsPerIndexDayCap": 1000,
@@ -231,6 +231,24 @@
       "id": "f4-0001193125-26-352400",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1210677/000119312526352400/ownership.xml",
       "clusterCount": 1
+    },
+    {
+      "ticker": "ALH",
+      "company": "Alliance Laundry Holdings Inc.",
+      "filer": "Bdt Capital Partners, Llc",
+      "role": "10%대주주",
+      "txType": "매도",
+      "shares": 77797500,
+      "price": 22.74,
+      "value": 1768819521,
+      "ownBefore": 140765342,
+      "filedDate": "2026-08-24",
+      "txDate": "2026-08-20",
+      "ownAfter": 114832842,
+      "ownChangePct": -18.4,
+      "id": "f4-0001628280-26-058640",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1317685/000162828026058640/wk-form4_1787602551.xml",
+      "clusterCount": 5
     },
     {
       "ticker": "NMM",
@@ -519,24 +537,6 @@
       "id": "f4-0001140361-26-030049",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1984045/000114036126030049/form4.xml",
       "clusterCount": 2
-    },
-    {
-      "ticker": "ALH",
-      "company": "Alliance Laundry Holdings Inc.",
-      "filer": "Bdt Capital Partners, Llc",
-      "role": "10%대주주",
-      "txType": "매도",
-      "shares": 25932500,
-      "price": 22.74,
-      "value": 589606507,
-      "ownBefore": 140765342,
-      "filedDate": "2026-08-24",
-      "txDate": "2026-08-20",
-      "ownAfter": 114832842,
-      "ownChangePct": -18.4,
-      "id": "f4-0001628280-26-058640",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/1317685/000162828026058640/wk-form4_1787602551.xml",
-      "clusterCount": 5
     },
     {
       "ticker": "LFST",
@@ -1850,7 +1850,7 @@
       "ownChangePct": -3.1,
       "id": "f4-0001140361-26-020298",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/320193/000114036126020298/form4.xml",
-      "clusterCount": 3
+      "clusterCount": 2
     },
     {
       "ticker": "BRVE",
@@ -41756,7 +41756,7 @@
       "ownChangePct": -3.5,
       "id": "f4-0001140361-26-032884",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/320193/000114036126032884/form4.xml",
-      "clusterCount": 3
+      "clusterCount": 2
     },
     {
       "ticker": "AAPL",
@@ -41774,7 +41774,7 @@
       "ownChangePct": -3.6,
       "id": "f4-0001140361-26-033928",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/320193/000114036126033928/form4.xml",
-      "clusterCount": 3
+      "clusterCount": 2
     },
     {
       "ticker": "RVI",
@@ -55781,24 +55781,6 @@
       "clusterCount": 1
     },
     {
-      "ticker": "AAPL",
-      "company": "Apple Inc.",
-      "filer": "Parekh Kevan",
-      "role": "CFO",
-      "txType": "매도",
-      "shares": 1534,
-      "price": 275,
-      "value": 421850,
-      "ownBefore": 14900,
-      "filedDate": "2026-04-27",
-      "txDate": "2026-04-23",
-      "ownAfter": 13366,
-      "ownChangePct": -10.3,
-      "id": "f4-0001140361-26-017175",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/320193/000114036126017175/form4.xml",
-      "clusterCount": 3
-    },
-    {
       "ticker": "XFOR",
       "company": "X4 Pharmaceuticals, Inc",
       "filer": "Craig Adam R",
@@ -67337,24 +67319,6 @@
       "clusterCount": 1
     },
     {
-      "ticker": "ABT",
-      "company": "ABBOTT LABORATORIES",
-      "filer": "Boudreau Philip P",
-      "role": "CFO",
-      "txType": "매수",
-      "shares": 2200,
-      "price": 91.5,
-      "value": 201300,
-      "ownBefore": 0,
-      "filedDate": "2026-04-27",
-      "txDate": "2026-04-23",
-      "ownAfter": 2200,
-      "ownChangePct": 0,
-      "id": "f4-0001805099-26-000006",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/1800/000180509926000006/form4-04272026_090443.xml",
-      "clusterCount": 1
-    },
-    {
       "ticker": "EPAC",
       "company": "ENERPAC TOOL GROUP CORP",
       "filer": "Cunningham Danny L",
@@ -74987,24 +74951,6 @@
       "clusterCount": 1
     },
     {
-      "ticker": "CDLX",
-      "company": "Cardlytics, Inc.",
-      "filer": "Gupta Amit",
-      "role": "CEO",
-      "txType": "매도",
-      "shares": 26922,
-      "price": 4,
-      "value": 107640,
-      "ownBefore": 270915,
-      "filedDate": "2026-08-18",
-      "txDate": "2026-08-18",
-      "ownAfter": 257454,
-      "ownChangePct": -5,
-      "id": "f4-0001628280-26-057772",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/1666071/000162828026057772/wk-form4_1787088440.xml",
-      "clusterCount": 1
-    },
-    {
       "ticker": "HBCP",
       "company": "HOME BANCORP, INC.",
       "filer": "Zollinger John J. Iv",
@@ -77973,24 +77919,6 @@
       "id": "f4-0001193125-26-349963",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1655029/000119312526349963/ownership.xml",
       "clusterCount": 3
-    },
-    {
-      "ticker": "SRI",
-      "company": "STONERIDGE INC",
-      "filer": "Humphrey Scott Randall",
-      "role": "CFO",
-      "txType": "매수",
-      "shares": 12000,
-      "price": 7.01,
-      "value": 84120,
-      "ownBefore": 0,
-      "filedDate": "2026-08-18",
-      "txDate": "2026-08-18",
-      "ownAfter": 6000,
-      "ownChangePct": 0,
-      "id": "f4-0001713730-26-000009",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/1713730/000171373026000009/wk-form4_1787070875.xml",
-      "clusterCount": 2
     },
     {
       "ticker": "EXOD",
@@ -81845,6 +81773,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "CDLX",
+      "company": "Cardlytics, Inc.",
+      "filer": "Gupta Amit",
+      "role": "CEO",
+      "txType": "매도",
+      "shares": 13461,
+      "price": 4,
+      "value": 53820,
+      "ownBefore": 270915,
+      "filedDate": "2026-08-18",
+      "txDate": "2026-08-18",
+      "ownAfter": 257454,
+      "ownChangePct": -5,
+      "id": "f4-0001628280-26-057772",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1961238/000162828026057772/wk-form4_1787088440.xml",
+      "clusterCount": 1
+    },
+    {
       "ticker": "PTON",
       "company": "PELOTON INTERACTIVE, INC.",
       "filer": "Baig Saqib",
@@ -83499,6 +83445,24 @@
       "id": "f4-0001193125-26-334634",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1793663/000119312526334634/ownership.xml",
       "clusterCount": 3
+    },
+    {
+      "ticker": "SRI",
+      "company": "STONERIDGE INC",
+      "filer": "Humphrey Scott Randall",
+      "role": "CFO",
+      "txType": "매수",
+      "shares": 6000,
+      "price": 7.01,
+      "value": 42060,
+      "ownBefore": 0,
+      "filedDate": "2026-08-18",
+      "txDate": "2026-08-18",
+      "ownAfter": 6000,
+      "ownChangePct": 0,
+      "id": "f4-0001713730-26-000009",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1043337/000171373026000009/wk-form4_1787070875.xml",
+      "clusterCount": 2
     },
     {
       "ticker": "CHCO",
