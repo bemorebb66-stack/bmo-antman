@@ -5,11 +5,11 @@
     "universeSize": null,
     "filedDate": "2026-10-09",
     "dateRange": {
-      "from": "2026-09-30",
-      "to": "2026-10-10"
+      "from": "2026-10-03",
+      "to": "2026-10-13"
     },
-    "generatedAt": "2026-10-10T09:41:38.084Z",
-    "filingsScanned": 8889,
+    "generatedAt": "2026-10-13T10:07:14.859Z",
+    "filingsScanned": 4700,
     "monthlyRowCap": 3000,
     "daysPerMonthCap": 999,
     "rowsPerIndexDayCap": 1000,
@@ -143117,24 +143117,6 @@
       "clusterCount": 9
     },
     {
-      "ticker": "BBASX",
-      "company": "AMG BBH Asset-Backed Credit Fund, LLC",
-      "filer": "Hohmann Neil Martin",
-      "role": "임원",
-      "txType": "매수",
-      "shares": 18040,
-      "price": 9.98,
-      "value": 180000,
-      "ownBefore": 0,
-      "filedDate": "2026-10-02",
-      "txDate": "2026-07-01",
-      "ownAfter": 9020,
-      "ownChangePct": 0,
-      "id": "f4-0000929638-26-003830",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/2097545/000092963826003830/form4.xml",
-      "clusterCount": 4
-    },
-    {
       "ticker": "ACCV",
       "company": "Accelevation Holdings Corp.",
       "filer": "Heckes Howard C",
@@ -143169,6 +143151,24 @@
       "id": "f4-0001628280-26-065157",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2141406/000162828026065157/wk-form4_1791250065.xml",
       "clusterCount": 5
+    },
+    {
+      "ticker": "BBASX",
+      "company": "AMG BBH Asset-Backed Credit Fund, LLC",
+      "filer": "Hohmann Neil Martin",
+      "role": "임원",
+      "txType": "매수",
+      "shares": 18040,
+      "price": 9.98,
+      "value": 180000,
+      "ownBefore": 0,
+      "filedDate": "2026-10-02",
+      "txDate": "2026-07-01",
+      "ownAfter": 9020,
+      "ownChangePct": 0,
+      "id": "f4-0000929638-26-003830",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/2097545/000092963826003830/form4.xml",
+      "clusterCount": 4
     },
     {
       "ticker": "ONMD",
@@ -177875,24 +177875,6 @@
       "clusterCount": 2
     },
     {
-      "ticker": "MOALX",
-      "company": "Lord Abbett Municipal Opportunities Fund",
-      "filer": "Shuman Gregory M.",
-      "role": "임원",
-      "txType": "매수",
-      "shares": 4158,
-      "price": 9.62,
-      "value": 40000,
-      "ownBefore": 115909,
-      "filedDate": "2026-09-30",
-      "txDate": "2026-09-28",
-      "ownAfter": 117988,
-      "ownChangePct": 1.8,
-      "id": "f4-0000930413-26-003008",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/2029852/000093041326003008/ownership.xml",
-      "clusterCount": 3
-    },
-    {
       "ticker": "INLX",
       "company": "INTELLINETICS, INC.",
       "filer": "Taglich Robert",
@@ -177909,6 +177891,24 @@
       "id": "f4-0001493152-26-046129",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1081745/000149315226046129/ownership.xml",
       "clusterCount": 1
+    },
+    {
+      "ticker": "MOALX",
+      "company": "Lord Abbett Municipal Opportunities Fund",
+      "filer": "Shuman Gregory M.",
+      "role": "임원",
+      "txType": "매수",
+      "shares": 4158,
+      "price": 9.62,
+      "value": 40000,
+      "ownBefore": 115909,
+      "filedDate": "2026-09-30",
+      "txDate": "2026-09-28",
+      "ownAfter": 117988,
+      "ownChangePct": 1.8,
+      "id": "f4-0000930413-26-003008",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/2029852/000093041326003008/ownership.xml",
+      "clusterCount": 3
     },
     {
       "ticker": "SCCO",
