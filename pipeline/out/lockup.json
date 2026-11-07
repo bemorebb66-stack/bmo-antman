@@ -1,7 +1,7 @@
 {
   "meta": {
     "source": "SEC EDGAR full-text search + 424B4 prospectus 본문 파싱",
-    "generatedAt": "2026-11-06T10:26:14.834Z",
+    "generatedAt": "2026-11-07T09:43:34.487Z",
     "candidatesChecked": 79,
     "note": "락업일수·공모가만 SEC 원문에서 추출. 발행주식수(유통물량 비율)·현재가·시총 등은 미포함(발행구조가 회사마다 달라 정규식으로 신뢰성 있게 추출 불가 / 실시간 시세는 별도 유료·무료 API 연동 필요)."
   },
@@ -87,16 +87,6 @@
       "underwriter": null
     },
     {
-      "id": "lk-0001628280-26-006068",
-      "ticker": "SGP",
-      "company": "SpyGlass Pharma, Inc.",
-      "ipoDate": "2026-02-05",
-      "ipoPrice": 16,
-      "lockupDate": "2026-08-05",
-      "lockupDays": 181,
-      "underwriter": null
-    },
-    {
       "id": "lk-0001213900-26-014610",
       "ticker": "JAGU",
       "company": "Jaguar Uranium Corp.",
@@ -133,6 +123,26 @@
       "ipoDate": "2026-06-02",
       "ipoPrice": 20,
       "lockupDate": "2026-08-31",
+      "lockupDays": 90,
+      "underwriter": null
+    },
+    {
+      "id": "lk-0001140361-26-024037",
+      "ticker": "SSMR",
+      "company": "Sunshine Silver Mining & Refining Co",
+      "ipoDate": "2026-06-05",
+      "ipoPrice": 13.5,
+      "lockupDate": "2026-09-03",
+      "lockupDays": 90,
+      "underwriter": null
+    },
+    {
+      "id": "lk-0001140361-26-026625",
+      "ticker": "SIND",
+      "company": "Sinda Ltd.",
+      "ipoDate": "2026-06-29",
+      "ipoPrice": 12,
+      "lockupDate": "2026-09-27",
       "lockupDays": 90,
       "underwriter": null
     },
@@ -284,6 +294,16 @@
       "ipoPrice": 29,
       "lockupDate": "2026-12-27",
       "lockupDays": 180,
+      "underwriter": null
+    },
+    {
+      "id": "lk-0001628280-26-064097",
+      "ticker": "ACCV",
+      "company": "Accelevation Holdings Corp.",
+      "ipoDate": "2026-10-01",
+      "ipoPrice": 18,
+      "lockupDate": "2026-12-30",
+      "lockupDays": 90,
       "underwriter": null
     },
     {
