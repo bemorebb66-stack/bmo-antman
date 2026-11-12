@@ -1,8 +1,8 @@
 {
   "meta": {
     "source": "SEC EDGAR full-text search + 424B4 prospectus 본문 파싱",
-    "generatedAt": "2026-11-11T10:30:49.656Z",
-    "candidatesChecked": 79,
+    "generatedAt": "2026-11-12T10:48:36.533Z",
+    "candidatesChecked": 81,
     "note": "락업일수·공모가만 SEC 원문에서 추출. 발행주식수(유통물량 비율)·현재가·시총 등은 미포함(발행구조가 회사마다 달라 정규식으로 신뢰성 있게 추출 불가 / 실시간 시세는 별도 유료·무료 API 연동 필요)."
   },
   "events": [
@@ -75,16 +75,6 @@
       "lockupDate": "2026-08-04",
       "lockupDays": 90,
       "underwriter": null
-    },
-    {
-      "id": "lk-0001213900-26-014610",
-      "ticker": "JAGU",
-      "company": "Jaguar Uranium Corp.",
-      "ipoDate": "2026-02-11",
-      "ipoPrice": 4,
-      "lockupDate": "2026-08-11",
-      "lockupDays": 181,
-      "underwriter": "Titan Partners a division of"
     },
     {
       "id": "lk-0001493152-26-024106",

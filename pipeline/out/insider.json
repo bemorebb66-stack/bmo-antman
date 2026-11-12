@@ -5,11 +5,11 @@
     "universeSize": null,
     "filedDate": "2026-11-10",
     "dateRange": {
-      "from": "2026-11-01",
-      "to": "2026-11-11"
+      "from": "2026-11-02",
+      "to": "2026-11-12"
     },
-    "generatedAt": "2026-11-11T10:30:14.519Z",
-    "filingsScanned": 7872,
+    "generatedAt": "2026-11-12T10:47:57.151Z",
+    "filingsScanned": 7869,
     "monthlyRowCap": 3000,
     "daysPerMonthCap": 999,
     "rowsPerIndexDayCap": 1000,
@@ -6929,6 +6929,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "PLBY",
+      "company": "Playboy, Inc.",
+      "filer": "Fig Buyer Gp, Llc",
+      "role": "10%대주주",
+      "txType": "매도",
+      "shares": 52380955,
+      "price": 1.05,
+      "value": 55000000,
+      "ownBefore": 11827626,
+      "filedDate": "2026-11-03",
+      "txDate": "2026-10-30",
+      "ownAfter": 7065721,
+      "ownChangePct": -40.3,
+      "id": "f4-0001012975-26-001002",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1387345/000101297526001002/form4.xml",
+      "clusterCount": 3
+    },
+    {
       "ticker": "CRWV",
       "company": "CoreWeave, Inc.",
       "filer": "Intrator Michael N",
@@ -7593,24 +7611,6 @@
       "id": "f4-0001628280-26-063713",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2021728/000162828026063713/wk-form4_1790625937.xml",
       "clusterCount": 7
-    },
-    {
-      "ticker": "PLBY",
-      "company": "Playboy, Inc.",
-      "filer": "Fig Buyer Gp, Llc",
-      "role": "10%대주주",
-      "txType": "매도",
-      "shares": 47619050,
-      "price": 1.05,
-      "value": 50000000,
-      "ownBefore": 11827626,
-      "filedDate": "2026-11-03",
-      "txDate": "2026-10-30",
-      "ownAfter": 7065721,
-      "ownChangePct": -40.3,
-      "id": "f4-0001012975-26-001002",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/1387345/000101297526001002/form4.xml",
-      "clusterCount": 3
     },
     {
       "ticker": "GXVIX",
@@ -52505,6 +52505,24 @@
       "clusterCount": 5
     },
     {
+      "ticker": "MRVL",
+      "company": "Marvell Technology, Inc.",
+      "filer": "Koopmans Chris",
+      "role": "COO",
+      "txType": "매도",
+      "shares": 20000,
+      "price": 186.97,
+      "value": 3739400,
+      "ownBefore": 212800,
+      "filedDate": "2026-11-03",
+      "txDate": "2026-11-02",
+      "ownAfter": 202800,
+      "ownChangePct": -4.7,
+      "id": "f4-0001628280-26-069600",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1676204/000162828026069600/wk-form4_1793741924.xml",
+      "clusterCount": 4
+    },
+    {
       "ticker": "TKO",
       "company": "TKO Group Holdings, Inc.",
       "filer": "Khan Nick",
@@ -76659,24 +76677,6 @@
       "id": "f4-0001886794-26-000008",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1886794/000188679426000008/wk-form4_1785970896.xml",
       "clusterCount": 5
-    },
-    {
-      "ticker": "MRVL",
-      "company": "Marvell Technology, Inc.",
-      "filer": "Koopmans Chris",
-      "role": "COO",
-      "txType": "매도",
-      "shares": 10000,
-      "price": 186.97,
-      "value": 1869700,
-      "ownBefore": 212800,
-      "filedDate": "2026-11-03",
-      "txDate": "2026-11-02",
-      "ownAfter": 202800,
-      "ownChangePct": -4.7,
-      "id": "f4-0001628280-26-069600",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/1835632/000162828026069600/wk-form4_1793741924.xml",
-      "clusterCount": 4
     },
     {
       "ticker": "THC",
@@ -121373,6 +121373,24 @@
       "clusterCount": 9
     },
     {
+      "ticker": "COR",
+      "company": "Cencora, Inc.",
+      "filer": "Krikorian Lazarus",
+      "role": "SVP &amp; Chief Accounti",
+      "txType": "매도",
+      "shares": 1972,
+      "price": 330.96,
+      "value": 652654,
+      "ownBefore": 15183,
+      "filedDate": "2026-11-03",
+      "txDate": "2026-11-02",
+      "ownAfter": 14197,
+      "ownChangePct": -6.5,
+      "id": "f4-0001627534-26-000008",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1140859/000162753426000008/wk-form4_1793740045.xml",
+      "clusterCount": 3
+    },
+    {
       "ticker": "GTES",
       "company": "Gates Industrial Corp Ltd.",
       "filer": "Zhang Peifang",
@@ -149543,24 +149561,6 @@
       "clusterCount": 9
     },
     {
-      "ticker": "S",
-      "company": "SentinelOne, Inc.",
-      "filer": "Tomasello Robin",
-      "role": "Chief Accounting Officer",
-      "txType": "매도",
-      "shares": 16558,
-      "price": 21.97,
-      "value": 363862,
-      "ownBefore": 804931,
-      "filedDate": "2026-11-10",
-      "txDate": "2026-11-09",
-      "ownAfter": 796652,
-      "ownChangePct": -1,
-      "id": "f4-0001608511-26-000021",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/1583708/000160851126000021/wk-form4_1794356184.xml",
-      "clusterCount": 6
-    },
-    {
       "ticker": "ATHM",
       "company": "Autohome Inc.",
       "filer": "Long Quan",
@@ -153573,24 +153573,6 @@
       "id": "f4-0002051034-26-000010",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/2051034/000205103426000010/primarydocument.xml",
       "clusterCount": 7
-    },
-    {
-      "ticker": "COR",
-      "company": "Cencora, Inc.",
-      "filer": "Krikorian Lazarus",
-      "role": "SVP &amp; Chief Accounti",
-      "txType": "매도",
-      "shares": 986,
-      "price": 330.96,
-      "value": 326327,
-      "ownBefore": 15183,
-      "filedDate": "2026-11-03",
-      "txDate": "2026-11-02",
-      "ownAfter": 14197,
-      "ownChangePct": -6.5,
-      "id": "f4-0001627534-26-000008",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/1140859/000162753426000008/wk-form4_1793740045.xml",
-      "clusterCount": 3
     },
     {
       "ticker": "SNA",
@@ -179549,6 +179531,24 @@
       "clusterCount": 1
     },
     {
+      "ticker": "S",
+      "company": "SentinelOne, Inc.",
+      "filer": "Tomasello Robin",
+      "role": "Chief Accounting Officer",
+      "txType": "매도",
+      "shares": 8279,
+      "price": 21.98,
+      "value": 181931,
+      "ownBefore": 804931,
+      "filedDate": "2026-11-10",
+      "txDate": "2026-11-09",
+      "ownAfter": 796652,
+      "ownChangePct": -1,
+      "id": "f4-0001608511-26-000021",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1583708/000160851126000021/wk-form4_1794356184.xml",
+      "clusterCount": 6
+    },
+    {
       "ticker": "IBEX",
       "company": "IBEX Ltd",
       "filer": "Inson Paul Joseph",
@@ -200825,24 +200825,6 @@
       "clusterCount": 2
     },
     {
-      "ticker": "TSBK",
-      "company": "TIMBERLAND BANCORP INC",
-      "filer": "Suter Kelly",
-      "role": "이사",
-      "txType": "매도",
-      "shares": 2000,
-      "price": 48.1,
-      "value": 96200,
-      "ownBefore": 4180,
-      "filedDate": "2026-11-10",
-      "txDate": "2026-11-09",
-      "ownAfter": 3180,
-      "ownChangePct": -23.9,
-      "id": "f4-0000939057-26-000304",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/1827633/000093905726000304/primary_doc.xml",
-      "clusterCount": 7
-    },
-    {
       "ticker": "GEVO",
       "company": "Gevo, Inc.",
       "filer": "Bloom Paul D",
@@ -216125,24 +216107,6 @@
       "clusterCount": 8
     },
     {
-      "ticker": "TONX",
-      "company": "TON Strategy Co",
-      "filer": "Olsen Sarah Josephine",
-      "role": "CFO",
-      "txType": "매도",
-      "shares": 20640,
-      "price": 2.74,
-      "value": 56554,
-      "ownBefore": 1285070,
-      "filedDate": "2026-11-10",
-      "txDate": "2026-11-09",
-      "ownAfter": 1274750,
-      "ownChangePct": -0.8,
-      "id": "f4-0001493152-26-050952",
-      "secUrl": "https://www.sec.gov/Archives/edgar/data/2080387/000149315226050952/ownership.xml",
-      "clusterCount": 3
-    },
-    {
       "ticker": "ASYS",
       "company": "AMTECH SYSTEMS INC",
       "filer": "Sabol Thomas B",
@@ -220497,6 +220461,24 @@
       "id": "f4-0001493152-26-049981",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1786471/000149315226049981/ownership.xml",
       "clusterCount": 4
+    },
+    {
+      "ticker": "TSBK",
+      "company": "TIMBERLAND BANCORP INC",
+      "filer": "Suter Kelly",
+      "role": "이사",
+      "txType": "매도",
+      "shares": 1000,
+      "price": 48.1,
+      "value": 48100,
+      "ownBefore": 4180,
+      "filedDate": "2026-11-10",
+      "txDate": "2026-11-09",
+      "ownAfter": 3180,
+      "ownChangePct": -23.9,
+      "id": "f4-0000939057-26-000304",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/1827633/000093905726000304/primary_doc.xml",
+      "clusterCount": 7
     },
     {
       "ticker": "RGR",
@@ -230667,6 +230649,24 @@
       "id": "f4-0001193125-26-390619",
       "secUrl": "https://www.sec.gov/Archives/edgar/data/1070680/000119312526390619/ownership.xml",
       "clusterCount": 1
+    },
+    {
+      "ticker": "TONX",
+      "company": "TON Strategy Co",
+      "filer": "Olsen Sarah Josephine",
+      "role": "CFO",
+      "txType": "매도",
+      "shares": 10320,
+      "price": 2.74,
+      "value": 28277,
+      "ownBefore": 1285070,
+      "filedDate": "2026-11-10",
+      "txDate": "2026-11-09",
+      "ownAfter": 1274750,
+      "ownChangePct": -0.8,
+      "id": "f4-0001493152-26-050952",
+      "secUrl": "https://www.sec.gov/Archives/edgar/data/2080387/000149315226050952/ownership.xml",
+      "clusterCount": 3
     },
     {
       "ticker": "GOOGL",
